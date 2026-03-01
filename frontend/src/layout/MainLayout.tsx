@@ -3,13 +3,12 @@ import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import MainFooter from "../components/shared/MainFooter";
-import SmoothScrollProvider from "../providers/SmoothScrollProvider";
 
 export default function MainLayout() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <SmoothScrollProvider>
+        <>
             <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
             <motion.main
                 className="min-h-[90vh] bg-base-100"
@@ -19,6 +18,6 @@ export default function MainLayout() {
                 <Outlet />
             </motion.main>
             <MainFooter />
-        </SmoothScrollProvider>
+        </>
     )
 }

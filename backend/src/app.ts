@@ -12,16 +12,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('uploads'));
-app.use(
-  cors({
-    origin: [
-      'http://localhost:1890',
-      'https://rabeautycanvas.com',
-      'https://www.rabeautycanvas.com',
-    ],
-    credentials: true,
-  }),
-);
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.send(`server is running on port ${config.PORT} 🏃‍♂️‍➡️`);

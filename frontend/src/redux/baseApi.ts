@@ -4,7 +4,6 @@ import { CONFIG } from "@/config";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: CONFIG.API_PATH,
-  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
 
