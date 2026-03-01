@@ -18,6 +18,7 @@ export default function TestimonialForm() {
 
     const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<any>();
 
+    console.log(memberData);
 
 
     useEffect(() => {
@@ -84,10 +85,10 @@ export default function TestimonialForm() {
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Link to="/admin/setting/testimonials/all" className="p-2 bg-white rounded-xl border border-slate-200 text-slate-500 hover:text-primary transition-all"><ArrowLeft size={20} /></Link>
-                    <h1 className="text-xl font-bold text-slate-900">{isEdit ? 'Edit Member' : 'Add New Member'}</h1>
+                    <h1 className="text-xl font-bold text-slate-900">{isEdit ? 'Edit Review' : 'Add New Review'}</h1>
                 </div>
                 <button type="submit" disabled={isAdding || isUpdating} className="admin_primary_btn">
-                    <Save size={18} /> {isEdit ? 'Update Member' : 'Save Member'}
+                    <Save size={18} /> {isEdit ? 'Update Review' : 'Save Review'}
                 </button>
             </div>
 

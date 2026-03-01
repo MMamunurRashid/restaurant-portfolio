@@ -72,6 +72,7 @@ export default function Testimonials() {
                     alt={item?.name}
                     className="w-14 h-14 rounded-full object-cover border-2 border-secondary p-0.5"
                     loading="lazy"
+                    onError={(e: any) => e.target.src = 'https://ui-avatars.com/api/?name=' + item?.name}
                   />
                   <div>
                     <h5 className="font-bold text-gray-900">{item.name}</h5>
