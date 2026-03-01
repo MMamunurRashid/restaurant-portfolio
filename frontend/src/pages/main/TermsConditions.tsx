@@ -6,6 +6,7 @@ import usePageView from '@/utils/usePageView';
 
 export default function TermsConditions() {
     usePageView("Terms and Conditions");
+    window.scrollTo(0, 0);
     const { data } = useGetTermConditionQuery({});
     const termsCondition = useMemo(() => data?.data, [data]);
 

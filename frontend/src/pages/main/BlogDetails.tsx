@@ -9,6 +9,7 @@ import { Link, useParams } from "react-router-dom";
 
 
 export default function BlogDetails() {
+    window.scrollTo(0, 0);
     usePageView("Blog Details");
     const { slug } = useParams();
     const { data, isLoading } = useGetBlogBySlugQuery(slug!);

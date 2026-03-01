@@ -6,6 +6,7 @@ import usePageView from '@/utils/usePageView';
 
 export default function PrivacyPolicy() {
     usePageView("Privacy Policy");
+    window.scrollTo(0, 0);
     const { data } = useGetPrivacyPolicyQuery({});
     const policyData = useMemo(() => data?.data, [data]);
 

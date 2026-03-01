@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 export default function ServicesPage() {
     usePageView("Services");
+    window.scrollTo(0, 0);
 
     return (
         <div className="min-h-screen bg-white">

@@ -4,6 +4,7 @@ import ContactCom from "@/components/modules/home/ContactCom";
 
 export default function Contact() {
     usePageView("Contact");
+    window.scrollTo(0, 0);
     const { data } = useGetContactQuery({});
     const contact = data?.data || {};
 

@@ -7,6 +7,7 @@ import usePageView from '@/utils/usePageView';
 import { useGetServiceBySlugQuery } from '@/redux/features/service/serviceApi';
 
 export default function ServiceDetails() {
+    window.scrollTo(0, 0);
     const { slug } = useParams();
     const { data, isLoading } = useGetServiceBySlugQuery(slug);
     const service = data?.data;

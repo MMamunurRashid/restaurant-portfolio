@@ -10,6 +10,7 @@ import Testimonials from "@/components/modules/home/Testimonials";
 
 export default function Home() {
     usePageView("Home");
+    window.scrollTo(0, 0);
 
     return (
         <>

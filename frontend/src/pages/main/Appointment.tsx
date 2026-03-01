@@ -8,6 +8,7 @@ import type { TResponse } from '@/interface/globalInterface';
 import toast from 'react-hot-toast';
 
 export default function Appointment() {
+    window.scrollTo(0, 0);
     const { data: serviceData } = useGetAllServiceQuery({ isActive: true });
     const { data: contactData } = useGetContactQuery({});
 

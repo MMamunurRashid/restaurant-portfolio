@@ -15,6 +15,7 @@ const getDescriptionPreview = (htmlContent: string) => {
 
 export default function Blogs() {
     usePageView("Blogs");
+    window.scrollTo(0, 0);
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 9;
 
