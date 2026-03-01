@@ -1,5 +1,3 @@
-import type { IRole } from "./roleInterface";
-
 export interface IUser {
   _id: string;
   email: string;
@@ -8,7 +6,6 @@ export interface IUser {
   password: string;
   needsPasswordChange: boolean;
   role: string;
-  rolePermission?: IRole[];
   status: string;
   createdAt: string;
   updatedAt: string;

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Plus, Edit, Trash2, Users, Mail, Circle } from 'lucide-react';
 import { useGetAllUserQuery, useAddUserMutation, useUpdateUserMutation, useDeleteUserMutation } from '@/redux/features/user/userApi';
-import { useGetAllRoleQuery } from '@/redux/features/role/roleApi';
 import toast from 'react-hot-toast';
 import UserSidebar from './UserSidebar';
 import TableSkeleton from '@/components/shared/Skeleton/TableSkeleton';
@@ -11,14 +10,12 @@ export default function AllUsers() {
     const [editingUser, setEditingUser] = useState<any>(null);
 
     const { data: userData, isLoading: isUserLoading } = useGetAllUserQuery({});
-    const { data: roleData } = useGetAllRoleQuery({});
 
     const [addUser, { isLoading: isAdding }] = useAddUserMutation();
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
     const [deleteUser] = useDeleteUserMutation();
 
     const users = userData?.data || [];
-    const roles = roleData?.data || [];
 
     const handleOpenSidebar = (user: any = null) => {
         setEditingUser(user);
@@ -133,7 +130,6 @@ export default function AllUsers() {
                 isOpen={isSidebarOpen}
                 onClose={() => setIsSidebarOpen(false)}
                 editingUser={editingUser}
-                roles={roles}
                 onSubmit={handleFormSubmit}
                 isLoading={isAdding || isUpdating}
             />

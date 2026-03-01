@@ -21,7 +21,6 @@ const AllBanner = lazy(() => import("../pages/admin/Banner/AllBanner"));
 const AddBanner = lazy(() => import("../pages/admin/Banner/AddBanner"));
 const EditBanner = lazy(() => import("../pages/admin/Banner/EditBanner"));
 
-const GtmConfig = lazy(() => import("../pages/admin/GtmConfig"));
 const About = lazy(() => import("../pages/admin/About/About"));
 
 // team lazy load
@@ -122,10 +121,6 @@ export const adminRoutes = {
         {
             path: "setting/testimonial/edit/:id",
             element: <TestimonialForm />
-        },
-        {
-            path: "setting/gtm-config",
-            element: <GtmConfig />
         },
 
         // about

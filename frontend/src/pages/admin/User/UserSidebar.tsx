@@ -6,7 +6,6 @@ interface Props {
     isOpen: boolean;
     onClose: () => void;
     editingUser: any;
-    roles: any[];
     onSubmit: (data: any) => void;
     isLoading: boolean;
 }
