@@ -12,7 +12,7 @@ import {
 const Router = express.Router();
 
 import { fileUploader } from '../../utils/fileUploader';
-const { upload, uploadAndConvert } = fileUploader('Service');
+const { upload, uploadAndConvert } = fileUploader('service');
 
 const uploader = upload.fields([
   { name: 'thumbnail', maxCount: 1 },
