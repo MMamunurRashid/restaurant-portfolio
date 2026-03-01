@@ -34,9 +34,9 @@ export default defineConfig({
     drop: ["console", "debugger"],
   },
   preview: {
-    port: 3510,
+    port: 1890,
   },
   server: {
-    port: 3510,
+    port: 1890,
   },
 });

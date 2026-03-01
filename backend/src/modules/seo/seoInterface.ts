@@ -6,6 +6,7 @@ export type ISeo = {
   subject: string;
   copyright?: string;
 
-  facebook_domain_verification: string;
-  google_site_verification: string;
+  facebook_domain_verification?: string;
+  google_site_verification?: string;
+  googleTagManager?: string;
 };

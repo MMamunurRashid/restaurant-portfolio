@@ -170,6 +170,10 @@ export default function SeoSettings() {
                                 <label className="text-xs font-bold text-slate-500 uppercase">Facebook Domain Verification</label>
                                 <input type="text" {...register("facebook_domain_verification")} className="font-mono text-[13px]" placeholder="fb-verification-code" />
                             </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase">Google Tag Manager</label>
+                                <input type="text" {...register("googleTagManager")} className="font-mono text-[13px]" placeholder="GTM-XXXXXX" />
+                            </div>
                         </div>
                     </div>
                 </div>

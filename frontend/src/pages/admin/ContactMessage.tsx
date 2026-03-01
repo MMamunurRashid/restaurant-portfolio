@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, Phone, Trash2, Eye, MessageSquare, Search, FilterX } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useDeleteMessageMutation, useGetAllMessageQuery } from '@/redux/features/contactMessage/contactMessageApi';
+import { useDeleteMessageMutation, useGetAllMessageQuery, useMarkMessageAsReadMutation } from '@/redux/features/contactMessage/contactMessageApi';
 import type { TResponse } from '@/interface/globalInterface';
 import MessageModal from '@/components/modules/admin/message/MessageModal';
 import TableSkeleton from '@/components/shared/Skeleton/TableSkeleton';
@@ -42,6 +42,14 @@ export default function ContactMessage() {
         setSearchTerm('');
         setPage(1);
     };
+
+
+    const [markMessageAsRead] = useMarkMessageAsReadMutation()
+
+    const handleViewMessage = async (msg: IMessage) => {
+        setSelectedMessage(msg);
+        await markMessageAsRead(msg?._id) as TResponse;
+    }
 
     return (
         <div className="space-y-2 animate-in fade-in duration-500">
@@ -97,11 +105,30 @@ export default function ContactMessage() {
                             {isLoading ? <TableSkeleton columns={4} /> : messages?.map((msg: IMessage) => (
                                 <tr key={msg?._id} className="group hover:bg-slate-50/50 transition-all">
                                     <td>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-primary font-bold text-xs">
-                                                {msg?.name.charAt(0)}
+                                        <div className="flex items-center gap-3 relative">
+                                            {!msg?.isRead && (
+                                                <div className="absolute -left-1 top-1/2 -translate-y-1/2 flex h-3 w-3">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+                                                </div>
+                                            )}
+
+                                            <div className={`ml-4 flex items-center gap-3 ${!msg?.isRead ? 'font-black' : ''}`}>
+                                                <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-colors ${!msg?.isRead
+                                                    ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                                    : "bg-slate-100 text-primary"
+                                                    }`}>
+                                                    {msg?.name.charAt(0)}
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className={`text-sm ${!msg?.isRead ? 'text-slate-900' : 'text-slate-600'}`}>
+                                                        {msg?.name}
+                                                    </span>
+                                                    {!msg?.isRead && (
+                                                        <span className="text-[9px] uppercase tracking-tighter text-primary font-bold">New Message</span>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <span className="font-bold text-sm">{msg?.name}</span>
                                         </div>
                                     </td>
                                     <td>
@@ -120,7 +147,7 @@ export default function ContactMessage() {
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
                                             <button
-                                                onClick={() => setSelectedMessage(msg)}
+                                                onClick={() => handleViewMessage(msg)}
                                                 className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-blue-600 hover:border-blue-600 transition-all"
                                             >
                                                 <Eye size={14} />

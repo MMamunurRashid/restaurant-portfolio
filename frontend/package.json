@@ -1,5 +1,6 @@
 {
-  "name": "frontend",
+  "name": "rabeautycanvas",
+  "homepage": "https://rabeautycanvas.com",
   "private": true,
   "version": "0.0.0",
   "type": "module",

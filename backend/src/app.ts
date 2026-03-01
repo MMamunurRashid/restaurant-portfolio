@@ -15,9 +15,9 @@ app.use(express.static('uploads'));
 app.use(
   cors({
     origin: [
-      'http://localhost:3510',
-      'https://arquitro.devnasim.xyz',
-      'https://www.arquitro.devnasim.xyz',
+      'http://localhost:1890',
+      'https://rabeautycanvas.com',
+      'https://www.rabeautycanvas.com',
     ],
     credentials: true,
   }),

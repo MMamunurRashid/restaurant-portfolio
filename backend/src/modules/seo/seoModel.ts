@@ -11,6 +11,7 @@ const seoSchema = new Schema<ISeo>({
 
   facebook_domain_verification: { type: String },
   google_site_verification: { type: String },
+  googleTagManager: { type: String },
 });
 
 export const SEO = model<ISeo>('SEO', seoSchema);

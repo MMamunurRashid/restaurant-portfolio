@@ -26,7 +26,7 @@ export default function Dashboard() {
         { label: 'Total Services', count: serviceCount?.data?.totalService || 0, icon: Building2, color: 'text-indigo-600', bg: 'bg-indigo-50', link: '/admin/projects/all' },
         { label: 'Unread Messages', count: messageCount?.data?.unreadMessages || 0, icon: MessageSquare, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/contact-message' },
         { label: 'Active Blogs', count: blogCount?.data?.totalBlogs || 0, icon: BookOpen, color: 'text-orange-600', bg: 'bg-orange-50', link: '/admin/blogs/all' },
-        { label: 'System Users', count: userCount?.data?.totalUsers || 0, icon: User, color: 'text-rose-600', bg: 'bg-rose-50', link: '/admin/user-role/user-management' },
+        { label: 'System Users', count: userCount?.data?.totalUsers || 0, icon: User, color: 'text-rose-600', bg: 'bg-rose-50', link: '/admin/user/all' },
     ];
 
     return (

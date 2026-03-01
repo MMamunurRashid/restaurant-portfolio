@@ -9,7 +9,6 @@ import { contactRoute } from '../modules/contact/contactRoute';
 import { popupNoticeRoute } from '../modules/popupNotification/popupNoticeRoute';
 import { blogRoute } from '../modules/blog/blogRoute';
 import { generalSettingRoute } from '../modules/generalSetting/generalSettingRoute';
-import { gtmRoute } from '../modules/gtm/gtmRoute';
 import { aboutRoute } from '../modules/about/aboutRoute';
 import { messagesRoute } from '../modules/message/messageRoute';
 import { teamRoute } from '../modules/team/teamRoute';
@@ -100,10 +99,6 @@ const moduleRoutes = [
   {
     path: '/testimonial',
     route: testimonialRoute,
-  },
-  {
-    path: '/gtm',
-    route: gtmRoute,
   },
   {
     path: '/seo',

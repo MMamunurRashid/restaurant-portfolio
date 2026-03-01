@@ -15,6 +15,7 @@ export const seoValidation = z.object({
 
   facebook_domain_verification: z.string().optional(),
   google_site_verification: z.string().optional(),
+  googleTagManager: z.string().optional(),
 });
 
 export const updateSeoValidation = seoValidation.partial();
