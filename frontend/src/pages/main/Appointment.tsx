@@ -351,11 +351,12 @@ export default function Appointment() {
 
 
 
-function ContactLine({ icon, label, value }: { icon: React.ReactElement; label: string; value?: string }) {
+function ContactLine({ icon, label, value }: { icon: React.ReactElement<any>; label: string; value?: string }) {
+    const iconElem = React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { size: 16 } as any) : icon;
     return (
         <div className="flex items-center gap-4">
             <div className="w-9 h-9 rounded-full bg-[#CC826C]/8 flex items-center justify-center text-[#CC826C] shrink-0">
-                {React.cloneElement(icon, { size: 16 })}
+                {iconElem}
             </div>
             <div>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 leading-none mb-1">{label}</p>

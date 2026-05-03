@@ -19,7 +19,7 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 24, scale: 0.97 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: ([0.22, 1, 0.36, 1] as any) } },
   exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
 };
 
@@ -45,7 +45,7 @@ export default function AllPackagesPage() {
           className="py-20 max-w-2xl"
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: ([0.22, 1, 0.36, 1] as any) }}
         >
           <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-rose-400">
             All Packages

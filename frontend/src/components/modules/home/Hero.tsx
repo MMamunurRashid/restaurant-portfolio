@@ -52,8 +52,8 @@ export default function Hero() {
 
     const slideVariants = {
         enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
-        center: { x: 0, opacity: 1, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-        exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }),
+        center: { x: 0, opacity: 1, transition: { duration: 0.7, ease: ([0.22, 1, 0.36, 1] as any) } },
+        exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0, transition: { duration: 0.5, ease: ([0.22, 1, 0.36, 1] as any) } }),
     };
 
     const imageVariants = {
