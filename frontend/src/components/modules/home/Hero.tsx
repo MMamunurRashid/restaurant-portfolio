@@ -58,7 +58,7 @@ export default function Hero() {
 
     const imageVariants = {
         enter: { scale: 1.1, opacity: 0 },
-        center: { scale: 1, opacity: 1, transition: { duration: 1.2, ease: "easeOut" } },
+        center: { scale: 1, opacity: 1, transition: { duration: 1.2, ease: ("easeOut" as any) } },
         exit: { scale: 1.05, opacity: 0, transition: { duration: 0.6 } },
     };
 
