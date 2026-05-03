@@ -18,14 +18,14 @@ export default function CampaignBanner() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-stone-900 via-stone-900 to-stone-800"
+                    className="relative overflow-hidden rounded-[40px] bg-linear-to-br from-stone-900 via-stone-900 to-stone-800"
                 >
                     {/* Glow blobs */}
                     <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#CC826C]/20 blur-[100px]" />
                     <div className="pointer-events-none absolute -bottom-16 right-0 h-80 w-80 rounded-full bg-rose-700/15 blur-[100px]" />
 
                     {/* Top accent line */}
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#CC826C]/50 to-transparent" />
+                    <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#CC826C]/50 to-transparent" />
 
                     <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0">
 
@@ -84,7 +84,7 @@ export default function CampaignBanner() {
                         {/* ── Right: Image ── */}
                         <div className="relative flex items-end justify-center lg:justify-end overflow-hidden min-h-[340px] lg:min-h-0">
                             {/* Decorative tinted bg behind image */}
-                            <div className="absolute inset-0 bg-gradient-to-bl from-[#CC826C]/8 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-linear-to-bl from-[#CC826C]/8 via-transparent to-transparent" />
 
                             {/* Offset card decoration */}
                             <div className="absolute bottom-8 right-8 left-8 h-3/4 rounded-3xl border border-white/6 bg-white/3 backdrop-blur-sm -rotate-2" />
@@ -105,7 +105,7 @@ export default function CampaignBanner() {
                                 />
 
                                 {/* Gloss shimmer overlay */}
-                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none" />
+                                <div className="absolute inset-0 rounded-3xl bg-linear-to-tr from-transparent via-white/5 to-white/10 pointer-events-none" />
 
                                 {/* Floating label on image */}
                                 <motion.div

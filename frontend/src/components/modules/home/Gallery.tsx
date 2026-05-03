@@ -40,7 +40,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
 
     if (isLoading) {
         return (
-            <section className="py-24 px-4 bg-gradient-to-br from-rose-50 via-white to-orange-50/20">
+            <section className="py-24 px-4 bg-linear-to-br from-rose-50 via-white to-orange-50/20">
                 <div className="container mx-auto max-w-6xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {Array.from({ length: max }).map((_, i) => (
@@ -57,7 +57,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     }
 
     return (
-        <section className="py-24 px-4 bg-gradient-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
+        <section className="py-24 px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
             {/* Blobs */}
             <div className="pointer-events-none absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-[#CC826C]/6 blur-[120px]" />
             <div className="pointer-events-none absolute -bottom-24 -left-24 h-[350px] w-[350px] rounded-full bg-rose-200/15 blur-[100px]" />
@@ -137,7 +137,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                 />
 
                                 {/* Hover overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
                                 {/* Bottom info */}
                                 <div className="absolute inset-x-0 bottom-0 p-5 translate-y-3 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-400">
@@ -208,7 +208,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                 className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border border-white/10 object-contain"
                             />
                             {/* Gloss */}
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/4 to-white/8 pointer-events-none" />
+                            <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-transparent via-white/4 to-white/8 pointer-events-none" />
                         </motion.div>
                     </motion.div>
                 )}

@@ -122,7 +122,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: { mobileMe
                             className="fixed right-0 top-0 w-[95%] max-w-100 z-60 flex flex-col h-screen overflow-hidden border-l border-white/10 shadow-[-20px_0_50px_rgba(0,0,0,0.5)]"
                             /* Dark Glossy Style */
                             style={{
-                                background: "linear-gradient(160deg, rgba(20, 20, 20, 0.95) 0%, rgba(5, 5, 5, 0.85) 100%)",
+                                background: "linear-linear(160deg, rgba(20, 20, 20, 0.95) 0%, rgba(5, 5, 5, 0.85) 100%)",
                                 backdropFilter: "blur(20px) saturate(150%)",
                                 WebkitBackdropFilter: "blur(20px) saturate(150%)",
                             }}
