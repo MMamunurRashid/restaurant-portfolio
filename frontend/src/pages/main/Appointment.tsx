@@ -5,8 +5,10 @@ import { useGetAllPackageQuery } from '@/redux/features/packages/packagesApi';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { useAddAppointmentMutation } from '@/redux/features/appointment/appointmentApi';
+import { useAddAppointmentMutation, useGetAppointmentByIdQuery } from '@/redux/features/appointment/appointmentApi';
 import type { TResponse } from '@/interface/globalInterface';
+import AppointmentReceipt from '@/components/shared/AppointmentReceipt';
+import type { IAppointment } from '@/interface/appointmentInterface';
 import toast from 'react-hot-toast';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -26,7 +28,7 @@ const fieldVariants: Variants = {
 };
 
 export default function Appointment() {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
 
     const { data: packageData } = useGetAllPackageQuery({});
     const { data: contactData } = useGetContactQuery({});
@@ -64,6 +66,12 @@ export default function Appointment() {
         notes: '',
     });
 
+    const [receiptOpen, setReceiptOpen] = useState(false);
+    const [receiptAppointment, setReceiptAppointment] = useState<IAppointment | null>(null);
+    const [createdAppointmentId, setCreatedAppointmentId] = useState<string | null>(null);
+
+    const { data: fetchedAppointment } = useGetAppointmentByIdQuery(createdAppointmentId as string, { skip: !createdAppointmentId });
+
     const set = (key: string) => (val: string) =>
         setFormData((prev) => ({ ...prev, [key]: val }));
 
@@ -81,7 +89,9 @@ export default function Appointment() {
             const res = await createAppointment(formData) as TResponse;
             if (res?.data?.success) {
                 toast.success("Appointment submitted successfully!");
-                setFormData({ name: '', phone: '', email: '', address: '', date: '', time: '', packages: [], notes: '' });
+                const created = res?.data?.data as IAppointment;
+                // fetch populated appointment (with packages) for the receipt
+                if (created && created._id) setCreatedAppointmentId(created._id as any as string);
             } else {
                 toast.error(
                     Array.isArray(res?.error?.data?.error) && res?.error?.data?.error.length > 0
@@ -93,6 +103,21 @@ export default function Appointment() {
             toast.error(error?.data?.message || "Failed to submit appointment");
         }
     };
+
+    const handleReceiptClose = () => {
+        setReceiptOpen(false);
+        setReceiptAppointment(null);
+        setCreatedAppointmentId(null);
+        setFormData({ name: '', phone: '', email: '', address: '', date: '', time: '', packages: [], notes: '' });
+    };
+
+    // when fetchedAppointment becomes available, open receipt with populated data
+    useEffect(() => {
+        if (fetchedAppointment && fetchedAppointment.data) {
+            setReceiptAppointment(fetchedAppointment.data as IAppointment);
+            setReceiptOpen(true);
+        }
+    }, [fetchedAppointment]);
 
     return (
         <section className="min-h-screen bg-linear-to-br from-rose-50 via-white to-orange-50/30 py-24 px-4">
@@ -220,7 +245,7 @@ export default function Appointment() {
 
                                 {/* Optional fields */}
                                 <div>
-                                    
+
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <motion.div custom={4} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldInput
@@ -284,7 +309,7 @@ export default function Appointment() {
                                                     <span className={`absolute top-3.5 right-3.5 w-2 h-2 rounded-full transition-all duration-200 ${isSelected ? 'bg-[#CC826C] scale-100' : 'bg-stone-200 scale-75'
                                                         }`} />
 
-                                                        <p className={`text-sm font-semibold leading-snug mb-1 pr-4 ${isSelected ? 'text-[#CC826C]' : 'text-stone-700'
+                                                    <p className={`text-sm font-semibold leading-snug mb-1 pr-4 ${isSelected ? 'text-[#CC826C]' : 'text-stone-700'
                                                         }`}>
                                                         {pkg.title}
                                                     </p>
@@ -343,6 +368,9 @@ export default function Appointment() {
                     </motion.div>
                 </div>
             </div>
+            {receiptAppointment && (
+                <AppointmentReceipt appointment={receiptAppointment} open={receiptOpen} onClose={handleReceiptClose} />
+            )}
         </section>
     );
 }
