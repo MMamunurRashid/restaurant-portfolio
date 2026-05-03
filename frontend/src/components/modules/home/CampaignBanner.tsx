@@ -1,67 +1,133 @@
+import { motion } from "framer-motion";
 import { CONFIG } from "@/config";
 import { useGetCampaignQuery } from "@/redux/features/campaign/campaignApi";
 import { Link } from "react-router-dom";
+import { ArrowRight, Zap } from "lucide-react";
 
 export default function CampaignBanner() {
-  const { data, isLoading } = useGetCampaignQuery({});
-  const campaign = data?.data;
+    const { data, isLoading } = useGetCampaignQuery({});
+    const campaign = data?.data;
 
+    if (isLoading || !campaign) return null;
 
-  if (isLoading || !campaign) return null;
+    return (
+        <section className="py-12 px-4">
+            <div className="container mx-auto max-w-6xl">
+                <motion.div
+                    initial={{ opacity: 0, y: 32 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-stone-900 via-stone-900 to-stone-800"
+                >
+                    {/* Glow blobs */}
+                    <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#CC826C]/20 blur-[100px]" />
+                    <div className="pointer-events-none absolute -bottom-16 right-0 h-80 w-80 rounded-full bg-rose-700/15 blur-[100px]" />
 
+                    {/* Top accent line */}
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#CC826C]/50 to-transparent" />
 
-  return (
-    <section className="py-10 container">
-      <div className="relative overflow-hidden rounded-[40px] bg-[#1a1a1a]">
-        {/* Background Decorative Circles */}
-        <div className="absolute -top-12.5 -left-12.5 w-80 h-80 bg-primary/20 rounded-full blur-[100px]"></div>
-        <div className="absolute -bottom-12.5 -right-25 w-125 h-125 bg-pink-900/30 rounded-full blur-[120px]"></div>
+                    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0">
 
-        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between p-8 md:p-12 gap-6">
-          {/* Left Side: Campaign Info */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
-            <div className="inline-flex items-center gap-2 bg-primary/20 text-secondary/80 px-4 py-2 rounded-full border border-secondary/50">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
-              </span>
-              <span className="text-sm font-bold tracking-widest uppercase italic">
-                {campaign?.subTitle}
-              </span>
+                        {/* ── Left: Text ── */}
+                        <div className="flex flex-col justify-center p-10 md:p-14 lg:p-16 text-center lg:text-left">
+                            {/* Live badge */}
+                            <div className="mb-7 inline-flex items-center self-center lg:self-start gap-2.5 rounded-full border border-[#CC826C]/30 bg-[#CC826C]/12 px-4 py-2">
+                                <span className="relative flex h-2.5 w-2.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#CC826C] opacity-60" />
+                                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#CC826C]" />
+                                </span>
+                                <Zap size={11} className="text-[#CC826C]" />
+                                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#CC826C]">
+                                    {campaign.subTitle}
+                                </span>
+                            </div>
+
+                            {/* Title */}
+                            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.08] tracking-tight text-white mb-5">
+                                {campaign.title.split(" ").slice(0, -2).join(" ")}{" "}
+                                <span className="italic text-[#CC826C]">
+                                    {campaign.title.split(" ").slice(-2).join(" ")}
+                                </span>
+                            </h2>
+
+                            {/* Description */}
+                            <p className="text-sm leading-relaxed text-stone-400 max-w-sm mx-auto lg:mx-0 mb-10">
+                                {campaign.description}
+                            </p>
+
+                            {/* CTA */}
+                            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                                <Link to="/appointment">
+                                    <motion.button
+                                        whileHover={{ scale: 1.03 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        className="group flex items-center gap-2.5 rounded-2xl bg-[#CC826C] px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-[#CC826C]/25 transition-colors duration-300 hover:bg-[#b8705a]"
+                                    >
+                                        Book Now
+                                        <ArrowRight
+                                            size={15}
+                                            className="transition-transform group-hover:translate-x-1"
+                                        />
+                                    </motion.button>
+                                </Link>
+
+                                <Link
+                                    to="/packages"
+                                    className="text-sm font-medium text-stone-400 hover:text-white underline underline-offset-4 decoration-stone-700 hover:decoration-stone-400 transition-all"
+                                >
+                                    View all packages
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* ── Right: Image ── */}
+                        <div className="relative flex items-end justify-center lg:justify-end overflow-hidden min-h-[340px] lg:min-h-0">
+                            {/* Decorative tinted bg behind image */}
+                            <div className="absolute inset-0 bg-gradient-to-bl from-[#CC826C]/8 via-transparent to-transparent" />
+
+                            {/* Offset card decoration */}
+                            <div className="absolute bottom-8 right-8 left-8 h-3/4 rounded-3xl border border-white/6 bg-white/3 backdrop-blur-sm -rotate-2" />
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 24, rotate: 4 }}
+                                whileInView={{ opacity: 1, y: 0, rotate: 2 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                whileHover={{ rotate: 0, y: -6, transition: { duration: 0.4 } }}
+                                className="relative z-10 m-10 lg:mr-14 lg:mb-0"
+                            >
+                                <img
+                                    src={CONFIG.BASE_URL + campaign.image}
+                                    alt={campaign.title}
+                                    className="w-full max-w-xs lg:max-w-sm h-80 lg:h-[420px] object-cover rounded-3xl shadow-2xl shadow-black/40"
+                                    loading="lazy"
+                                />
+
+                                {/* Gloss shimmer overlay */}
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none" />
+
+                                {/* Floating label on image */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -12 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.5, duration: 0.5 }}
+                                    className="absolute -left-5 top-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 px-4 py-3 shadow-xl"
+                                >
+                                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/50 mb-0.5">
+                                        Limited Offer
+                                    </p>
+                                    <p className="text-sm font-semibold text-white">
+                                        {campaign.subTitle}
+                                    </p>
+                                </motion.div>
+                            </motion.div>
+                        </div>
+
+                    </div>
+                </motion.div>
             </div>
-
-            <h2 className="text-4xl md:text-6xl font-serif font-bold text-white leading-[1.1]">
-              {campaign?.title}
-            </h2>
-
-            <p className="text-gray-400 text-lg max-w-md mx-auto lg:mx-0">
-              {campaign?.description}
-            </p>
-
-            {/* Price & CTA */}
-            <div className="flex flex-col sm:flex-row items-center gap-6 pt-4 justify-center lg:justify-start">
-              <Link to="/appointment" className="bg-secondary hover:bg-white hover:text-secondary text-white px-10 py-4 rounded-2xl font-black transition-all duration-300 transform hover:-translate-y-2 shadow-2xl shadow-secondary/20 uppercase tracking-widest">
-                Book Now
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Side: Product/Visual */}
-          <div className="w-full lg:w-1/2 flex justify-center relative">
-            {/* Glossy Card behind product */}
-            <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-[30px] border border-white/10 -rotate-3 scale-90"></div>
-
-            <div className="relative group">
-              <img
-                src={CONFIG.BASE_URL + campaign?.image}
-                alt="campaign image"
-                className="rounded-3xl shadow-2xl transform rotate-3 group-hover:rotate-0 transition-transform duration-500 w-full max-w-sm object-cover h-100"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 }
