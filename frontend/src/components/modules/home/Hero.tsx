@@ -63,7 +63,7 @@ export default function Hero() {
     };
 
     return (
-        <div className="relative h-screen w-full overflow-hidden bg-stone-100">
+        <div className="relative h-screen w-full overflow-hidden bg-stone-100 mt-18">
 
             {/* ── Split layout ── */}
             <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
@@ -200,13 +200,13 @@ export default function Hero() {
                         <div className="absolute top-1/2 -translate-y-1/2 right-6 z-10 flex flex-col gap-3">
                             <button
                                 onClick={prev}
-                                className="w-10 h-10 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-200"
+                                className="w-10 h-10 rounded-full bg-primary/30 hover:bg-primary/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-200"
                             >
                                 <ChevronLeft size={18} />
                             </button>
                             <button
                                 onClick={next}
-                                className="w-10 h-10 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-200"
+                                className="w-10 h-10 rounded-full bg-primary/30 hover:bg-primary/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-200"
                             >
                                 <ChevronRight size={18} />
                             </button>

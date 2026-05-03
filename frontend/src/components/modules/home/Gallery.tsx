@@ -116,7 +116,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                 </motion.div>
 
                 {/* Image grid */}
-                <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <motion.div layout className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
                     <AnimatePresence mode="popLayout">
                         {displayImages.map((item, i) => (
                             <motion.div
@@ -183,7 +183,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-lg p-4"
+                        className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-lg p-4"
                         onClick={() => setSelectedImg(null)}
                     >
                         {/* Close */}
