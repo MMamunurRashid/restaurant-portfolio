@@ -17,7 +17,7 @@ export default function CampaignBanner() {
         <div className="absolute -top-12.5 -left-12.5 w-80 h-80 bg-primary/20 rounded-full blur-[100px]"></div>
         <div className="absolute -bottom-12.5 -right-25 w-125 h-125 bg-pink-900/30 rounded-full blur-[120px]"></div>
 
-        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between p-8 md:p-16 gap-12">
+        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between p-8 md:p-12 gap-6">
           {/* Left Side: Campaign Info */}
           <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
             <div className="inline-flex items-center gap-2 bg-primary/20 text-secondary/80 px-4 py-2 rounded-full border border-secondary/50">

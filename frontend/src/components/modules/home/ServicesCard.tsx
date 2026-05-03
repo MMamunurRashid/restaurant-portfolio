@@ -22,7 +22,7 @@ export default function ServicesCard() {
                         <img
                             src={CONFIG.BASE_URL + service?.thumbnail}
                             alt={service?.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 rounded-2xl"
                             loading="lazy"
                         />
                         <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
@@ -30,7 +30,7 @@ export default function ServicesCard() {
                             <img
                                 src={CONFIG.BASE_URL + service?.icon}
                                 alt={service?.title}
-                                className="w-10 h-10 object-cover"
+                                className="w-10 h-10 object-cover rounded-2xl"
                                 loading="lazy"
                             />
                         </div>

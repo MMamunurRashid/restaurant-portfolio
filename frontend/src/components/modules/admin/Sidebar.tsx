@@ -3,6 +3,7 @@ import {
     LayoutDashboard, Settings, X, ChevronDown, UserCog, ShieldCheck, Search,
     FileText, Heart, Flower2, Scissors,
     Newspaper,
+    NotebookPen,
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { CONFIG } from '@/config';
@@ -38,6 +39,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     const menuItems: MenuItem[] = useMemo(() => [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
         { icon: Scissors, label: 'Our Services', href: '/admin/services/all' },
+        { icon: NotebookPen, label: 'Packages', href: '/admin/packages/all' },
         {
             icon: Flower2,
             label: 'Salon & Spa',

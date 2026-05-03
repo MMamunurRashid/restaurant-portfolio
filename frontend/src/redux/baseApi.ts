@@ -35,5 +35,6 @@ export const baseApi = createApi({
     "termCondition",
     "campaign",
     "testimonial",
+    "packages",
   ],
 });

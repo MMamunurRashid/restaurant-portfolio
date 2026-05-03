@@ -91,7 +91,7 @@ export default function AllAppointment() {
                             <tr className="bg-slate-50/80">
                                 <th className="p-4 text-xs font-bold text-slate-500 uppercase">Sender</th>
                                 <th className="p-4 text-xs font-bold text-slate-500 uppercase">Contact</th>
-                                <th className="p-4 text-xs font-bold text-slate-500 uppercase">Service & Date</th>
+                                <th className="p-4 text-xs font-bold text-slate-500 uppercase">Packages & Date</th>
                                 <th className="p-4 text-xs font-bold text-slate-500 uppercase text-right">Actions</th>
                             </tr>
                         </thead>
@@ -124,10 +124,10 @@ export default function AllAppointment() {
                                         <td className="p-4">
                                             <div className="space-y-1">
                                                 <div className='flex items-center gap-2'>
-                                                    {appointment?.service?.thumbnail && (
-                                                        <img src={CONFIG.BASE_URL + appointment?.service?.thumbnail} alt="" className='w-6 h-6 rounded object-cover' />
+                                                    {appointment?.packages && appointment.packages.length > 0 && appointment.packages[0]?.thumbnail && (
+                                                        <img src={CONFIG.BASE_URL + appointment.packages[0].thumbnail} alt="" className='w-6 h-6 rounded object-cover' />
                                                     )}
-                                                    <p className="text-sm font-semibold text-primary line-clamp-1">{appointment?.service?.title || 'General'}</p>
+                                                    <p className="text-sm font-semibold text-primary line-clamp-1">{(appointment?.packages && appointment.packages[0]?.title) || 'General'}{appointment?.packages && appointment.packages.length > 1 ? ` +${appointment.packages.length - 1} more` : ''}</p>
                                                 </div>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase">
                                                     {new Date(appointment?.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}

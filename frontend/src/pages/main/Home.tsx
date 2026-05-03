@@ -6,6 +6,7 @@ import usePageView from "@/utils/usePageView";
 import CampaignBanner from "@/components/modules/home/CampaignBanner";
 import Gallery from "@/components/modules/home/Gallery";
 import Testimonials from "@/components/modules/home/Testimonials";
+import PackagesCom from "@/components/modules/home/PackagesCom";
 
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
             <Services />
             <AboutCom />
             <CampaignBanner />
+            <PackagesCom />
             <Gallery />
             <Testimonials />
             <ContactCom />

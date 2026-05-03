@@ -9,11 +9,11 @@ export default function App() {
   return (
     <>
       <head>
-        <title>{seo?.title || "RA Beauty Canvas - Ladies Skin Care & Salon"}</title>
-        <meta name="description" content={`${seo?.description || "RA Beauty Canvas - Ladies Skin Care & Salon"}`} />
+        <title>{seo?.title || "Eva Glamistry Women’s Beauty Salon  | Beauty, cosmetic & personal care"}</title>
+        <meta name="description" content={`${seo?.description || "Eva Glamistry Women’s Beauty Salon  | Beauty, cosmetic & personal care"}`} />
         <meta name="keywords" content={`${seo?.keywords || ""}`} />
         <meta name="author" content={`${seo?.author || ""}`} />
-        <meta name="designer" content={`${seo?.designer || "Nasim Uddin"}`} />
+        <meta name="designer" content={`${seo?.designer || "Nasim Uddin & Mamunur Rashid"}`} />
         <meta name="subject" content={`${seo?.subject || ""}`} />
         <meta name="copyright" content={`${seo?.copyright || ""}`} />
 

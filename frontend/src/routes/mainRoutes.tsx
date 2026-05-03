@@ -14,6 +14,8 @@ const PrivacyPolicy = lazy(() => import("../pages/main/PrivacyPolicy"));
 const Appointment = lazy(() => import("../pages/main/Appointment"));
 const TermsConditions = lazy(() => import("../pages/main/TermsConditions"));
 const ServicesPage = lazy(() => import("../pages/main/Services"));
+const PackagesPage = lazy(() => import("../pages/main/Packages"));
+const GalleryPage = lazy(() => import("../pages/main/GalleryPage"));
 
 
 export const mainRoutes = {
@@ -35,5 +37,7 @@ export const mainRoutes = {
         { path: "/appointment", element: <Appointment /> },
         { path: "/blogs", element: <Blogs /> },
         { path: "/blog/:slug", element: <BlogDetails /> },
+        { path: "/packages", element: <PackagesPage /> },
+        { path: "/gallery", element: <GalleryPage /> },
     ]
 }

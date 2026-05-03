@@ -58,7 +58,7 @@ export default function AppointmentModal({ appointment, onClose }: { appointment
                                 <p className="text-sm font-bold text-slate-700">
                                     {new Date(appointment.date).toLocaleDateString('en-GB', {
                                         day: '2-digit', month: 'short', year: 'numeric'
-                                    })}
+                                    })} at {appointment.time || 'N/A'}
                                 </p>
                             </div>
                         </div>
@@ -67,12 +67,20 @@ export default function AppointmentModal({ appointment, onClose }: { appointment
                     {/* Project Details Box */}
                     <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10">
                         <div className="flex items-center gap-2 text-[10px] font-bold text-primary uppercase tracking-widest mb-3">
-                            <Layout size={14} /> Interested Service
+                            <Layout size={14} /> Interested Packages
                         </div>
-                        <h3 className="text-lg font-bold text-slate-800">{appointment.service?.title}</h3>
-                        <p className="text-sm text-slate-600 mt-1 line-clamp-2">{
-                            appointment.service?.description && parser(appointment.service?.description)
-                        }</p>
+                        <div className="space-y-3">
+                            {appointment.packages && appointment.packages.length > 0 ? (
+                                appointment.packages.map((p: any) => (
+                                    <div key={p._id}>
+                                        <h4 className="text-md font-bold text-slate-800">{p.title}</h4>
+                                        {p.description && <p className="text-sm text-slate-600 mt-1 line-clamp-2">{parser(p.description)}</p>}
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-sm text-slate-600">General appointment</p>
+                            )}
+                        </div>
                     </div>
                 </div>
 

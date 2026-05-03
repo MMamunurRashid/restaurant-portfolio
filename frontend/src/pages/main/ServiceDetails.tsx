@@ -1,16 +1,19 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import MainLayoutSkeleton from '@/components/shared/Skeleton/MainLayoutSkeleton';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { CONFIG } from '@/config';
-import { Clock, Sparkles } from 'lucide-react';
+import { Sparkles, X, ZoomIn } from 'lucide-react';
 import usePageView from '@/utils/usePageView';
 import { useGetServiceBySlugQuery } from '@/redux/features/service/serviceApi';
+import { useState } from 'react';
 
 export default function ServiceDetails() {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const { slug } = useParams();
     const { data, isLoading } = useGetServiceBySlugQuery(slug);
     const service = data?.data;
+
+    const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
     usePageView(service?.title || "Service Details");
 
@@ -50,10 +53,10 @@ export default function ServiceDetails() {
             </div>
 
             <div className="container mx-auto px-4 py-20">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div className="">
 
                     {/* 2. Left Side: Content & Galleries (Span 8) */}
-                    <div className="lg:col-span-8 space-y-16">
+                    <div className=" space-y-16">
                         {/* Description */}
                         <div className="prose prose-slate max-w-none">
                             <h2 className="text-3xl font-serif italic text-slate-900 mb-6 flex items-center gap-4">
@@ -71,60 +74,70 @@ export default function ServiceDetails() {
                                 <h2 className="text-3xl font-serif italic text-slate-900 mb-6 flex items-center gap-4">
                                     Service Portfolio <div className="h-px flex-1 bg-slate-100" />
                                 </h2>
-                                <div className="columns-1 md:columns-2 gap-6 space-y-6">
-                                    {service.galleries.map((img: string, idx: number) => (
-                                        <motion.div
-                                            key={idx}
-                                            whileHover={{ y: -5 }}
-                                            className="rounded-3xl overflow-hidden shadow-sm"
-                                        >
-                                            <img
-                                                src={CONFIG.BASE_URL + img}
-                                                className="w-full object-cover"
-                                                alt={`Gallery ${idx}`}
-                                            />
-                                        </motion.div>
-                                    ))}
-                                </div>
+                                {/* Image Grid */}
+                                <motion.div
+                                    layout
+                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                                >
+                                    <AnimatePresence mode="popLayout">
+                                                {service.galleries.map((img: string, idx: number) => (
+                                                    <motion.div
+                                                        key={idx}
+                                                        layout
+                                                        initial={{ opacity: 0, scale: 0.9 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        exit={{ opacity: 0, scale: 0.9 }}
+                                                        transition={{ duration: 0.4 }}
+                                                        whileHover={{ y: -5 }}
+                                                        onClick={() => setSelectedImg(CONFIG.BASE_URL + img)}
+                                                        className="relative group overflow-hidden rounded-[40px] aspect-4/5 cursor-pointer bg-slate-100 shadow-sm"
+                                                    >
+                                                        <img
+                                                            src={CONFIG.BASE_URL + img}
+                                                            className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1"
+                                                            alt={`Gallery ${idx}`}
+                                                        />
+
+                                                        {/* Overlay Effect */}
+                                                        <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px] flex flex-col items-center justify-center p-6 text-center">
+                                                            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                                                <ZoomIn size={20} className="text-primary" />
+                                                            </div>
+                                                            <p className="text-white text-[10px] font-black uppercase tracking-[0.2em] mb-1">{service.category}</p>
+                                                            <h3 className="text-white font-serif italic text-xl">{service.title}</h3>
+                                                        </div>
+                                                    </motion.div>
+                                                ))}
+                                    </AnimatePresence>
+                                </motion.div>                        
                             </div>
                         )}
                     </div>
+                    {/* --- LIGHTBOX MODAL --- */}
+                    <AnimatePresence>
+                        {selectedImg && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/95 p-4 backdrop-blur-md"
+                                onClick={() => setSelectedImg(null)}
+                            >
+                                <button className="absolute top-8 right-8 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-primary transition-all">
+                                    <X size={24} />
+                                </button>
 
-                    {/* 3. Right Side: Sticky Sidebar (Span 4) */}
-                    <div className="lg:col-span-4">
-                        <div className="sticky top-32 space-y-8">
-                            {/* Booking Card */}
-                            <div className="bg-slate-900 text-white p-10 rounded-[40px] shadow-2xl shadow-primary/20 relative overflow-hidden group">
-                                <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/40 transition-all duration-700" />
-
-                                <h3 className="text-3xl font-serif italic mb-6 relative z-10">Book an Appointment</h3>
-
-                                <div className="space-y-6 relative z-10">
-                                    <div className="flex items-center gap-4 text-slate-300 border-b border-white/10 pb-4">
-                                        <Clock size={20} className="text-primary" />
-                                        <span className="text-sm">Duration: Flexible / Expert Choice</span>
-                                    </div>
-
-                                    <p className="text-slate-400 text-xs leading-relaxed">
-                                        Ready for your transformation? Connect with our experts directly or send us an inquiry.
-                                    </p>
-
-                                    <div className="pt-4 space-y-4">
-                                        <Link
-                                            to="/contact-us"
-                                            className="w-full bg-primary text-white py-4 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest text-[11px] hover:bg-white hover:text-primary transition-all duration-500"
-                                        >
-                                            Contact Us
-                                        </Link>
-                                        <Link to="/appointment" className="w-full bg-white/10 backdrop-blur-md text-white py-4 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest text-[11px] hover:bg-white/20 transition-all border border-white/10">
-                                            Book Now
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                                <motion.img
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    exit={{ scale: 0.8, opacity: 0 }}
+                                    src={selectedImg}
+                                    alt="Zoomed"
+                                    className="max-w-full max-h-[85vh] rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </section>

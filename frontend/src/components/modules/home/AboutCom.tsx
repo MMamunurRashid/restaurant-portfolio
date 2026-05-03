@@ -94,8 +94,8 @@ export default function AboutCom() {
                             </div>
 
                             {/* Minimal Stats Grid */}
-                            <div className="grid grid-cols-2 gap-12 mb-12 border-y border-slate-100 py-10">
-                                {counters.slice(0, 2).map((item: any, index: number) => (
+                            <div className="grid grid-cols-3 gap-12 mb-12 border-y border-slate-100 py-10">
+                                {counters.slice(0, 3).map((item: any, index: number) => (
                                     <div key={index} className="group">
                                         <h3 className="text-4xl font-black text-slate-800 transition-colors group-hover:text-primary">
                                             {item?.count}<span className="text-primary text-xl ml-1">+</span>

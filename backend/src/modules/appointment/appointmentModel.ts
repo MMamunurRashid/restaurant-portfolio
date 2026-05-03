@@ -5,8 +5,11 @@ const appointmentSchema = new Schema<IAppointment>({
   name: { type: String, required: true },
   email: { type: String },
   phone: { type: String, required: true },
-  service: { type: Schema.Types.ObjectId, required: true, ref: 'Service' },
+  address: { type: String },
+  packages: [{ type: Schema.Types.ObjectId, ref: 'Package' }],
   date: { type: Date, required: true },
+  time: { type: String },
+  notes: { type: String },
 });
 
 export const Appointment = model<IAppointment>(

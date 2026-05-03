@@ -4,7 +4,7 @@ import { CONFIG } from "@/config";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn } from "lucide-react";
 
-export default function Gallery() {
+export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolean; max?: number; }) {
   const [filter, setFilter] = useState("All");
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
@@ -44,6 +44,7 @@ export default function Gallery() {
   }, [filter, allImages]);
 
   if (isLoading) return <div className="py-20 text-center text-gray-400 uppercase tracking-widest text-xs">Loading Gallery...</div>;
+  const displayImages = showAll ? filteredImages : filteredImages.slice(0, max);
 
   return (
     <section className="py-20 bg-white">
@@ -88,7 +89,7 @@ export default function Gallery() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           <AnimatePresence mode="popLayout">
-            {filteredImages.map((item) => (
+            {displayImages.map((item) => (
               <motion.div
                 key={item.id}
                 layout

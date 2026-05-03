@@ -37,6 +37,9 @@ const ContactMessage = lazy(() => import("../pages/admin/ContactMessage"));
 const AllServices = lazy(() => import("../pages/admin/Service/AllService"));
 const ServiceForm = lazy(() => import("../pages/admin/Service/ServiceForm"));
 
+const AllPackages = lazy(() => import("../pages/admin/Package/AllPackage"));
+const PackageForm = lazy(() => import("../pages/admin/Package/PackageForm"));
+
 const AllUsers = lazy(() => import("../pages/admin/User/AllUsers"));
 
 const TeamCategory = lazy(() => import("../pages/admin/Team/TeamCategory"));
@@ -77,6 +80,23 @@ export const adminRoutes = {
             path: "service/edit/:id",
             element: <ServiceForm />
         },
+
+
+        // package
+        {
+            path: "packages/all",
+            element: <AllPackages />
+        },
+        {
+            path: "package/add",
+            element: <PackageForm />
+        },
+        {
+            path: "package/edit/:id",
+            element: <PackageForm />
+        },
+
+
 
         {
             path: "contact-us",

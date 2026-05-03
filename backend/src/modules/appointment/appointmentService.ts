@@ -12,8 +12,8 @@ export const addAppointmentService = async (data: IAppointment) => {
 export const getAllAppointmentService = async (
   query: Record<string, unknown>,
 ) => {
-  const result = new QueryBuilder(Appointment.find().populate('service'), query)
-    .search(['name', 'phone', 'email', 'location', 'occupation'])
+  const result = new QueryBuilder(Appointment.find().populate('packages'), query)
+    .search(['name', 'phone', 'email', 'address'])
     .filter()
     .sort()
     .paginate()
@@ -29,7 +29,7 @@ export const getAllAppointmentService = async (
 };
 
 export const getSingleAppointmentService = async (id: string) => {
-  const result = await Appointment.findById(id).populate('service');
+  const result = await Appointment.findById(id).populate('packages');
   return result;
 };
 

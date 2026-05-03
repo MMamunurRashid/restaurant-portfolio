@@ -19,6 +19,7 @@ import { privacyPolicyRoute } from '../modules/privacyPolicy/privacyPolicyRoute'
 import { serviceRoute } from '../modules/service/serviceRoute';
 import { campaignRoute } from '../modules/campaign/campaignRoute';
 import { testimonialRoute } from '../modules/testimonial/testimonialRoute';
+import { packagesRoute } from '../modules/packages/packageRoutes';
 
 const moduleRoutes = [
   {
@@ -104,6 +105,10 @@ const moduleRoutes = [
     path: '/seo',
     route: seoRoute,
   },
+  {
+    path: '/packages',
+    route: packagesRoute,
+  }
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
