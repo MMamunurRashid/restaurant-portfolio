@@ -1,57 +1,95 @@
+import { motion } from "framer-motion";
 import { CONFIG } from "@/config";
 import type { IService } from "@/interface/serviceInterface";
 import { useGetAllServiceQuery } from "@/redux/features/service/serviceApi";
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 
+const cardVariants = {
+    hidden: { opacity: 0, y: 28 },
+    show: (i: number) => ({
+        opacity: 1, y: 0,
+        transition: { delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    }),
+};
 
 export default function ServicesCard() {
     const { data } = useGetAllServiceQuery({});
-    const services = data?.data || [];
+    const services: IService[] = data?.data || [];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {services?.map((service: IService) => {
-                const plainDescriptionSlice = service?.description && service?.description.replace(/<[^>]+>/g, "").slice(0, 50) + "..."
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {services.map((service, i) => {
+                const plainDesc = service.description
+                    ? service.description.replace(/<[^>]+>/g, "").slice(0, 72) + "…"
+                    : "";
 
-                return <Link to={`/service/${service?.slug}`}
-                    key={service?._id}
-                    className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-pink-100 flex flex-col items-center text-center p-2"
-                >
-                    {/* Service Image */}
-                    <div className="relative w-full h-64 overflow-hidden rounded-2xl">
-                        <img
-                            src={CONFIG.BASE_URL + service?.thumbnail}
-                            alt={service?.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 rounded-2xl"
-                            loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
-                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-12 h-12 flex items-center justify-center rounded-full text-2xl shadow-md">
-                            <img
-                                src={CONFIG.BASE_URL + service?.icon}
-                                alt={service?.title}
-                                className="w-10 h-10 object-cover rounded-2xl"
-                                loading="lazy"
-                            />
-                        </div>
-                    </div>
+                return (
+                    <motion.div
+                        key={service._id}
+                        custom={i}
+                        variants={cardVariants}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, margin: "-40px" }}
+                    >
+                        <Link
+                            to={`/service/${service.slug}`}
+                            className="group flex flex-col bg-white rounded-3xl overflow-hidden border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-stone-100 hover:-translate-y-1.5 transition-all duration-400 h-full"
+                        >
+                            {/* Image */}
+                            <div className="relative h-56 overflow-hidden">
+                                <img
+                                    src={CONFIG.BASE_URL + service.thumbnail}
+                                    alt={service.title}
+                                    className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700"
+                                    loading="lazy"
+                                />
+                                {/* Gradient fade */}
+                                <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
 
-                    {/* Service Details */}
-                    <div className="p-6">
-                        <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">
-                            {service?.title}
-                        </h3>
+                                {/* Icon badge */}
+                                <div className="absolute top-4 right-4 w-11 h-11 rounded-2xl bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center overflow-hidden border border-white">
+                                    <img
+                                        src={CONFIG.BASE_URL + service.icon}
+                                        alt={service.title}
+                                        className="w-7 h-7 object-cover"
+                                        loading="lazy"
+                                    />
+                                </div>
 
-                        <p className="text-gray-500 text-sm leading-relaxed mb-6">
-                            {plainDescriptionSlice}
-                        </p>
+                                {/* Bottom label on image */}
+                                <div className="absolute bottom-4 left-4">
+                                    <span className="inline-block rounded-full bg-white/15 backdrop-blur-sm border border-white/20 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white">
+                                        Beauty Service
+                                    </span>
+                                </div>
+                            </div>
 
-                        <button className="text-primary font-bold text-xs uppercase tracking-widest border-b-2 border-pink-200 group-hover:border-primary transition-all pb-1">
-                            Read More
-                        </button>
-                    </div>
-                </Link>
+                            {/* Content */}
+                            <div className="flex flex-col flex-1 p-6">
+                                <h3 className="font-serif text-lg font-normal text-stone-800 mb-2 group-hover:text-[#CC826C] transition-colors duration-300 leading-snug">
+                                    {service.title}
+                                </h3>
+
+                                <p className="text-xs leading-relaxed text-stone-400 flex-1 mb-5">
+                                    {plainDesc}
+                                </p>
+
+                                {/* CTA row */}
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#CC826C] border-b border-[#CC826C]/30 pb-0.5 group-hover:border-[#CC826C] transition-colors">
+                                        Explore
+                                    </span>
+                                    <span className="w-8 h-8 rounded-full border border-stone-100 bg-stone-50 flex items-center justify-center text-stone-400 group-hover:bg-[#CC826C] group-hover:border-[#CC826C] group-hover:text-white transition-all duration-300">
+                                        <ArrowUpRight size={14} />
+                                    </span>
+                                </div>
+                            </div>
+                        </Link>
+                    </motion.div>
+                );
             })}
         </div>
-    )
+    );
 }

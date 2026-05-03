@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import { useMemo, useRef } from "react";
 import { useGetAboutQuery } from "@/redux/features/about/aboutApi";
 import { CONFIG } from "@/config";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 
 export default function AboutCom() {
     const containerRef = useRef(null);
@@ -18,94 +19,133 @@ export default function AboutCom() {
 
     const { remainingTitle, highlightTitle, plainDescription } = useMemo(() => {
         const titleWords = title?.split(" ") || [];
-
         const strippedDescription = description.replace(/<[^>]+>/g, "");
-
-        // Logic: Jodi /about-us page hoy tahole full, nahole slice
         const processedDescription = isAboutPage
             ? strippedDescription
-            : strippedDescription.slice(0, 600) + "...";
-
+            : strippedDescription.slice(0, 420) + "…";
 
         return {
             highlightTitle: titleWords.slice(-2).join(" "),
             remainingTitle: titleWords.slice(0, -2).join(" "),
-            plainDescription: processedDescription
+            plainDescription: processedDescription,
         };
     }, [title, description, isAboutPage]);
 
     return (
-        <section ref={containerRef} className="py-16 bg-[#fff5f776] overflow-hidden relative">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+        <section
+            ref={containerRef}
+            className="relative py-24 px-4 bg-linear-to-br from-white via-rose-50/30 to-orange-50/20 overflow-hidden"
+        >
+            {/* Background blobs */}
+            <div className="pointer-events-none absolute -top-40 -right-40 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
+            <div className="pointer-events-none absolute bottom-0 -left-24 h-87.5 w-87.5 rounded-full bg-rose-200/15 blur-[100px]" />
 
-                    {/* Left: Imagery Section (Span 6) */}
-                    <div className="lg:col-span-6 relative">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.2, ease: "easeOut" }}
-                            className="relative flex justify-center lg:justify-start"
-                        >
-                            {/* Decorative Background Element */}
-                            <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+            <div className="container relative z-10 mx-auto max-w-6xl">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                            {/* Main Image Container */}
-                            <div className="relative w-full aspect-4/5 max-w-120 overflow-hidden rounded-[40px] shadow-2xl shadow-primary/5">
-                                <img
-                                    src={CONFIG.BASE_URL + about?.image}
-                                    alt="About GlowUp"
-                                    className="w-full h-full object-cover grayscale-20 hover:grayscale-0 transition-all duration-1000"
-                                    loading="lazy"
-                                />
-                            </div>
-                        </motion.div>
-                    </div>
+                    {/* ── Left: Image ── */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -32 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                        className="relative"
+                    >
+                        {/* Offset frame decoration */}
+                        <div className="absolute -top-5 -left-5 w-full h-full rounded-[36px] border-2 border-[#CC826C]/15 z-0" />
 
-                    {/* Right: Textual Content (Span 6) */}
-                    <div className="lg:col-span-6">
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <div className="flex items-center gap-4 mb-8">
-                                <span className="h-px w-8 bg-primary" />
-                                <span className="text-primary font-black text-[11px] uppercase tracking-[0.4em]">
-                                    {about?.subtitle || 'Our Legacy'}
-                                </span>
-                            </div>
+                        {/* Main image */}
+                        <div className="relative z-10 w-full aspect-4/5 overflow-hidden rounded-4xl shadow-xl shadow-stone-200/60">
+                            <img
+                                src={CONFIG.BASE_URL + about?.image}
+                                alt="About Us"
+                                className="w-full h-full object-cover scale-100 hover:scale-105 transition-transform duration-1000"
+                                loading="lazy"
+                            />
+                            {/* Subtle linear at bottom */}
+                            <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
 
-                            <h2 className="text-5xl md:text-7xl font-serif leading-[1.1] text-slate-900 mb-10 italic">
-                                {remainingTitle}{' '}
-                                <span className="not-italic font-sans font-black text-transparent bg-clip-text bg-linear-to-r from-primary to-primary/60">
-                                    {highlightTitle}
-                                </span>
-                            </h2>
+                            {/* Floating stat pill */}
+                            {counters[0] && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 16 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.5, duration: 0.5 }}
+                                    className="absolute bottom-6 left-6 right-6"
+                                >
+                                    <div className="rounded-2xl bg-white/80 backdrop-blur-md border border-white/60 px-5 py-4 flex items-center justify-between shadow-lg">
+                                        {counters.slice(0, 3).map((item: any, i: number) => (
+                                            <div key={i} className="text-center flex-1">
+                                                <p className="font-sans text-xl font-bold text-stone-800 leading-none">
+                                                    {item.count}
+                                                    <span className="text-[#CC826C] text-sm">+</span>
+                                                </p>
+                                                <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mt-1">
+                                                    {item.title}
+                                                </p>
+                                                {i < 2 && (
+                                                    <div className="absolute top-1/4 h-1/2 w-px bg-stone-100" style={{ left: `${(i + 1) * 33.3}%` }} />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            )}
+                        </div>
+                    </motion.div>
 
-                            <div className="relative mb-12">
-                                <p className="text-slate-500 text-lg leading-relaxed font-light">
-                                    {plainDescription}
-                                </p>
-                                {/* Decorative Quote Mark */}
-                                <span className="absolute -top-6 -left-8 text-8xl text-primary/5 font-serif select-none">“</span>
-                            </div>
+                    {/* ── Right: Content ── */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 32 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                        className="flex flex-col"
+                    >
+                        {/* Eyebrow */}
+                        <div className="mb-6 inline-flex items-center gap-2 self-start rounded-full border border-[#CC826C]/25 bg-[#CC826C]/8 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#CC826C]">
+                            <Sparkles size={12} />
+                            {about?.subtitle || "Our Legacy"}
+                        </div>
 
-                            {/* Minimal Stats Grid */}
-                            <div className="grid grid-cols-3 gap-12 mb-12 border-y border-slate-100 py-10">
-                                {counters.slice(0, 3).map((item: any, index: number) => (
-                                    <div key={index} className="group">
-                                        <h3 className="text-4xl font-black text-slate-800 transition-colors group-hover:text-primary">
-                                            {item?.count}<span className="text-primary text-xl ml-1">+</span>
-                                        </h3>
-                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mt-3">{item?.title}</p>
+                        {/* Title */}
+                        <h2 className="font-serif text-5xl font-normal leading-[1.08] tracking-tight text-stone-800 mb-6 md:text-6xl">
+                            {remainingTitle}{" "}
+                            <span className="italic text-[#CC826C]">
+                                {highlightTitle}
+                            </span>
+                        </h2>
+
+                        <Separator className="bg-stone-100 mb-8" />
+
+                        {/* Description */}
+                        <p className="text-sm leading-[1.9] text-stone-500 mb-10">
+                            {plainDescription}
+                        </p>
+
+                        {/* Stats — only on non-about page (floating card covers on about page) */}
+                        {!isAboutPage && counters.length > 0 && (
+                            <div className="grid grid-cols-3 gap-4 mb-10">
+                                {counters.slice(0, 3).map((item: any, i: number) => (
+                                    <div
+                                        key={i}
+                                        className="group rounded-2xl border border-stone-100 bg-white p-4 text-center hover:border-[#CC826C]/25 hover:bg-[#CC826C]/4 transition-all duration-300"
+                                    >
+                                        <p className="font-sans text-3xl font-bold text-stone-800 group-hover:text-[#CC826C] transition-colors leading-none">
+                                            {item.count}
+                                            <span className="text-[#CC826C] text-lg">+</span>
+                                        </p>
+                                        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mt-2">
+                                            {item.title}
+                                        </p>
                                     </div>
                                 ))}
                             </div>
+                        )}
 
-                            {/* CTA Section */}
+                        {/* CTA */}
+                        {!isAboutPage && (
                             <div className="flex items-center gap-8">
                                 <Link to="/about-us" className="group flex items-center gap-4">
                                     <div className="w-14 h-14 rounded-full border border-primary flex items-center justify-center transition-all group-hover:bg-primary group-hover:text-white">
@@ -115,9 +155,8 @@ export default function AboutCom() {
                                 </Link>
                                 <div className="hidden sm:block h-px flex-1 bg-slate-100" />
                             </div>
-                        </motion.div>
-                    </div>
-
+                        )}
+                    </motion.div>
                 </div>
             </div>
         </section>
