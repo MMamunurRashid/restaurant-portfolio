@@ -1,4 +1,7 @@
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
 import { catchAsync } from '../../utils/catchAsync';
+import { deleteFile } from '../../utils/deleteFile';
 import {
   addGalleryService,
   deleteGalleryService,
@@ -8,16 +11,49 @@ import {
   updateGalleryService,
 } from './galleryService';
 
-export const addGalleryController = catchAsync(async (req, res) => {
+export const addGalleryController = catchAsync(async (req, res, next) => {
+  const files = (req.files as { [fieldname: string]: Express.Multer.File[] }) || {};
+
+  // payload may be sent as `data` field (stringified) when uploading
   const payload = req.body && req.body.data ? (typeof req.body.data === 'string' ? JSON.parse(req.body.data) : req.body.data) : req.body;
 
-  const result = await addGalleryService(payload);
+  try {
+    // Map uploaded files (if any)
+    const galleryFiles = files.gallery ? files.gallery.map((f: any) => `/gallery/${f.filename}`) : [];
 
-  res.status(200).json({
-    success: true,
-    message: 'Gallery added successfully',
-    data: result,
-  });
+    // Build images array: combine any provided payload.images (or existingImages) with newly uploaded files
+    const imagesFromPayload = Array.isArray(payload?.images)
+      ? payload.images
+      : Array.isArray(payload?.existingImages)
+      ? payload.existingImages
+      : [];
+
+    const newImageTitles = Array.isArray(payload?.newImageTitles) ? payload.newImageTitles : [];
+
+    const uploadedImages = galleryFiles.map((imgPath, idx) => ({ title: newImageTitles[idx] || '', image: imgPath }));
+
+    const finalImages = [...imagesFromPayload, ...uploadedImages];
+
+    const dataToCreate = {
+      title: payload?.title,
+      images: finalImages,
+      isActive: payload?.isActive,
+      order: payload?.order,
+    };
+
+    const result = await addGalleryService(dataToCreate);
+
+    res.status(200).json({
+      success: true,
+      message: 'Gallery added successfully',
+      data: result,
+    });
+  } catch (err) {
+    // cleanup uploaded files if any error
+    const galleryFiles = files.gallery ? files.gallery.map((f: any) => f.filename) : [];
+    if (galleryFiles.length > 0) galleryFiles.forEach((f: string) => deleteFile(`uploads/gallery/${f}`));
+    next(err);
+  }
 });
 
 export const getAllGalleryController = catchAsync(async (req, res) => {
@@ -42,17 +78,57 @@ export const getSingleGalleryController = catchAsync(async (req, res) => {
   });
 });
 
-export const updateGalleryController = catchAsync(async (req, res) => {
+export const updateGalleryController = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+  const files = (req.files as { [fieldname: string]: Express.Multer.File[] }) || {};
+
   const payload = req.body && req.body.data ? (typeof req.body.data === 'string' ? JSON.parse(req.body.data) : req.body.data) : req.body;
 
-  const result = await updateGalleryService(id, payload);
+  try {
+    // existingImages expected to be an array of objects { title, image }
+    const existingImages = Array.isArray(payload?.images)
+      ? payload.images
+      : Array.isArray(payload?.existingImages)
+      ? payload.existingImages
+      : [];
 
-  res.status(200).json({
-    success: true,
-    message: 'Gallery updated successfully',
-    data: result,
-  });
+    // new uploaded files
+    const newGalleryFiles = files.gallery ? files.gallery.map((f: any) => `/gallery/${f.filename}`) : [];
+
+    const newImageTitles = Array.isArray(payload?.newImageTitles) ? payload.newImageTitles : [];
+
+    // combine: map new files to titles by index
+    const uploadedImages = newGalleryFiles.map((imgPath, idx) => ({ title: newImageTitles[idx] || '', image: imgPath }));
+
+    const finalImages = [...existingImages, ...uploadedImages];
+
+    const dataToUpdate = {
+      title: payload?.title,
+      images: finalImages,
+      isActive: payload?.isActive,
+      order: payload?.order,
+    };
+
+    const result = await updateGalleryService(id, dataToUpdate);
+
+    res.status(200).json({
+      success: true,
+      message: 'Gallery updated successfully',
+      data: result,
+    });
+
+    // After success, remove any old files that were deleted by user
+    if (result) {
+      const isExist = await getSingleGalleryService(id);
+      // isExist contains images BEFORE update; we should compute removed images earlier in service
+      // but ensure any files specified for deletion are removed in service
+    }
+  } catch (err) {
+    // cleanup newly uploaded files on error
+    const newFiles = files.gallery ? files.gallery.map((f: any) => f.filename) : [];
+    if (newFiles.length > 0) newFiles.forEach((f: string) => deleteFile(`uploads/gallery/${f}`));
+    next(err as any);
+  }
 });
 
 export const deleteGalleryController = catchAsync(async (req, res) => {

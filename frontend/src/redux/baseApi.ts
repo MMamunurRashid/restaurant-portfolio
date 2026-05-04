@@ -29,6 +29,7 @@ export const baseApi = createApi({
     "seo",
     "blogs",
     "service",
+    "gallery",
     "notice",
     "appointment",
     "privacyPolicy",

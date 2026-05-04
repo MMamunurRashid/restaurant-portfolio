@@ -35,17 +35,35 @@ export const getSingleGalleryService = async (id: string) => {
 export const updateGalleryService = async (id: string, data: IGallery) => {
   const isExist = await Gallery.findById(id);
   if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Gallery not found !');
-
-  // If images provided, remove deleted images from disk
+  // If images provided, normalize incoming paths and remove deleted images from disk
+  let removed: any[] = [];
   if (data?.images && Array.isArray(data.images)) {
-    const newPaths = data.images.map((i) => i.image);
-    const removed = isExist.images.filter((old: any) => !newPaths.includes(old.image));
-    removed.forEach((img: any) => {
-      if (img?.image) deleteFile(`./uploads/${img.image}`);
-    });
+    // Ensure stored image paths use a leading slash (e.g. /gallery/filename)
+    const normalizedImages = data.images.map((i: any) => ({
+      ...i,
+      image: i?.image ? (i.image.startsWith('/') ? i.image : '/' + i.image.replace(/^\/+/, '')) : i.image,
+    }));
+
+    // Compute removed images by comparing normalized incoming paths with existing ones
+    const newPaths = normalizedImages.map((i: any) => i.image);
+    removed = isExist.images.filter((old: any) => !newPaths.includes(old.image));
+
+    // Replace incoming images with normalized versions for DB update
+    // (ensures consistent storage format)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    data.images = normalizedImages;
   }
 
   const result = await Gallery.findByIdAndUpdate(id, { ...data }, { new: true });
+
+  // After successful DB update, delete any removed files from uploads folder
+  if (removed.length > 0) {
+    removed.forEach((img: any) => {
+      if (img?.image) deleteFile(`uploads/${img.image.replace(/^\/+/, '')}`);
+    });
+  }
+
   return result;
 };
 
@@ -55,9 +73,9 @@ export const deleteGalleryService = async (id: string) => {
 
   await Gallery.findByIdAndDelete(id);
 
-  // delete images from uploads folder
+  // delete images from uploads folder (normalize path)
   isExist.images.forEach((img: any) => {
-    if (img?.image) deleteFile(`./uploads/${img.image}`);
+    if (img?.image) deleteFile(`uploads/${img.image.replace(/^\/+/, '')}`);
   });
 
   return true;

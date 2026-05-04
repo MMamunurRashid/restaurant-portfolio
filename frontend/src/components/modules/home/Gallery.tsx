@@ -1,4 +1,4 @@
-import { useGetAllServiceQuery } from "@/redux/features/service/serviceApi";
+import { useGetAllGalleryQuery } from "@/redux/features/gallery/galleryApi";
 import { useState, useMemo } from "react";
 import { CONFIG } from "@/config";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,28 +8,33 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     const [filter, setFilter] = useState("All");
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
-    const { data, isLoading } = useGetAllServiceQuery({ fields: "title,galleries" });
-    const services = useMemo(() => data?.data || [], [data?.data]);
+    const { data, isLoading } = useGetAllGalleryQuery({ fields: "title,images" });
+    const galleries = useMemo(() => data?.data || [], [data?.data]);
 
     const categories = useMemo(() => {
-        const titles = services.map((s: any) => s.title);
+        const titles = galleries.map((g: any) => g.title);
         return ["All", ...titles];
-    }, [services]);
+    }, [galleries]);
 
     const allImages = useMemo(() => {
         const imgs: any[] = [];
-        services.forEach((service: any) => {
-            service.galleries?.forEach((img: string, i: number) => {
+        galleries.forEach((gallery: any) => {
+            gallery.images?.forEach((imgObj: any, i: number) => {
+                const raw = imgObj?.image || '';
+                const imageUrl = raw.startsWith('http')
+                    ? raw
+                    : `${CONFIG.BASE_URL.replace(/\/$/, '')}/${raw.replace(/^\/+/, '')}`;
+
                 imgs.push({
-                    id: `${service._id}-${i}`,
-                    category: service.title,
-                    image: CONFIG.BASE_URL + img,
-                    title: service.title,
+                    id: `${gallery._id}-${i}`,
+                    category: gallery.title,
+                    image: imageUrl,
+                    title: imgObj?.title || gallery.title,
                 });
             });
         });
         return imgs;
-    }, [services]);
+    }, [galleries]);
 
     const filteredImages = useMemo(
         () => (filter === "All" ? allImages : allImages.filter((img) => img.category === filter)),

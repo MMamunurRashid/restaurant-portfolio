@@ -68,6 +68,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 { label: 'Hero Banners', href: '/admin/setting/banner/all' },
                 { label: 'Promotional', href: '/admin/setting/campaign-banner' },
                 { label: 'Testimonials', href: '/admin/setting/testimonials/all' },
+                { label: 'Gallery', href: '/admin/setting/gallery/all' },
             ]
         },
         { icon: Newspaper, label: 'Blogs', href: '/admin/blogs/all' },

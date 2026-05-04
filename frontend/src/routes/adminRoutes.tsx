@@ -16,6 +16,9 @@ const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
 const GeneralSetting = lazy(() => import("../pages/admin/GeneralSetting"));
 const ContactUs = lazy(() => import("../pages/admin/ContactUs"));
 
+const Gallery = lazy(() => import("../pages/admin/Settings/Gallery/GalleryForm"));
+const AllGallery = lazy(() => import("../pages/admin/Settings/Gallery/AllGallery"));
+
 // banner lazy load
 const AllBanner = lazy(() => import("../pages/admin/Banner/AllBanner"));
 const AddBanner = lazy(() => import("../pages/admin/Banner/AddBanner"));
@@ -141,6 +144,20 @@ export const adminRoutes = {
         {
             path: "setting/testimonial/edit/:id",
             element: <TestimonialForm />
+        },
+
+        // gallery
+        {
+            path: "setting/gallery/all",
+            element: <AllGallery />
+        },
+        {
+            path: "setting/gallery/add",
+            element: <Gallery />
+        },
+        {
+            path: "setting/gallery/edit/:id",
+            element: <Gallery />
         },
 
         // about
