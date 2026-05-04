@@ -229,7 +229,7 @@ export default function Hero() {
             </div>
 
             {/* ── Mobile: text content (sits above the bleed image) ── */}
-            <div className="relative z-10 flex flex-col justify-end h-full pb-12 px-6 md:hidden">
+            <div className="relative z-10 flex flex-col justify-end h-full pb-12 px-4 md:px-6 md:hidden">
                 <AnimatePresence mode="wait" custom={direction}>
                     <motion.div
                         key={`mobile-content-${current}`}

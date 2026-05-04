@@ -25,12 +25,12 @@ export default function FeaturedPackages() {
   const packages: IPackage[] = data?.data || [];
 
   return (
-    <section className="relative py-24 px-4 bg-rose-50/40 overflow-hidden">
+    <section className="relative py-12 md:py-24 md:px-4 bg-rose-50/40 overflow-hidden">
       {/* Soft background blobs */}
       <div className="pointer-events-none absolute -top-32 -left-32 h-125 w-125 rounded-full bg-rose-200/30 blur-[100px]" />
       <div className="pointer-events-none absolute -bottom-32 -right-32 h-100 w-100 rounded-full bg-amber-200/25 blur-[100px]" />
 
-      <div className="relative z-10 mx-auto max-w-6xl">
+      <div className="container relative z-10 mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
           className="mb-16 text-center"

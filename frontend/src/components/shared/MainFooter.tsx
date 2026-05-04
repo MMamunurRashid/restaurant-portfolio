@@ -90,13 +90,13 @@ export default function MainFooter() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                            className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto"
                         >
-                            <Link to="/appointment">
+                            <Link to="/appointment" className="w-full sm:w-auto">
                                 <motion.button
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="group flex items-center gap-2.5 rounded-2xl bg-[#CC826C] px-7 py-4 text-sm font-semibold text-white shadow-lg shadow-[#CC826C]/20 transition-colors hover:bg-[#b8705a]"
+                                    className="group flex w-full sm:w-auto items-center gap-2.5 rounded-2xl bg-[#CC826C] px-7 py-4 text-sm font-semibold text-white shadow-lg shadow-[#CC826C]/20 transition-colors hover:bg-[#b8705a]"
                                 >
                                     Book Appointment
                                     <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -104,7 +104,7 @@ export default function MainFooter() {
                             </Link>
                             <a
                                 href={`mailto:${contact?.email}`}
-                                className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-7 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-[#CC826C]/30 hover:bg-[#CC826C]/8 hover:text-white"
+                                className="flex w-full sm:w-auto items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-7 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-[#CC826C]/30 hover:bg-[#CC826C]/8 hover:text-white"
                             >
                                 Send a Message
                             </a>

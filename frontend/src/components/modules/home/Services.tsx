@@ -4,7 +4,7 @@ import ServicesCard from "./ServicesCard";
 
 export default function Services() {
     return (
-        <section className="py-24 px-4 bg-rose-50/30 relative overflow-hidden">
+        <section className="py-12 md:py-24 md:px-4 bg-rose-50/30 relative overflow-hidden">
             {/* bg blobs */}
             <div className="pointer-events-none absolute top-0 right-0 h-100 w-100 rounded-full bg-[#CC826C]/6 blur-[100px]" />
             <div className="pointer-events-none absolute bottom-0 left-0 h-75 w-75 rounded-full bg-rose-200/15 blur-[80px]" />

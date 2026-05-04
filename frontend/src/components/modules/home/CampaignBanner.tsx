@@ -11,8 +11,8 @@ export default function CampaignBanner() {
     if (isLoading || !campaign) return null;
 
     return (
-        <section className="py-12 px-4">
-            <div className="container mx-auto max-w-6xl">
+        <section className="py-12 md:px-4">
+            <div className="container mx-auto w-full md:max-w-6xl">
                 <motion.div
                     initial={{ opacity: 0, y: 32 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -30,7 +30,7 @@ export default function CampaignBanner() {
                     <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0">
 
                         {/* ── Left: Text ── */}
-                        <div className="flex flex-col justify-center p-10 md:p-14 lg:p-16 text-center lg:text-left">
+                        <div className="flex flex-col justify-center p-6 md:p-14 lg:p-16 text-center lg:text-left">
                             {/* Live badge */}
                             <div className="mb-7 inline-flex items-center self-center lg:self-start gap-2.5 rounded-full border border-[#CC826C]/30 bg-[#CC826C]/12 px-4 py-2">
                                 <span className="relative flex h-2.5 w-2.5">

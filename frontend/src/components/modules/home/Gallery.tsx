@@ -62,7 +62,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     }
 
     return (
-        <section className="py-24 px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
+        <section className="py-12 md:py-24 md:px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
             {/* Blobs */}
             <div className="pointer-events-none absolute -top-32 -right-32 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
             <div className="pointer-events-none absolute -bottom-24 -left-24 h-75 w-75 rounded-full bg-rose-200/15 blur-[100px]" />
@@ -121,7 +121,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                 </motion.div>
 
                 {/* Image grid */}
-                <motion.div layout className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <motion.div layout className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 md:gap-5 gap-2">
                     <AnimatePresence mode="popLayout">
                         {displayImages.map((item, i) => (
                             <motion.div

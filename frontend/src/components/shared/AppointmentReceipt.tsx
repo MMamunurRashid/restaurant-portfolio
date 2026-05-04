@@ -56,7 +56,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
             pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH);
             pdf.save(`appointment-${refId}.pdf`);
         } catch (err) {
-            // eslint-disable-next-line no-console
+            
             console.error('Failed to generate PDF', err);
             const msg = (err && ((err as any).message || String(err))) || '';
             // Fallback for html2canvas parsing errors (e.g. unsupported color functions like oklab)
@@ -77,8 +77,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                     printWindow.focus();
                     printWindow.print();
                     return;
-                } catch (printErr) {
-                    // eslint-disable-next-line no-console
+                } catch (printErr) {                    
                     console.error('Fallback print failed', printErr);
                     toast.error('Failed to generate PDF and fallback print failed. See console.');
                     return;
@@ -142,7 +141,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                 <ZigZag />
 
                                 {/* Personal details */}
-                                <div className="px-8 pt-2 pb-5">
+                                <div className="px-4 md:px-8 pt-2 pb-5">
                                     <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 mb-3">
                                         Your Details
                                     </p>
@@ -162,7 +161,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
 
                                 {/* ── Package price table ── */}
                                 {appointment.packages && appointment.packages.length > 0 && (
-                                    <div className="px-8 pb-5">
+                                    <div className="px-4 md:px-8 pb-5">
                                         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 mb-3">
                                             Packages & Pricing
                                         </p>
@@ -229,7 +228,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
 
                                 {/* Notes */}
                                 {appointment.notes && (
-                                    <div className="mx-8 mb-5 rounded-xl bg-stone-50 border border-stone-100 px-4 py-3">
+                                    <div className="mx-4 md:mx-8 mb-5 rounded-xl bg-stone-50 border border-stone-100 px-4 py-3">
                                         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 mb-1.5">
                                             Notes
                                         </p>
@@ -240,8 +239,8 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                 )}
 
                                 {/* Footer */}
-                                <div className="border-t border-dashed border-stone-200 mx-8" />
-                                <div className="px-8 py-5 text-center space-y-1.5">
+                                <div className="border-t border-dashed border-stone-200 mx-4 md:mx-8" />
+                                <div className="px-4 md:px-8 py-5 text-center space-y-1.5">
                                     <p className="text-[11px] text-stone-400 leading-relaxed">
                                         Please keep your phone reachable. Our team will confirm your appointment shortly.
                                     </p>

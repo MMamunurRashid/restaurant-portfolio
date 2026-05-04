@@ -19,7 +19,7 @@ export default function BlogDetails() {
 
     return (
         <div className="bg-white min-h-screen py-26">
-            <div className="container">
+            <div className="container mx-auto">
                 {/* Back Button */}
                 <Link to="/blogs" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-neutral transition-colors mb-6 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Journal

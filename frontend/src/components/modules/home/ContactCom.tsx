@@ -69,7 +69,7 @@ export default function ContactCom() {
     if (!contact) return null;
 
     return (
-        <section className="py-24 px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
+        <section className="py-12 md:py-24 md:px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
             {/* Blobs */}
             <div className="pointer-events-none absolute -top-40 -right-40 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
             <div className="pointer-events-none absolute -bottom-24 -left-24 h-87.5 w-87.5 rounded-full bg-rose-200/12 blur-[100px]" />

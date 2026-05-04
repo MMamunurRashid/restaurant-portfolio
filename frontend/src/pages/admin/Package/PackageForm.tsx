@@ -71,7 +71,7 @@ export default function PackageForm() {
 
                 {/* Left Side: Main Content */}
                 <div className=" space-y-4">
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-primary/10 rounded-xl text-primary">
                                 <LayoutGrid size={24} />
@@ -176,7 +176,7 @@ export default function PackageForm() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 space-y-4">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100 space-y-4">
                         <button
                             disabled={isLoading || isUpdating}
                             type="submit"

@@ -21,7 +21,7 @@ export default function OurTeam() {
     const categories = category?.data || [];
 
     return (
-        <section className="py-24 bg-white overflow-hidden relative">
+        <section className="py-12 md:py-24 bg-white overflow-hidden relative">
             {/* Background Decorative Text */}
             <div className="absolute top-10 left-0 w-full overflow-hidden pointer-events-none opacity-[0.03] select-none">
                 <h2 className="text-[20vw] font-black uppercase leading-none whitespace-nowrap">
@@ -29,7 +29,7 @@ export default function OurTeam() {
                 </h2>
             </div>
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto md:px-6 relative z-10">
                 {/* Header Section */}
                 <div className="flex flex-col items-center text-center mb-10">
                     <motion.div
@@ -97,7 +97,7 @@ function CategoryButton({ label, active, onClick }: { label: string, active: boo
     return (
         <button
             onClick={onClick}
-            className={`px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 border
+            className={`px-3 py-2.5 md:px-8 md:py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 border
                 ${active
                     ? 'bg-primary text-white border-primary shadow-xl scale-105'
                     : 'bg-white text-slate-400 border-slate-100 hover:border-primary hover:text-primary'

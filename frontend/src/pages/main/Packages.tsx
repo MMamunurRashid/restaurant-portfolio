@@ -80,7 +80,7 @@ export default function AllPackagesPage() {
         {/* Stats bar */}
         {!isLoading && packages.length > 0 && (
           <motion.div
-            className="mb-12 flex w-fit items-center gap-8 rounded-2xl border border-stone-200 bg-white/80 backdrop-blur-sm px-8 py-5 shadow-sm"
+            className="mb-12 flex w-fit items-center gap-1 md:gap-8 rounded-2xl border border-stone-200 bg-white/80 backdrop-blur-sm px-8 py-5 shadow-sm"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}

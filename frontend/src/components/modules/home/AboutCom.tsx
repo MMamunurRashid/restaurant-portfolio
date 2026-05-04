@@ -34,7 +34,7 @@ export default function AboutCom() {
     return (
         <section
             ref={containerRef}
-            className="relative py-24 px-4 bg-linear-to-br from-white via-rose-50/30 to-orange-50/20 overflow-hidden"
+            className="relative py-12 md:py-24 md:px-4 bg-linear-to-br from-white via-rose-50/30 to-orange-50/20 overflow-hidden"
         >
             {/* Background blobs */}
             <div className="pointer-events-none absolute -top-40 -right-40 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
@@ -126,13 +126,13 @@ export default function AboutCom() {
 
                         {/* Stats — only on non-about page (floating card covers on about page) */}
                         {!isAboutPage && counters.length > 0 && (
-                            <div className="grid grid-cols-3 gap-4 mb-10">
+                            <div className="grid grid-cols-3 gap-2 md:gap-4 mb-10">
                                 {counters.slice(0, 3).map((item: any, i: number) => (
                                     <div
                                         key={i}
-                                        className="group rounded-2xl border border-stone-100 bg-white p-4 text-center hover:border-[#CC826C]/25 hover:bg-[#CC826C]/4 transition-all duration-300"
+                                        className="group rounded-2xl border border-stone-100 bg-white p-2 md:p-4 text-center hover:border-[#CC826C]/25 hover:bg-[#CC826C]/4 transition-all duration-300"
                                     >
-                                        <p className="font-sans text-3xl font-bold text-stone-800 group-hover:text-[#CC826C] transition-colors leading-none">
+                                        <p className="font-sans text-2xl md:text-3xl font-bold text-stone-800 group-hover:text-[#CC826C] transition-colors leading-none">
                                             {item.count}
                                             <span className="text-[#CC826C] text-lg">+</span>
                                         </p>

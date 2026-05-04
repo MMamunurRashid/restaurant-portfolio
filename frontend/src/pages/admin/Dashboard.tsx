@@ -1,13 +1,16 @@
 import type { IMessage } from '@/interface/messageInterface';
+import { useGetAppointmentCountQuery } from '@/redux/features/appointment/appointmentApi';
 import { useGetBlogCountQuery } from '@/redux/features/blog/blogApi';
 import { useGetAllMessageQuery, useGetMessageCountQuery } from '@/redux/features/contactMessage/contactMessageApi';
+import { useGetPackageCountQuery } from '@/redux/features/packages/packagesApi';
 import { useGetServiceCountQuery } from '@/redux/features/service/serviceApi';
 import { useGetTeamCountQuery } from '@/redux/features/team/teamApi';
-import { useGetUserCountQuery } from '@/redux/features/user/userApi';
 import { useAppSelector } from '@/redux/hook/hooks';
 import {
-    Building2, MessageSquare, Users, BookOpen,
-    TrendingUp, User, ArrowRight, Calendar, Bell
+    MessageSquare, Users, BookOpen,
+    TrendingUp, ArrowRight, Calendar, Bell,
+    Scissors,
+    NotebookPen
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -15,18 +18,20 @@ export default function Dashboard() {
     const { loggedUser } = useAppSelector((state) => state.auth);
     const { data: serviceCount } = useGetServiceCountQuery({});
     const { data: messageCount } = useGetMessageCountQuery({});
-    const { data: userCount } = useGetUserCountQuery({});
     const { data: blogCount } = useGetBlogCountQuery({});
     const { data: teamCount } = useGetTeamCountQuery({});
+    const { data: appointmentCount } = useGetAppointmentCountQuery({});
+    const { data: packagesCount } = useGetPackageCountQuery({});
 
     const { data: message } = useGetAllMessageQuery({ limit: 6 });
     const messages = message?.data || [];
 
     const stats = [
-        { label: 'Total Services', count: serviceCount?.data?.totalService || 0, icon: Building2, color: 'text-indigo-600', bg: 'bg-indigo-50', link: '/admin/projects/all' },
+        { label: 'Appointments', count: appointmentCount?.data?.totalAppointments || 0, icon: Calendar, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/appointments/all' },
+        { label: 'Total Services', count: serviceCount?.data?.totalService || 0, icon: Scissors, color: 'text-indigo-600', bg: 'bg-indigo-50', link: '/admin/projects/all' },
+        { label: 'Total Packages', count: packagesCount?.data?.totalPackages || 0, icon: NotebookPen, color: 'text-purple-600', bg: 'bg-purple-50', link: '/admin/packages/all' },
         { label: 'Unread Messages', count: messageCount?.data?.unreadMessages || 0, icon: MessageSquare, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/contact-message' },
         { label: 'Active Blogs', count: blogCount?.data?.totalBlogs || 0, icon: BookOpen, color: 'text-orange-600', bg: 'bg-orange-50', link: '/admin/blogs/all' },
-        { label: 'System Users', count: userCount?.data?.totalUsers || 0, icon: User, color: 'text-rose-600', bg: 'bg-rose-50', link: '/admin/user/all' },
     ];
 
     return (
@@ -51,7 +56,7 @@ export default function Dashboard() {
             </div>
 
             {/* 2. Enhanced Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 {stats.map((stat, idx) => (
                     <Link
                         key={idx}

@@ -145,7 +145,7 @@ export default function ServiceForm() {
 
                 {/* Left Side: Main Content */}
                 <div className="lg:col-span-8 space-y-4">
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-primary/10 rounded-xl text-primary">
                                 <LayoutGrid size={24} />
@@ -191,7 +191,7 @@ export default function ServiceForm() {
                     </div>
 
                     {/* Gallery Section */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
                         <h2 className="text-lg font-bold text-slate-800 mb-4">Service Gallery</h2>
                         <div
                             onClick={() => document.getElementById('gallery-input')?.click()}
@@ -227,7 +227,7 @@ export default function ServiceForm() {
                 {/* Right Side: Sidebar */}
                 <div className="lg:col-span-4 space-y-4">
                     {/* Icon Upload */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
                         <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-widest">Service Icon</h2>
                         <div
                             onClick={() => iconInputRef.current?.click()}
@@ -244,7 +244,7 @@ export default function ServiceForm() {
                     </div>
 
                     {/* Thumbnail Upload */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
                         <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-widest">Featured Image</h2>
                         <div
                             onClick={() => thumbInputRef.current?.click()}
@@ -263,7 +263,7 @@ export default function ServiceForm() {
                     </div>
 
                     {/* Status & Action */}
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 space-y-4">
+                    <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100 space-y-4">
                         <button
                             disabled={isLoading || isUpdating}
                             type="submit"

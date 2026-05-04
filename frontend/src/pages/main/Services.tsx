@@ -11,7 +11,7 @@ export default function ServicesPage() {
         <div className="min-h-screen bg-linear-to-br from-rose-50 via-white to-orange-50/20">
 
             {/* Hero */}
-            <section className="relative py-28 px-4 overflow-hidden">
+            <section className="relative py-14 md:py-28 md:px-4 overflow-hidden">
                 {/* Blobs */}
                 <div className="pointer-events-none absolute -top-32 -right-32 h-125 w-125 rounded-full bg-[#CC826C]/10 blur-[120px]" />
                 <div className="pointer-events-none absolute bottom-0 left-0 h-75 w-75 rounded-full bg-rose-200/20 blur-[80px]" />
@@ -41,7 +41,7 @@ export default function ServicesPage() {
             </section>
 
             {/* Cards */}
-            <section className="pb-24 px-4">
+            <section className="pb-12 md:pb-24 md:px-4">
                 <div className="container">
                     <ServicesCard />
                 </div>
