@@ -3,6 +3,11 @@ export type ISocial = {
   url: string;
 };
 
+export type IOfficeHours = {
+  day: string;
+  hours: string;
+};
+
 export type IContact = {
   title: string;
   subTitle: string;
@@ -13,4 +18,5 @@ export type IContact = {
   whatsappLink: string;
   messengerLink?: string;
   socials: ISocial[];
+  officeHours: IOfficeHours[];
 };

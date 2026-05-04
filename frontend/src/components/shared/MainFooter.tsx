@@ -33,6 +33,7 @@ const iconMap: Record<string, React.ReactNode> = {
 const menus = [
     { name: "Home",         link: "/" },
     { name: "Our Services", link: "/services" },
+    { name: "Our Packages", link: "/packages" },
     { name: "About Us",     link: "/about-us" },
     { name: "Gallery",      link: "/gallery" },
     { name: "Get in Touch", link: "/contact-us" },
@@ -54,11 +55,11 @@ export default function MainFooter() {
     return (
         <footer className="relative bg-stone-900 text-white overflow-hidden">
             {/* Top accent line */}
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#CC826C]/50 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#CC826C]/50 to-transparent" />
 
             {/* Background glows */}
-            <div className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-[#CC826C]/8 blur-[130px]" />
-            <div className="pointer-events-none absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-rose-900/10 blur-[100px]" />
+            <div className="pointer-events-none absolute top-0 right-0 h-125 w-125 rounded-full bg-[#CC826C]/8 blur-[130px]" />
+            <div className="pointer-events-none absolute bottom-0 left-0 h-75 w-75 rounded-full bg-rose-900/10 blur-[100px]" />
 
             {/* ── CTA Banner ── */}
             <div className="relative z-10 border-b border-white/6">
@@ -216,14 +217,11 @@ export default function MainFooter() {
                             Working Hours
                         </p>
                         <div className="flex flex-col gap-4">
-                            {[
-                                { day: "Saturday – Thursday", time: "10:00 AM – 8:00 PM" },
-                                { day: "Friday",              time: "Closed" },
-                            ].map((row) => (
+                            { contact?.officeHours?.map((row: any) => (
                                 <div key={row.day} className="flex flex-col gap-1">
                                     <p className="text-xs text-white/40">{row.day}</p>
-                                    <p className={`text-sm font-semibold ${row.time === "Closed" ? "text-[#dc1f52]" : "text-white/70"}`}>
-                                        {row.time}
+                                    <p className={`text-sm font-semibold ${row.hours === "Closed" ? "text-[#dc1f52]" : "text-white/70"}`}>
+                                        {row.hours}
                                     </p>
                                 </div>
                             ))}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Phone, MapPin, Calendar, Clock, ArrowRight, ShieldCheck, Mail, Package, Sparkles } from 'lucide-react';
+import { User, Phone, MapPin, Calendar, Clock, ArrowRight, ShieldCheck, Mail, Package, Sparkles, Clock10 } from 'lucide-react';
 import { useGetContactQuery } from '@/redux/features/contact/contactApi';
 import { useGetAllPackageQuery } from '@/redux/features/packages/packagesApi';
 import { useLocation } from 'react-router-dom';
@@ -171,6 +171,36 @@ export default function Appointment() {
                                 <ContactLine icon={<MapPin />} label="Our Location" value={contactData?.data?.address} />
                             </div>
                         </Card>
+
+                        {
+                            contactData?.data?.officeHours?.length ? (
+                                <>
+                                    <Card className="rounded-3xl border-stone-100 bg-white shadow-sm p-7 relative overflow-hidden">
+                                        <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#CC826C]/6" />
+                                        <h3 className="font-serif text-lg font-normal text-stone-800 mb-3 flex items-center gap-2">
+                                            <Clock10 size={17} className="text-[#CC826C]" />
+                                            Office Hours
+                                        </h3>
+                                        <div className="flex flex-col gap-3">
+                                            {contactData?.data?.officeHours?.map((item: any, i: number) => (
+                                                <div key={i} className="flex items-center justify-between gap-4">
+                                                    <span className="text-sm font-bold text-stone-800">{item.day}</span>
+                                                    <span
+                                                        className={`text-sm font-medium tabular-nums transition-colors
+                                                                ${item.hours === "Closed" || item.hours === "closed"
+                                                                ? "text-red-600"
+                                                                : "text-stone-600"
+                                                            }`}
+                                                    >
+                                                        {item.hours}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Card>
+                                </>
+                            ) : null
+                        }
 
                         {/* Note card */}
                         <Card className="rounded-3xl border-[#CC826C]/15 bg-[#CC826C]/5 shadow-none p-6">

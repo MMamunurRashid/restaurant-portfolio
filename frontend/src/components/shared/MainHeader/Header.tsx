@@ -10,6 +10,7 @@ import { ArrowRight, Calendar } from "lucide-react";
 const navLinks = [
     { name: "Home",       href: "/" },
     { name: "Services",   href: "/services" },
+    { name: "Packages",   href: "/packages" },
     { name: "About Us",   href: "/about-us" },
     { name: "Gallery",    href: "/gallery" },
     { name: "Blogs",      href: "/blogs" },

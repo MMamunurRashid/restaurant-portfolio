@@ -11,4 +11,8 @@ export type IContact = {
     icon: string;
     url: string;
   }[];
+  officeHours: {
+    day: string;
+    hours: string;
+  }[];
 };

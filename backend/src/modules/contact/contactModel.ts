@@ -16,6 +16,12 @@ const contactSchema = new Schema<IContact>({
       url: { type: String, required: true },
     },
   ],
+  officeHours: [
+    {
+      day: { type: String, required: true },
+      hours: { type: String, required: true },
+    },
+  ],
 });
 
 export const Contact = model<IContact>('Contact', contactSchema);

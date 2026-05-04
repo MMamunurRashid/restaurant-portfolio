@@ -1,35 +1,28 @@
 import { useForm, useFieldArray, type SubmitHandler, Controller } from 'react-hook-form';
-import {
-    MessageSquare, Plus, Trash2, Save, Info, Map,
-    Facebook, Instagram, Twitter, Linkedin, Youtube, Github, Loader2
-} from 'lucide-react';
+import { Plus, Trash2, Save, Info, Map, Loader2 } from 'lucide-react';
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube, FaGithub, FaWhatsapp } from 'react-icons/fa';
+import { SiTiktok } from 'react-icons/si';
 import type { IContact } from '@/interface/contactInterface';
 import { useAddContactMutation, useGetContactQuery, useUpdateContactMutation } from '@/redux/features/contact/contactApi';
 import type { TResponse } from '@/interface/globalInterface';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 
-// Custom TikTok Icon
-export const TikTokIcon = ({ size = 16 }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.47V18c0 1.32-.43 2.67-1.32 3.66-1.57 1.75-4.43 2.06-6.38 1.05-2.01-1.04-3-3.6-2.15-5.71.74-1.83 2.82-2.9 4.75-2.58.11-1.33.04-2.67.04-4-.01 0-.01 0-.01-.01V12c-2.32-.01-4.66.01-6.99-.01-.08-1.54-.64-3.11-1.78-4.2-1.13-1.12-2.73-1.63-4.29-1.8V1.95c1.45.17 2.91.6 4.16 1.48V.02z" />
-    </svg>
-);
-
 const SOCIAL_OPTIONS = [
-    { label: 'Facebook', value: 'facebook', icon: <Facebook size={16} className="text-blue-600" /> },
-    { label: 'Instagram', value: 'instagram', icon: <Instagram size={16} className="text-pink-600" /> },
-    { label: 'Twitter / X', value: 'twitter', icon: <Twitter size={16} className="text-slate-900" /> },
-    { label: 'LinkedIn', value: 'linkedin', icon: <Linkedin size={16} className="text-blue-700" /> },
-    { label: 'YouTube', value: 'youtube', icon: <Youtube size={16} className="text-red-600" /> },
-    { label: 'TikTok', value: 'tiktok', icon: <TikTokIcon size={16} /> },
-    { label: 'WhatsApp', value: 'whatsapp', icon: <MessageSquare size={16} className="text-emerald-500" /> },
-    { label: 'GitHub', value: 'github', icon: <Github size={16} className="text-slate-800" /> },
+    { label: 'Facebook', value: 'facebook', icon: <FaFacebook size={16} className="text-blue-600" /> },
+    { label: 'Instagram', value: 'instagram', icon: <FaInstagram size={16} className="text-pink-600" /> },
+    { label: 'Twitter / X', value: 'twitter', icon: <FaTwitter size={16} className="text-slate-900" /> },
+    { label: 'LinkedIn', value: 'linkedin', icon: <FaLinkedin size={16} className="text-blue-700" /> },
+    { label: 'YouTube', value: 'youtube', icon: <FaYoutube size={16} className="text-red-600" /> },
+    { label: 'TikTok', value: 'tiktok', icon: <SiTiktok size={16} /> },
+    { label: 'WhatsApp', value: 'whatsapp', icon: <FaWhatsapp size={16} className="text-emerald-500" /> },
+    { label: 'GitHub', value: 'github', icon: <FaGithub size={16} className="text-slate-800" /> },
 ];
 
 export default function ContactUsManagement() {
     const { register, control, handleSubmit, reset } = useForm<IContact>();
     const { fields, append, remove } = useFieldArray({ control, name: "socials" });
+    const { fields: officeFields, append: appendOffice, remove: removeOffice } = useFieldArray({ control, name: "officeHours" });
     const { data } = useGetContactQuery({});
     const [addContact, { isLoading }] = useAddContactMutation();
     const [updateContact, { isLoading: uLoading }] = useUpdateContactMutation();
@@ -41,7 +34,8 @@ export default function ContactUsManagement() {
         if (contact) {
             reset({
                 ...contact,
-                socials: contact.socials || []
+                socials: contact.socials || [],
+                officeHours: contact.officeHours || []
             });
         }
     }, [contact, reset]);
@@ -135,6 +129,50 @@ export default function ContactUsManagement() {
                             <div>
                                 <label className={labelClasses}>Google Maps Embed URL</label>
                                 <input {...register("googleMapLink")} className={inputClasses} placeholder="Paste your map iframe src here" />
+                            </div>
+                            <div className="mt-4">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="font-bold text-slate-800">Office Hours</h3>
+                                    <button
+                                        type="button"
+                                        onClick={() => appendOffice({ day: '', hours: '' })}
+                                        className="p-1.5 bg-slate-100 hover:bg-primary hover:text-white rounded-md text-slate-600 transition-all"
+                                    >
+                                        <Plus size={18} />
+                                    </button>
+                                </div>
+
+                                <div className="space-y-3">
+                                    {officeFields.map((field, index) => (
+                                        <div key={field.id} className="grid grid-cols-1 md:grid-cols-6 gap-3 items-center">
+                                            <input
+                                                {...register(`officeHours.${index}.day` as const)}
+                                                placeholder="Day (e.g., Monday)"
+                                                className={`${inputClasses} md:col-span-2`}
+                                            />
+                                            <input
+                                                {...register(`officeHours.${index}.hours` as const)}
+                                                placeholder="Hours (e.g., 9:00 - 17:00)"
+                                                className={`${inputClasses} md:col-span-3`}
+                                            />
+                                            <div className="md:col-span-1 flex justify-end">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeOffice(index)}
+                                                    className="text-red-500 bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-red-50"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                    {officeFields.length === 0 && (
+                                        <div className="text-slate-400 text-sm italic border-2 border-dashed border-slate-100 rounded-lg p-3">
+                                            No office hours added yet.
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>

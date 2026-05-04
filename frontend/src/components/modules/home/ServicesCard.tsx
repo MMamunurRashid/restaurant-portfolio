@@ -53,7 +53,7 @@ export default function ServicesCard() {
                                     <img
                                         src={CONFIG.BASE_URL + service.icon}
                                         alt={service.title}
-                                        className="w-7 h-7 object-cover"
+                                        className="w-9.5 h-9.5 object-cover rounded-2xl"
                                         loading="lazy"
                                     />
                                 </div>

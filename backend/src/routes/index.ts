@@ -20,6 +20,7 @@ import { serviceRoute } from '../modules/service/serviceRoute';
 import { campaignRoute } from '../modules/campaign/campaignRoute';
 import { testimonialRoute } from '../modules/testimonial/testimonialRoute';
 import { packagesRoute } from '../modules/packages/packageRoutes';
+import { galleryRoute } from '../modules/gallery/galleryRoute';
 
 const moduleRoutes = [
   {
@@ -108,6 +109,11 @@ const moduleRoutes = [
   {
     path: '/packages',
     route: packagesRoute,
+  }
+  ,
+  {
+    path: '/gallery',
+    route: galleryRoute,
   }
 ];
 

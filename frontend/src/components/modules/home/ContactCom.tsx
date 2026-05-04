@@ -19,17 +19,17 @@ import { FieldInput } from "@/components/ui/inputField";
 import { FieldTextarea } from "@/components/ui/textAreaField";
 
 const iconMap: Record<string, React.ReactNode> = {
-    facebook:  <FaFacebookF size={14} />,
+    facebook: <FaFacebookF size={14} />,
     instagram: <FaInstagram size={14} />,
-    twitter:   <FaTwitter size={14} />,
-    linkedin:  <FaLinkedinIn size={14} />,
-    youtube:   <FaYoutube size={14} />,
-    whatsapp:  <FaWhatsapp size={14} />,
-    github:    <FaGithub size={14} />,
-    tiktok:    <FaTiktok size={14} />,
+    twitter: <FaTwitter size={14} />,
+    linkedin: <FaLinkedinIn size={14} />,
+    youtube: <FaYoutube size={14} />,
+    whatsapp: <FaWhatsapp size={14} />,
+    github: <FaGithub size={14} />,
+    tiktok: <FaTiktok size={14} />,
     pinterest: <FaPinterestP size={14} />,
-    snapchat:  <FaSnapchatGhost size={14} />,
-    default:   <FaGlobe size={14} />,
+    snapchat: <FaSnapchatGhost size={14} />,
+    default: <FaGlobe size={14} />,
 };
 
 export default function ContactCom() {
@@ -101,10 +101,39 @@ export default function ContactCom() {
                         <div className="flex flex-col gap-5">
                             <InfoItem icon={<Phone size={16} />} label="Phone" value={contact.phone?.split("|")[0]} link={`tel:${contact.phone?.split("|")[0]}`} />
                             <InfoItem icon={<Mail size={16} />} label="Email" value={contact.email?.split("|")[0]} link={`mailto:${contact.email?.split("|")[0]}`} />
-                            <InfoItem icon={<MapPin size={16} />} label="Location" value={contact.address} link={contact.googleMapLink} />
+                            <InfoItem icon={<MapPin size={16} />} label="Location" value={contact.address} />
                         </div>
 
                         <Separator className="bg-stone-100" />
+                        {/* office hours  */}
+                        {
+                            contact?.officeHours?.length ? (
+                                <>
+                                    <div>
+                                        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-stone-400 mb-4">
+                                            Office Hours
+                                        </p>
+                                        <div className="flex flex-col gap-3">
+                                            {contact?.officeHours?.map((item: any, i: number) => (
+                                                <div key={i} className="flex items-center justify-between gap-4">
+                                                    <span className="text-sm font-bold text-stone-800">{item.day}</span>
+                                                    <span
+                                                        className={`text-sm font-medium tabular-nums transition-colors
+                                                                ${item.hours === "Closed" || item.hours === "closed"
+                                                                ? "text-red-600"
+                                                                : "text-stone-600"
+                                                            }`}
+                                                    >
+                                                        {item.hours}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <Separator className="bg-stone-100" />
+                                </>
+                            ) : null
+                        }
 
                         {/* Socials */}
                         <div>

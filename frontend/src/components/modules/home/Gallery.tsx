@@ -46,7 +46,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         {Array.from({ length: max }).map((_, i) => (
                             <div
                                 key={i}
-                                className="aspect-[4/5] rounded-3xl bg-stone-100 animate-pulse"
+                                className="aspect-4/5 rounded-3xl bg-stone-100 animate-pulse"
                                 style={{ animationDelay: `${i * 0.07}s` }}
                             />
                         ))}
@@ -59,8 +59,8 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     return (
         <section className="py-24 px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
             {/* Blobs */}
-            <div className="pointer-events-none absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-[#CC826C]/6 blur-[120px]" />
-            <div className="pointer-events-none absolute -bottom-24 -left-24 h-[350px] w-[350px] rounded-full bg-rose-200/15 blur-[100px]" />
+            <div className="pointer-events-none absolute -top-32 -right-32 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
+            <div className="pointer-events-none absolute -bottom-24 -left-24 h-75 w-75 rounded-full bg-rose-200/15 blur-[100px]" />
 
             <div className="container mx-auto max-w-6xl relative z-10">
 
@@ -127,7 +127,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                 exit={{ opacity: 0, scale: 0.94 }}
                                 transition={{ duration: 0.45, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
                                 onClick={() => setSelectedImg(item.image)}
-                                className="group relative overflow-hidden rounded-3xl aspect-[4/5] cursor-pointer bg-stone-100 border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-stone-200/60 transition-shadow duration-400"
+                                className="group relative overflow-hidden rounded-3xl aspect-4/5 cursor-pointer bg-stone-100 border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-stone-200/60 transition-shadow duration-400"
                             >
                                 <img
                                     src={item.image}
