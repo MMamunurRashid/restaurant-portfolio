@@ -6,15 +6,14 @@ import "swiper/css/pagination";
 import { motion } from "framer-motion";
 import { useGetAllTestimonialQuery } from "@/redux/features/testimonial/testimonialApi";
 import type { ITestimonial } from "@/interface/testimonialInterface";
-import { CONFIG } from "@/config";
+import { Quote, Star } from "lucide-react";
+import { fallbackTestimonials, getCafeImageUrl } from "./cafeContent";
 
 export default function Testimonials() {
-  const { data, isLoading } = useGetAllTestimonialQuery({ limit: 10 });
-  const testimonials = data?.data || [];
+  const { data } = useGetAllTestimonialQuery({ limit: 10 });
+  const apiTestimonials: ITestimonial[] = data?.data || [];
+  const testimonials = apiTestimonials.length ? apiTestimonials : fallbackTestimonials;
 
-  if (isLoading || !testimonials?.length) return null;
-
-  // Animation Variants
   const containerVariant = {
     hidden: { opacity: 0 },
     visible: {
@@ -26,7 +25,7 @@ export default function Testimonials() {
   };
 
   const cardVariant = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 32 },
     visible: {
       opacity: 1,
       y: 0,
@@ -35,26 +34,27 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-16 bg-white relative overflow-hidden">
+    <section className="relative overflow-hidden bg-white py-14 md:px-4 md:py-24">
       <div className="container relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-12"
+          className="mx-auto mb-12 max-w-2xl text-center"
         >
-          <h4 className="text-secondary font-bold tracking-[5px] uppercase text-sm mb-3">
-            Testimonials
-          </h4>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900">
-            What Our <span className="text-secondary italic">Beauties Say</span>
+          <div className="mb-4 inline-flex items-center gap-2 border border-[#d75a3f]/25 bg-[#fff4ed] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#d75a3f]">
+            <Star size={13} fill="currentColor" />
+            Guest Notes
+          </div>
+          <h2 className="font-serif text-4xl font-normal leading-tight text-[#111827] md:text-6xl">
+            What guests say after the last course
           </h2>
-          <div className="w-20 h-1 bg-secondary mx-auto mt-6 rounded-full"></div>
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
+            Real dining impressions from coffee regulars, dinner guests, and private table hosts.
+          </p>
         </motion.div>
 
-        {/* Swiper Slider */}
         <motion.div
           variants={containerVariant}
           initial="hidden"
@@ -63,10 +63,10 @@ export default function Testimonials() {
         >
           <Swiper
             modules={[A11y, Autoplay, Pagination]}
-            spaceBetween={30}
+            spaceBetween={24}
             slidesPerView={1}
-            loop={true}
-            autoplay={{ delay: 4000, disableOnInteraction: false }}
+            loop={testimonials.length > 2}
+            autoplay={{ delay: 4200, disableOnInteraction: false }}
             pagination={{ clickable: true, dynamicBullets: true }}
             breakpoints={{
               768: { slidesPerView: 2 },
@@ -76,56 +76,38 @@ export default function Testimonials() {
           >
             {testimonials.map((item: ITestimonial, index: number) => (
               <SwiperSlide key={item?._id || index}>
-                <motion.div
+                <motion.article
                   variants={cardVariant}
-                  whileHover={{
-                    y: -8,
-                    transition: { duration: 0.3 },
-                  }}
-                  className="bg-gray-50 p-8 rounded-[40px] border border-gray-100 h-full flex flex-col justify-between group hover:border-secondary/30 transition-all duration-500"
+                  className="flex h-full min-h-[320px] flex-col justify-between rounded-lg border border-slate-200 bg-[#f7f8f4] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[#1f4f46]/35 hover:bg-white hover:shadow-xl hover:shadow-slate-200/60"
                 >
                   <div>
-                    {/* Quote Icon */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.2 }}
-                      className="text-secondary/20 mb-4"
-                    >
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        strokeWidth="0"
-                        viewBox="0 0 512 512"
-                        height="40"
-                        width="40"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M464 256h-80v-64c0-35.3 28.7-64 64-64h16V32h-16c-88.4 0-160 71.6-160 160v240h240V256zm-256 0h-80v-64c0-35.3 28.7-64 64-64h16V32h-16C103.6 32 32 103.6 32 192v240h240V256z"></path>
-                      </svg>
-                    </motion.div>
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center bg-white text-[#d75a3f] shadow-sm">
+                      <Quote size={19} />
+                    </div>
 
-                    <p className="text-gray-700 italic text-lg leading-relaxed mb-8">
+                    <p className="text-base leading-8 text-slate-700">
                       "{item?.review}"
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4 border-t border-gray-200 pt-6">
+                  <div className="mt-8 flex items-center gap-4 border-t border-slate-200 pt-5">
                     <img
-                      src={CONFIG.BASE_URL + item?.image}
+                      src={getCafeImageUrl(item?.image)}
                       alt={item?.name}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-secondary p-0.5"
+                      className="h-12 w-12 rounded-full object-cover"
                       loading="lazy"
-                      onError={(e: any) => (e.target.src = 'https://ui-avatars.com/api/?name=' + item?.name)}
+                      onError={(e) => {
+                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item?.name || "Guest")}`;
+                      }}
                     />
                     <div>
-                      <h5 className="font-bold text-gray-900">{item.name}</h5>
-                      <p className="text-xs text-secondary uppercase tracking-widest font-bold">
+                      <h5 className="font-bold text-[#111827]">{item.name}</h5>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#1f4f46]">
                         {item?.designation}
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </motion.article>
               </SwiperSlide>
             ))}
           </Swiper>

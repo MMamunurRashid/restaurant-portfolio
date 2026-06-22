@@ -1,33 +1,28 @@
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { ChefHat } from "lucide-react";
 import ServicesCard from "./ServicesCard";
 
 export default function Services() {
     return (
-        <section className="py-12 md:py-24 md:px-4 bg-rose-50/30 relative overflow-hidden">
-            {/* bg blobs */}
-            <div className="pointer-events-none absolute top-0 right-0 h-100 w-100 rounded-full bg-[#CC826C]/6 blur-[100px]" />
-            <div className="pointer-events-none absolute bottom-0 left-0 h-75 w-75 rounded-full bg-rose-200/15 blur-[80px]" />
-
+        <section className="relative overflow-hidden bg-[#f7f8f4] py-14 md:px-4 md:py-24">
             <div className="container relative z-10">
                 {/* Header */}
                 <motion.div
-                    className="mb-16 text-center"
+                    className="mx-auto mb-14 max-w-2xl text-center"
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#CC826C]/25 bg-[#CC826C]/8 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#CC826C]">
-                        <Sparkles size={12} />
-                        Our Expertise
+                    <div className="mb-4 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                        <ChefHat size={13} />
+                        Signature Menu
                     </div>
-                    <h2 className="font-serif text-5xl font-normal leading-tight tracking-tight text-stone-800 md:text-6xl">
-                        Exclusive{" "}
-                        <span className="italic text-[#CC826C]">Beauty Services</span>
+                    <h2 className="font-serif text-4xl font-normal leading-tight text-[#111827] md:text-6xl">
+                        Cafe classics, plated with a restaurant finish
                     </h2>
-                    <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-stone-500">
-                        From everyday care to luxury treatments, discover services tailored to make you feel your best.
+                    <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
+                        A concise menu for coffee breaks, brunch plans, business lunches, family dinners, and celebration tables.
                     </p>
                 </motion.div>
 

@@ -17,6 +17,7 @@ import {
 } from "react-icons/fa";
 import { FieldInput } from "@/components/ui/inputField";
 import { FieldTextarea } from "@/components/ui/textAreaField";
+import { fallbackContact } from "./cafeContent";
 
 const iconMap: Record<string, React.ReactNode> = {
     facebook: <FaFacebookF size={14} />,
@@ -34,13 +35,13 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default function ContactCom() {
     const { data } = useGetContactQuery({});
-    const contact = data?.data || {};
+    const contact = data?.data || fallbackContact;
     const [addMessage, { isLoading: isSubmitting }] = useAddMessageMutation();
 
     const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
     const set = (key: string) => (val: string) => setForm((prev) => ({ ...prev, [key]: val }));
 
-    const subTitle = contact?.subTitle || "";
+    const subTitle = contact?.subTitle || fallbackContact.subTitle;
     const { remainingTitle, highlightTitle } = useMemo(() => {
         const words = subTitle.split(" ");
         return {
@@ -66,14 +67,8 @@ export default function ContactCom() {
         }
     };
 
-    if (!contact) return null;
-
     return (
-        <section className="py-12 md:py-24 md:px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
-            {/* Blobs */}
-            <div className="pointer-events-none absolute -top-40 -right-40 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
-            <div className="pointer-events-none absolute -bottom-24 -left-24 h-87.5 w-87.5 rounded-full bg-rose-200/12 blur-[100px]" />
-
+        <section className="relative overflow-hidden bg-[#f7f8f4] py-14 md:px-4 md:py-24">
             <div className="container mx-auto max-w-6xl relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
 
@@ -87,41 +82,40 @@ export default function ContactCom() {
                     >
                         {/* Header */}
                         <div>
-                            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#CC826C]/25 bg-[#CC826C]/8 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#CC826C]">
+                            <div className="mb-5 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
                                 <Sparkles size={12} />
-                                {contact?.title || "Get In Touch"}
+                                {contact?.title || fallbackContact.title}
                             </div>
-                            <h2 className="font-serif text-5xl font-normal leading-[1.08] tracking-tight text-stone-800 md:text-6xl">
+                            <h2 className="font-serif text-4xl font-normal leading-[1.08] text-[#111827] md:text-6xl">
                                 {remainingTitle}{" "}
-                                <span className="italic text-[#CC826C]">{highlightTitle}</span>
+                                <span className="italic text-[#1f4f46]">{highlightTitle}</span>
                             </h2>
                         </div>
 
                         {/* Contact items */}
                         <div className="flex flex-col gap-5">
-                            <InfoItem icon={<Phone size={16} />} label="Phone" value={contact.phone?.split("|")[0]} link={`tel:${contact.phone?.split("|")[0]}`} />
+                            <InfoItem icon={<Phone size={16} />} label="Reservations" value={contact.phone?.split("|")[0]} link={`tel:${contact.phone?.split("|")[0]}`} />
                             <InfoItem icon={<Mail size={16} />} label="Email" value={contact.email?.split("|")[0]} link={`mailto:${contact.email?.split("|")[0]}`} />
                             <InfoItem icon={<MapPin size={16} />} label="Location" value={contact.address} />
                         </div>
 
-                        <Separator className="bg-stone-100" />
-                        {/* office hours  */}
+                        <Separator className="bg-slate-200" />
                         {
                             contact?.officeHours?.length ? (
                                 <>
                                     <div>
-                                        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-stone-400 mb-4">
-                                            Office Hours
+                                        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 mb-4">
+                                            Opening Hours
                                         </p>
                                         <div className="flex flex-col gap-3">
                                             {contact?.officeHours?.map((item: any, i: number) => (
                                                 <div key={i} className="flex items-center justify-between gap-4">
-                                                    <span className="text-sm font-bold text-stone-800">{item.day}</span>
+                                                    <span className="text-sm font-bold text-[#111827]">{item.day}</span>
                                                     <span
                                                         className={`text-sm font-medium tabular-nums transition-colors
                                                                 ${item.hours === "Closed" || item.hours === "closed"
                                                                 ? "text-red-600"
-                                                                : "text-stone-600"
+                                                                : "text-slate-600"
                                                             }`}
                                                     >
                                                         {item.hours}
@@ -130,15 +124,15 @@ export default function ContactCom() {
                                             ))}
                                         </div>
                                     </div>
-                                    <Separator className="bg-stone-100" />
+                                    <Separator className="bg-slate-200" />
                                 </>
                             ) : null
                         }
 
                         {/* Socials */}
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-stone-400 mb-4">
-                                Follow Our Journey
+                            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 mb-4">
+                                Follow the Table
                             </p>
                             <div className="flex flex-wrap gap-2.5">
                                 {contact?.socials?.map((social: ISocial, i: number) => (
@@ -149,7 +143,7 @@ export default function ContactCom() {
                                         rel="noreferrer"
                                         whileHover={{ y: -3 }}
                                         transition={{ duration: 0.2 }}
-                                        className="w-9 h-9 rounded-xl border border-stone-200 bg-white flex items-center justify-center text-stone-400 hover:bg-[#CC826C] hover:border-[#CC826C] hover:text-white shadow-sm transition-colors duration-200"
+                                        className="w-9 h-9 border border-slate-200 bg-white flex items-center justify-center text-slate-400 hover:bg-[#1f4f46] hover:border-[#1f4f46] hover:text-white shadow-sm transition-colors duration-200"
                                     >
                                         {iconMap[social.icon?.toLowerCase()] ?? iconMap.default}
                                     </motion.a>
@@ -166,9 +160,9 @@ export default function ContactCom() {
                         viewport={{ once: true }}
                         transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     >
-                        <Card className="rounded-3xl border-stone-100 bg-white shadow-md shadow-stone-100/80 p-8 md:p-12">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 mb-8">
-                                Send Us a Message
+                        <Card className="rounded-lg border-slate-200 bg-white shadow-md shadow-slate-200/70 p-6 md:p-10">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-8">
+                                Reservation Notes
                             </p>
 
                             <form onSubmit={handleSubmit} className="space-y-7">
@@ -202,7 +196,7 @@ export default function ContactCom() {
 
                                 <FieldTextarea
                                     label="How can we help?"
-                                    placeholder="Write your message here…"
+                                    placeholder="Tell us your preferred date, time, guest count, or event details."
                                     icon={<MessageSquare size={16} />}
                                     value={form.message}
                                     onChange={set("message")}
@@ -213,7 +207,7 @@ export default function ContactCom() {
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full gap-2.5 bg-[#CC826C] text-white hover:bg-[#b8705a] shadow-sm shadow-[#CC826C]/20 rounded-2xl py-6 font-semibold tracking-wide text-sm transition-all duration-300 group disabled:opacity-60"
+                                    className="w-full gap-2.5 bg-[#d75a3f] text-white hover:bg-[#c94830] shadow-sm shadow-slate-200 rounded-lg py-6 font-semibold tracking-wide text-sm transition-all duration-300 group disabled:opacity-60"
                                 >
                                     {isSubmitting ? (
                                         <>
@@ -222,7 +216,7 @@ export default function ContactCom() {
                                         </>
                                     ) : (
                                         <>
-                                            Send Message
+                                            Send Reservation Request
                                             <Send size={14} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                         </>
                                     )}
@@ -247,20 +241,20 @@ function InfoItem({ icon, label, value, link }: {
     const Wrapper = link ? "a" : "div";
     return (
         <Wrapper
-            href={link}
-            target={link?.startsWith("http") ? "_blank" : undefined}
-            rel="noreferrer"
-            className="group flex items-center gap-4 cursor-pointer"
-        >
-            <div className="w-10 h-10 shrink-0 rounded-2xl border border-stone-100 bg-white flex items-center justify-center text-stone-400 shadow-sm group-hover:bg-[#CC826C] group-hover:border-[#CC826C] group-hover:text-white transition-all duration-300">
-                {icon}
-            </div>
-            <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-stone-300 mb-0.5">{label}</p>
-                <p className="text-sm font-semibold text-stone-700 group-hover:text-[#CC826C] transition-colors duration-250">
-                    {value || "N/A"}
-                </p>
-            </div>
+        href={link}
+        target={link?.startsWith("http") ? "_blank" : undefined}
+        rel="noreferrer"
+        className="group flex items-center gap-4 cursor-pointer"
+    >
+        <div className="w-10 h-10 shrink-0 border border-slate-200 bg-white flex items-center justify-center text-slate-400 shadow-sm group-hover:bg-[#1f4f46] group-hover:border-[#1f4f46] group-hover:text-white transition-all duration-300">
+            {icon}
+        </div>
+        <div>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">{label}</p>
+            <p className="text-sm font-semibold text-slate-700 group-hover:text-[#1f4f46] transition-colors duration-250">
+                {value || "N/A"}
+            </p>
+        </div>
         </Wrapper>
     );
 }

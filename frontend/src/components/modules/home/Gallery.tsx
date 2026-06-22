@@ -1,15 +1,18 @@
 import { useGetAllGalleryQuery } from "@/redux/features/gallery/galleryApi";
 import { useState, useMemo } from "react";
-import { CONFIG } from "@/config";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Sparkles, ImageOff } from "lucide-react";
+import { X, ZoomIn, Camera, ImageOff, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { fallbackGalleries, getCafeImageUrl } from "./cafeContent";
 
 export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolean; max?: number }) {
     const [filter, setFilter] = useState("All");
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
     const { data, isLoading } = useGetAllGalleryQuery({ fields: "title,images" });
-    const galleries = useMemo(() => data?.data || [], [data?.data]);
+    const apiGalleries = useMemo(() => data?.data || [], [data?.data]);
+    const galleries = apiGalleries.length ? apiGalleries : fallbackGalleries;
+    const showSkeleton = isLoading && !apiGalleries.length;
 
     const categories = useMemo(() => {
         const titles = galleries.map((g: any) => g.title);
@@ -20,15 +23,10 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
         const imgs: any[] = [];
         galleries.forEach((gallery: any) => {
             gallery.images?.forEach((imgObj: any, i: number) => {
-                const raw = imgObj?.image || '';
-                const imageUrl = raw.startsWith('http')
-                    ? raw
-                    : `${CONFIG.BASE_URL.replace(/\/$/, '')}/${raw.replace(/^\/+/, '')}`;
-
                 imgs.push({
                     id: `${gallery._id}-${i}`,
                     category: gallery.title,
-                    image: imageUrl,
+                    image: getCafeImageUrl(imgObj?.image),
                     title: imgObj?.title || gallery.title,
                 });
             });
@@ -43,15 +41,15 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
 
     const displayImages = showAll ? filteredImages : filteredImages.slice(0, max);
 
-    if (isLoading) {
+    if (showSkeleton) {
         return (
-            <section className="py-24 px-4 bg-linear-to-br from-rose-50 via-white to-orange-50/20">
+            <section className="bg-[#f7f8f4] py-14 md:px-4 md:py-24">
                 <div className="container mx-auto max-w-6xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                         {Array.from({ length: max }).map((_, i) => (
                             <div
                                 key={i}
-                                className="aspect-4/5 rounded-3xl bg-stone-100 animate-pulse"
+                                className="aspect-[4/5] rounded-lg bg-slate-200/70 animate-pulse"
                                 style={{ animationDelay: `${i * 0.07}s` }}
                             />
                         ))}
@@ -62,37 +60,29 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     }
 
     return (
-        <section className="py-12 md:py-24 md:px-4 bg-linear-to-br from-rose-50/40 via-white to-orange-50/20 relative overflow-hidden">
-            {/* Blobs */}
-            <div className="pointer-events-none absolute -top-32 -right-32 h-125 w-125 rounded-full bg-[#CC826C]/6 blur-[120px]" />
-            <div className="pointer-events-none absolute -bottom-24 -left-24 h-75 w-75 rounded-full bg-rose-200/15 blur-[100px]" />
-
-            <div className="container mx-auto max-w-6xl relative z-10">
-
-                {/* Header */}
+        <section className="relative overflow-hidden bg-[#f7f8f4] py-14 md:px-4 md:py-24">
+            <div className="container relative z-10 mx-auto max-w-6xl">
                 <motion.div
-                    className="text-center mb-14"
+                    className="mx-auto mb-12 max-w-2xl text-center"
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#CC826C]/25 bg-[#CC826C]/8 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#CC826C]">
-                        <Sparkles size={12} />
-                        Portfolio
+                    <div className="mb-4 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                        <Camera size={13} />
+                        Gallery
                     </div>
-                    <h2 className="font-serif text-5xl font-normal leading-tight tracking-tight text-stone-800 md:text-6xl">
-                        The Beauty{" "}
-                        <span className="italic text-[#CC826C]">Canvas</span>
+                    <h2 className="font-serif text-4xl font-normal leading-tight text-[#111827] md:text-6xl">
+                        A look inside Prestige
                     </h2>
-                    <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-stone-400">
-                        A curated collection of our finest work — beauty captured, one frame at a time.
+                    <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
+                        Interior details, plated favorites, coffee moments, and the dining atmosphere guests come back for.
                     </p>
                 </motion.div>
 
-                {/* Filter tabs */}
                 <motion.div
-                    className="flex flex-wrap justify-center gap-2 mb-12"
+                    className="mb-10 flex flex-wrap justify-center gap-2"
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -102,60 +92,53 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         <button
                             key={cat}
                             onClick={() => setFilter(cat)}
-                            className={`relative px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                            className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${
                                 filter === cat
-                                    ? "bg-[#CC826C] text-white shadow-md shadow-[#CC826C]/25"
-                                    : "bg-white border border-stone-200 text-stone-400 hover:border-[#CC826C]/40 hover:text-[#CC826C]"
+                                    ? "bg-[#1f4f46] text-white"
+                                    : "border border-slate-200 bg-white text-slate-500 hover:border-[#1f4f46]/35 hover:text-[#1f4f46]"
                             }`}
                         >
-                            {filter === cat && (
-                                <motion.span
-                                    layoutId="filter-pill"
-                                    className="absolute inset-0 rounded-full bg-[#CC826C] -z-10"
-                                    transition={{ type: "spring", stiffness: 300, damping: 28 }}
-                                />
-                            )}
                             {cat}
                         </button>
                     ))}
                 </motion.div>
 
-                {/* Image grid */}
-                <motion.div layout className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 md:gap-5 gap-2">
+                <motion.div layout className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
                     <AnimatePresence mode="popLayout">
                         {displayImages.map((item, i) => (
                             <motion.div
                                 key={item.id}
                                 layout
-                                initial={{ opacity: 0, scale: 0.94, y: 20 }}
+                                initial={{ opacity: 0, scale: 0.96, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.94 }}
-                                transition={{ duration: 0.45, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                                exit={{ opacity: 0, scale: 0.96 }}
+                                transition={{ duration: 0.45, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
                                 onClick={() => setSelectedImg(item.image)}
-                                className="group relative overflow-hidden rounded-3xl aspect-4/5 cursor-pointer bg-stone-100 border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-stone-200/60 transition-shadow duration-400"
+                                className={`group relative cursor-pointer overflow-hidden rounded-lg bg-slate-100 shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-slate-200/70 ${
+                                    i === 0 && !showAll ? "md:col-span-2 md:row-span-2" : ""
+                                }`}
                             >
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
-                                    loading="lazy"
-                                />
+                                <div className="aspect-[4/5] h-full w-full">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        loading="lazy"
+                                    />
+                                </div>
 
-                                {/* Hover overlay */}
-                                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                                <div className="absolute inset-0 bg-linear-to-t from-[#111827]/70 via-[#111827]/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
 
-                                {/* Bottom info */}
-                                <div className="absolute inset-x-0 bottom-0 p-5 translate-y-3 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-400">
-                                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/60 mb-1">
+                                <div className="absolute bottom-4 left-4 right-4">
+                                    <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
                                         {item.category}
                                     </p>
-                                    <h3 className="font-serif text-lg font-normal text-white leading-snug">
+                                    <h3 className="font-serif text-lg font-normal leading-snug text-white md:text-xl">
                                         {item.title}
                                     </h3>
                                 </div>
 
-                                {/* Zoom button */}
-                                <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-[#CC826C] opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-md">
+                                <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center bg-white text-[#1f4f46] opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100">
                                     <ZoomIn size={15} />
                                 </div>
                             </motion.div>
@@ -163,24 +146,34 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                     </AnimatePresence>
                 </motion.div>
 
-                {/* Empty state */}
                 {filteredImages.length === 0 && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex flex-col items-center justify-center py-24 gap-4"
+                        className="flex flex-col items-center justify-center gap-4 py-20"
                     >
-                        <div className="rounded-full border border-stone-100 bg-stone-50 p-5">
-                            <ImageOff size={26} className="text-stone-300" />
+                        <div className="border border-slate-200 bg-white p-5">
+                            <ImageOff size={26} className="text-slate-300" />
                         </div>
-                        <p className="font-serif italic text-stone-400 text-lg">
+                        <p className="font-serif text-lg italic text-slate-400">
                             No images in this category yet.
                         </p>
                     </motion.div>
                 )}
+
+                {!showAll && (
+                    <div className="mt-10 text-center">
+                        <Link
+                            to="/gallery"
+                            className="inline-flex items-center gap-2 border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-[#1f4f46] transition-all hover:border-[#1f4f46]/40"
+                        >
+                            View full gallery
+                            <ArrowRight size={15} />
+                        </Link>
+                    </div>
+                )}
             </div>
 
-            {/* Lightbox */}
             <AnimatePresence>
                 {selectedImg && (
                     <motion.div
@@ -188,32 +181,30 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-lg p-4"
+                        className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
                         onClick={() => setSelectedImg(null)}
                     >
-                        {/* Close */}
                         <button
-                            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 border border-white/15 text-white hover:bg-[#CC826C] hover:border-[#CC826C] transition-all duration-200"
+                            className="absolute right-6 top-6 flex h-10 w-10 items-center justify-center border border-white/20 bg-white/10 text-white transition-all duration-200 hover:bg-[#d75a3f]"
                             onClick={() => setSelectedImg(null)}
+                            aria-label="Close preview"
                         >
                             <X size={18} />
                         </button>
 
                         <motion.div
-                            initial={{ scale: 0.85, opacity: 0, y: 20 }}
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.85, opacity: 0, y: 20 }}
-                            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                             onClick={(e) => e.stopPropagation()}
                             className="relative"
                         >
                             <img
                                 src={selectedImg}
                                 alt="Preview"
-                                className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border border-white/10 object-contain"
+                                className="max-h-[85vh] max-w-full rounded-lg border border-white/10 object-contain shadow-2xl"
                             />
-                            {/* Gloss */}
-                            <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-transparent via-white/4 to-white/8 pointer-events-none" />
                         </motion.div>
                     </motion.div>
                 )}

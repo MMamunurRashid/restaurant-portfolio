@@ -7,11 +7,15 @@ import CampaignBanner from "@/components/modules/home/CampaignBanner";
 import Gallery from "@/components/modules/home/Gallery";
 import Testimonials from "@/components/modules/home/Testimonials";
 import PackagesCom from "@/components/modules/home/PackagesCom";
+import { useEffect } from "react";
 
 
 export default function Home() {
     usePageView("Home");
-    window.scrollTo(0, 0);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>

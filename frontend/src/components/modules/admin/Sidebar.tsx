@@ -62,7 +62,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         { icon: FileText, label: 'Terms & Conditions', href: "/admin/terms-conditions" },
         {
             icon: Settings,
-            label: 'Cafe & Restaurant Settings',
+            label: 'Settings',
             children: [
                 { label: 'General Info', href: '/admin/setting/general' },
                 { label: 'Hero Banners', href: '/admin/setting/banner/all' },

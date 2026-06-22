@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone, ArrowUpRight, Sparkles } from "lucide-react";
 import type { ISocial } from "@/interface/contactInterface";
 import { useGetGeneralSettingQuery } from "@/redux/features/generalSetting/generalSettingApi";
-import { CONFIG } from "@/config";
 import { useMemo } from "react";
 import FloatingActionButton from "./FloatingActionButton";
 import { Separator } from "@/components/ui/separator";
+import { fallbackContact, getCafeImageUrl } from "@/components/modules/home/cafeContent";
 
 // React Icons
 import {
@@ -32,20 +32,22 @@ const iconMap: Record<string, React.ReactNode> = {
 
 const menus = [
     { name: "Home",         link: "/" },
-    { name: "Our Services", link: "/services" },
-    { name: "Our Packages", link: "/packages" },
-    { name: "About Us",     link: "/about-us" },
+    { name: "Menu",         link: "/services" },
+    { name: "Dining Sets",  link: "/packages" },
+    { name: "About",        link: "/about-us" },
     { name: "Gallery",      link: "/gallery" },
-    { name: "Get in Touch", link: "/contact-us" },
-    { name: "Latest Blogs", link: "/blogs" },
+    { name: "Contact",      link: "/contact-us" },
+    { name: "Journal",      link: "/blogs" },
 ];
 
 export default function MainFooter() {
     const currentYear = new Date().getFullYear();
     const { data } = useGetContactQuery({});
-    const contact = data?.data || {};
+    const contact = data?.data || fallbackContact;
     const { data: setting } = useGetGeneralSettingQuery({});
     const generalSetting = setting?.data || {};
+    const logoSrc = generalSetting?.logo ? getCafeImageUrl(generalSetting.logo) : "/images/logo.png";
+    const displayEmail = contact?.email?.split("|")[0]?.trim() || fallbackContact.email;
 
     const displayPhone = useMemo(() => {
         if (!contact?.phone) return "";
@@ -53,16 +55,12 @@ export default function MainFooter() {
     }, [contact.phone]);
 
     return (
-        <footer className="relative bg-stone-900 text-white overflow-hidden">
+        <footer className="relative bg-[#111827] text-white overflow-hidden">
             {/* Top accent line */}
-            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#CC826C]/50 to-transparent" />
-
-            {/* Background glows */}
-            <div className="pointer-events-none absolute top-0 right-0 h-125 w-125 rounded-full bg-[#CC826C]/8 blur-[130px]" />
-            <div className="pointer-events-none absolute bottom-0 left-0 h-75 w-75 rounded-full bg-rose-900/10 blur-[100px]" />
+            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#d75a3f]/60 to-transparent" />
 
             {/* ── CTA Banner ── */}
-            <div className="relative z-10 border-b border-white/6">
+            <div className="relative z-10 border-b border-white/10">
                 <div className="container py-20">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
 
@@ -74,13 +72,13 @@ export default function MainFooter() {
                             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                             className="max-w-xl"
                         >
-                            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#CC826C]/30 bg-[#CC826C]/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-[#CC826C]">
+                            <div className="mb-5 inline-flex items-center gap-2 rounded-lg border border-[#d75a3f]/30 bg-[#d75a3f]/10 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-[#f6e7d8]">
                                 <Sparkles size={11} />
-                                Book a Session
+                                Reserve a Table
                             </div>
                             <h2 className="font-serif text-4xl md:text-5xl font-normal leading-[1.1] tracking-tight text-white">
-                                Ready for Your <br />
-                                <span className="italic text-[#CC826C]">Beauty Transformation?</span>
+                                Taste the house favorites? <br />
+                                <span className="italic text-[#f6e7d8]">Plan your next table at Prestige.</span>
                             </h2>
                         </motion.div>
 
@@ -96,15 +94,15 @@ export default function MainFooter() {
                                 <motion.button
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="group flex w-full sm:w-auto items-center gap-2.5 rounded-2xl bg-[#CC826C] px-7 py-4 text-sm font-semibold text-white shadow-lg shadow-[#CC826C]/20 transition-colors hover:bg-[#b8705a]"
+                                    className="group flex w-full sm:w-auto items-center gap-2.5 rounded-lg bg-[#d75a3f] px-7 py-4 text-sm font-semibold text-white shadow-lg shadow-black/20 transition-colors hover:bg-[#c94830]"
                                 >
-                                    Book Appointment
+                                    Reserve Table
                                     <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                                 </motion.button>
                             </Link>
                             <a
-                                href={`mailto:${contact?.email}`}
-                                className="flex w-full sm:w-auto items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-7 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-[#CC826C]/30 hover:bg-[#CC826C]/8 hover:text-white"
+                                href={`mailto:${displayEmail}`}
+                                className="flex w-full sm:w-auto items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-7 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-[#f6e7d8]/40 hover:bg-white/10 hover:text-white"
                             >
                                 Send a Message
                             </a>
@@ -121,14 +119,14 @@ export default function MainFooter() {
                     <div className="lg:col-span-1 flex flex-col gap-6">
                         <Link to="/">
                             <img
-                                src={CONFIG.BASE_URL + generalSetting?.logo}
+                                src={logoSrc}
                                 alt="Logo"
                                 className="h-10 w-auto object-contain"
                                 loading="lazy"
                             />
                         </Link>
                         <p className="text-sm leading-relaxed text-white/40 italic max-w-52">
-                            &ldquo;{generalSetting?.tagline || "Redefining beauty through professional care."}&rdquo;
+                            &ldquo;{generalSetting?.tagline || "Specialty coffee, fresh plates, and warm service from morning to night."}&rdquo;
                         </p>
 
                         {/* Socials */}
@@ -141,7 +139,7 @@ export default function MainFooter() {
                                     rel="noreferrer"
                                     whileHover={{ y: -3 }}
                                     transition={{ duration: 0.2 }}
-                                    className="w-8 h-8 rounded-xl bg-white/6 border border-white/8 flex items-center justify-center text-white/40 hover:bg-[#CC826C] hover:border-[#CC826C] hover:text-white transition-colors duration-200"
+                                    className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#1f4f46] hover:border-[#1f4f46] hover:text-white transition-colors duration-200"
                                 >
                                     {iconMap[social.icon?.toLowerCase()] ?? iconMap.default}
                                 </motion.a>
@@ -159,9 +157,9 @@ export default function MainFooter() {
                                 <li key={i}>
                                     <Link
                                         to={menu.link}
-                                        className="group flex items-center gap-2 text-sm text-white/50 hover:text-[#CC826C] transition-colors duration-200"
+                                        className="group flex items-center gap-2 text-sm text-white/50 hover:text-[#f6e7d8] transition-colors duration-200"
                                     >
-                                        <span className="w-0 group-hover:w-3 h-px bg-[#CC826C] transition-all duration-300 shrink-0" />
+                                        <span className="w-0 group-hover:w-3 h-px bg-[#d75a3f] transition-all duration-300 shrink-0" />
                                         {menu.name}
                                     </Link>
                                 </li>
@@ -177,34 +175,34 @@ export default function MainFooter() {
                         <div className="flex flex-col gap-5">
                             {displayPhone && (
                                 <a href={`tel:${displayPhone}`} className="group flex items-start gap-3">
-                                    <div className="w-7 h-7 rounded-lg bg-[#CC826C]/15 flex items-center justify-center text-[#CC826C] shrink-0 mt-0.5">
+                                    <div className="w-7 h-7 rounded-lg bg-[#d75a3f]/15 flex items-center justify-center text-[#f6e7d8] shrink-0 mt-0.5">
                                         <Phone size={13} />
                                     </div>
                                     <div>
                                         <p className="text-[9px] font-bold uppercase tracking-widest text-white/25 mb-0.5">Phone</p>
-                                        <p className="text-sm text-white/60 group-hover:text-[#CC826C] transition-colors">{displayPhone}</p>
+                                        <p className="text-sm text-white/60 group-hover:text-[#f6e7d8] transition-colors">{displayPhone}</p>
                                     </div>
                                 </a>
                             )}
-                            {contact?.email && (
-                                <a href={`mailto:${contact.email}`} className="group flex items-start gap-3">
-                                    <div className="w-7 h-7 rounded-lg bg-[#CC826C]/15 flex items-center justify-center text-[#CC826C] shrink-0 mt-0.5">
+                            {displayEmail && (
+                                <a href={`mailto:${displayEmail}`} className="group flex items-start gap-3">
+                                    <div className="w-7 h-7 rounded-lg bg-[#d75a3f]/15 flex items-center justify-center text-[#f6e7d8] shrink-0 mt-0.5">
                                         <Mail size={13} />
                                     </div>
                                     <div>
                                         <p className="text-[9px] font-bold uppercase tracking-widest text-white/25 mb-0.5">Email</p>
-                                        <p className="text-sm text-white/60 group-hover:text-[#CC826C] transition-colors break-all">{contact.email?.split("|")[0]}</p>
+                                        <p className="text-sm text-white/60 group-hover:text-[#f6e7d8] transition-colors break-all">{displayEmail}</p>
                                     </div>
                                 </a>
                             )}
                             {contact?.address && (
                                 <a href={contact?.googleMapLink} target="_blank" rel="noreferrer" className="group flex items-start gap-3">
-                                    <div className="w-7 h-7 rounded-lg bg-[#CC826C]/15 flex items-center justify-center text-[#CC826C] shrink-0 mt-0.5">
+                                    <div className="w-7 h-7 rounded-lg bg-[#d75a3f]/15 flex items-center justify-center text-[#f6e7d8] shrink-0 mt-0.5">
                                         <MapPin size={13} />
                                     </div>
                                     <div>
                                         <p className="text-[9px] font-bold uppercase tracking-widest text-white/25 mb-0.5">Address</p>
-                                        <p className="text-sm text-white/60 group-hover:text-[#CC826C] transition-colors leading-relaxed">{contact.address}</p>
+                                        <p className="text-sm text-white/60 group-hover:text-[#f6e7d8] transition-colors leading-relaxed">{contact.address}</p>
                                     </div>
                                 </a>
                             )}
@@ -214,7 +212,7 @@ export default function MainFooter() {
                     {/* Working Hours */}
                     <div>
                         <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30 mb-6">
-                            Working Hours
+                            Opening Hours
                         </p>
                         <div className="flex flex-col gap-4">
                             { contact?.officeHours?.map((row: any) => (
@@ -230,7 +228,7 @@ export default function MainFooter() {
                             {displayPhone && (
                                 <a
                                     href={`tel:${displayPhone}`}
-                                    className="mt-2 inline-flex items-center gap-2 rounded-xl border border-[#CC826C]/25 bg-[#CC826C]/8 px-4 py-2.5 text-xs font-semibold text-[#CC826C] hover:bg-[#CC826C]/15 transition-colors"
+                                    className="mt-2 inline-flex items-center gap-2 rounded-lg border border-[#f6e7d8]/25 bg-white/5 px-4 py-2.5 text-xs font-semibold text-[#f6e7d8] hover:bg-white/10 transition-colors"
                                 >
                                     <Phone size={12} />
                                     {displayPhone}
@@ -242,22 +240,22 @@ export default function MainFooter() {
             </div>
 
             {/* ── Bottom Bar ── */}
-            <div className="relative z-10 border-t border-white/6">
+            <div className="relative z-10 border-t border-white/10">
                 <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25">
-                        © {currentYear} {generalSetting?.siteName || "Beauty Studio"}. All rights reserved.
+                        © {currentYear} {generalSetting?.siteName || "Prestige Cafe and Restaurant"}. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
-                        <Link to="/privacy-policy" className="text-[10px] uppercase tracking-widest text-white/25 hover:text-[#CC826C] transition-colors">
+                        <Link to="/privacy-policy" className="text-[10px] uppercase tracking-widest text-white/25 hover:text-[#f6e7d8] transition-colors">
                             Privacy Policy
                         </Link>
                         <Separator orientation="vertical" className="h-3 bg-white/10" />
-                        <Link to="/terms-condition" className="text-[10px] uppercase tracking-widest text-white/25 hover:text-[#CC826C] transition-colors">
+                        <Link to="/terms-condition" className="text-[10px] uppercase tracking-widest text-white/25 hover:text-[#f6e7d8] transition-colors">
                             Terms
                         </Link>
                         <Separator orientation="vertical" className="h-3 bg-white/10" />
                         <span className="text-[10px] uppercase tracking-widest text-white/20">
-                            Made with ♥
+                            Built with care
                         </span>
                     </div>
                 </div>

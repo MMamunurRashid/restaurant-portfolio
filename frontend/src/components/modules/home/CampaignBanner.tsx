@@ -1,132 +1,74 @@
 import { motion } from "framer-motion";
-import { CONFIG } from "@/config";
 import { useGetCampaignQuery } from "@/redux/features/campaign/campaignApi";
 import { Link } from "react-router-dom";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, CalendarDays, Flame } from "lucide-react";
+import { fallbackCampaign, getCafeImageUrl } from "./cafeContent";
 
 export default function CampaignBanner() {
-    const { data, isLoading } = useGetCampaignQuery({});
-    const campaign = data?.data;
-
-    if (isLoading || !campaign) return null;
+    const { data } = useGetCampaignQuery({});
+    const campaign = data?.data || fallbackCampaign;
+    const titleWords = campaign.title.split(" ");
 
     return (
-        <section className="py-12 md:px-4">
-            <div className="container mx-auto w-full md:max-w-6xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 32 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative overflow-hidden rounded-[40px] bg-linear-to-br from-stone-900 via-stone-900 to-stone-800"
-                >
-                    {/* Glow blobs */}
-                    <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#CC826C]/20 blur-[100px]" />
-                    <div className="pointer-events-none absolute -bottom-16 right-0 h-80 w-80 rounded-full bg-rose-700/15 blur-[100px]" />
-
-                    {/* Top accent line */}
-                    <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#CC826C]/50 to-transparent" />
-
-                    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0">
-
-                        {/* ── Left: Text ── */}
-                        <div className="flex flex-col justify-center p-6 md:p-14 lg:p-16 text-center lg:text-left">
-                            {/* Live badge */}
-                            <div className="mb-7 inline-flex items-center self-center lg:self-start gap-2.5 rounded-full border border-[#CC826C]/30 bg-[#CC826C]/12 px-4 py-2">
-                                <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#CC826C] opacity-60" />
-                                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#CC826C]" />
-                                </span>
-                                <Zap size={11} className="text-[#CC826C]" />
-                                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#CC826C]">
-                                    {campaign.subTitle}
-                                </span>
-                            </div>
-
-                            {/* Title */}
-                            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.08] tracking-tight text-white mb-5">
-                                {campaign.title.split(" ").slice(0, -2).join(" ")}{" "}
-                                <span className="italic text-[#CC826C]">
-                                    {campaign.title.split(" ").slice(-2).join(" ")}
-                                </span>
-                            </h2>
-
-                            {/* Description */}
-                            <p className="text-sm leading-relaxed text-stone-400 max-w-sm mx-auto lg:mx-0 mb-10">
-                                {campaign.description}
-                            </p>
-
-                            {/* CTA */}
-                            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                                <Link to="/appointment">
-                                    <motion.button
-                                        whileHover={{ scale: 1.03 }}
-                                        whileTap={{ scale: 0.97 }}
-                                        className="group flex items-center gap-2.5 rounded-2xl bg-[#CC826C] px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-[#CC826C]/25 transition-colors duration-300 hover:bg-[#b8705a]"
-                                    >
-                                        Book Now
-                                        <ArrowRight
-                                            size={15}
-                                            className="transition-transform group-hover:translate-x-1"
-                                        />
-                                    </motion.button>
-                                </Link>
-
-                                <Link
-                                    to="/packages"
-                                    className="text-sm font-medium text-stone-400 hover:text-white underline underline-offset-4 decoration-stone-700 hover:decoration-stone-400 transition-all"
-                                >
-                                    View all packages
-                                </Link>
-                            </div>
+        <section className="bg-[#111827] py-14 text-white md:px-4 md:py-24">
+            <div className="container mx-auto max-w-6xl">
+                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
+                    <motion.div
+                        initial={{ opacity: 0, y: 32 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                        className="order-2 lg:order-1"
+                    >
+                        <div className="mb-6 inline-flex items-center gap-2 border border-[#d75a3f]/40 bg-[#d75a3f]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#f6e7d8]">
+                            <Flame size={13} />
+                            {campaign.subTitle}
                         </div>
 
-                        {/* ── Right: Image ── */}
-                        <div className="relative flex items-end justify-center lg:justify-end overflow-hidden min-h-[340px] lg:min-h-0">
-                            {/* Decorative tinted bg behind image */}
-                            <div className="absolute inset-0 bg-linear-to-bl from-[#CC826C]/8 via-transparent to-transparent" />
+                        <h2 className="font-serif text-4xl font-normal leading-[1.08] text-white md:text-6xl">
+                            {titleWords.slice(0, -2).join(" ")}{" "}
+                            <span className="italic text-[#f6e7d8]">
+                                {titleWords.slice(-2).join(" ")}
+                            </span>
+                        </h2>
 
-                            {/* Offset card decoration */}
-                            <div className="absolute bottom-8 right-8 left-8 h-3/4 rounded-3xl border border-white/6 bg-white/3 backdrop-blur-sm -rotate-2" />
+                        <p className="mt-6 max-w-xl text-sm leading-8 text-white/70">
+                            {campaign.description}
+                        </p>
 
-                            <motion.div
-                                initial={{ opacity: 0, y: 24, rotate: 4 }}
-                                whileInView={{ opacity: 1, y: 0, rotate: 2 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                                whileHover={{ rotate: 0, y: -6, transition: { duration: 0.4 } }}
-                                className="relative z-10 m-10 lg:mr-14 lg:mb-0"
+                        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                            <Link to="/appointment" className="w-full sm:w-auto">
+                                <button className="group flex w-full items-center justify-center gap-2 bg-[#d75a3f] px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-[#c94830] sm:w-auto">
+                                    <CalendarDays size={16} />
+                                    Reserve This Offer
+                                    <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+                                </button>
+                            </Link>
+
+                            <Link
+                                to="/packages"
+                                className="flex w-full items-center justify-center border border-white/15 px-6 py-4 text-sm font-bold text-white/75 transition-all hover:border-[#f6e7d8]/60 hover:text-white sm:w-auto"
                             >
-                                <img
-                                    src={CONFIG.BASE_URL + campaign.image}
-                                    alt={campaign.title}
-                                    className="w-full max-w-xs lg:max-w-sm h-80 lg:h-[420px] object-cover rounded-3xl shadow-2xl shadow-black/40"
-                                    loading="lazy"
-                                />
-
-                                {/* Gloss shimmer overlay */}
-                                <div className="absolute inset-0 rounded-3xl bg-linear-to-tr from-transparent via-white/5 to-white/10 pointer-events-none" />
-
-                                {/* Floating label on image */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: -12 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.5, duration: 0.5 }}
-                                    className="absolute -left-5 top-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 px-4 py-3 shadow-xl"
-                                >
-                                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/50 mb-0.5">
-                                        Limited Offer
-                                    </p>
-                                    <p className="text-sm font-semibold text-white">
-                                        {campaign.subTitle}
-                                    </p>
-                                </motion.div>
-                            </motion.div>
+                                View dining packages
+                            </Link>
                         </div>
+                    </motion.div>
 
-                    </div>
-                </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.97 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                        className="order-1 overflow-hidden rounded-lg bg-white/5 lg:order-2"
+                    >
+                        <img
+                            src={getCafeImageUrl(campaign.image)}
+                            alt={campaign.title}
+                            className="h-[340px] w-full object-cover md:h-[460px]"
+                            loading="lazy"
+                        />
+                    </motion.div>
+                </div>
             </div>
         </section>
     );

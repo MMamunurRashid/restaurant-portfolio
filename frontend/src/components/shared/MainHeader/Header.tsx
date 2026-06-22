@@ -9,12 +9,12 @@ import { ArrowRight, Calendar } from "lucide-react";
 
 const navLinks = [
     { name: "Home",       href: "/" },
-    { name: "Services",   href: "/services" },
-    { name: "Packages",   href: "/packages" },
-    { name: "About Us",   href: "/about-us" },
+    { name: "Menu",       href: "/services" },
+    { name: "Dining Sets", href: "/packages" },
+    { name: "About",      href: "/about-us" },
     { name: "Gallery",    href: "/gallery" },
-    { name: "Blogs",      href: "/blogs" },
-    { name: "Contact Us", href: "/contact-us" },
+    { name: "Journal",    href: "/blogs" },
+    { name: "Contact",    href: "/contact-us" },
 ];
 
 export default function Header({
@@ -28,6 +28,11 @@ export default function Header({
 
     const { data } = useGetGeneralSettingQuery({});
     const logo = data?.data?.logo;
+    const logoSrc = logo
+        ? logo.startsWith("http")
+            ? logo
+            : `${CONFIG.BASE_URL.replace(/\/$/, "")}/${logo.replace(/^\/+/, "")}`
+        : "/images/logo.png";
 
     // Removed scroll effect: header uses static (scrolled) styles now.
 
@@ -40,17 +45,14 @@ export default function Header({
 
     return (
         <motion.header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/90 backdrop-blur-md shadow-sm shadow-stone-100 py-3`}
-            initial={{ y: -80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/95 backdrop-blur-md shadow-sm shadow-slate-200/60 py-3`}
         >
             <div className="container flex items-center justify-between gap-8">
 
                 {/* Logo */}
                 <Link to="/" className="relative z-10 shrink-0">
                     <img
-                        src={CONFIG.BASE_URL + logo || "/images/logo.png"}
+                        src={logoSrc}
                         alt="Logo"
                         className={`object-contain transition-all duration-300 hover:opacity-80 h-12`}
                         loading="lazy"
@@ -66,14 +68,14 @@ export default function Header({
                                 key={link.href}
                                 to={link.href}
                                 className={`relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] transition-colors duration-200 rounded-xl group ${
-                                    active ? "text-[#CC826C]" : "text-stone-500 hover:text-[#CC826C]"
+                                    active ? "text-[#1f4f46]" : "text-slate-500 hover:text-[#1f4f46]"
                                 }`}
                             >
                                 {/* Active dot */}
                                 {active && (
                                     <motion.span
                                         layoutId="nav-active"
-                                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#CC826C]"
+                                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#d75a3f]"
                                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                     />
                                 )}
@@ -89,10 +91,10 @@ export default function Header({
                         <motion.button
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className={`group flex items-center gap-2 rounded-2xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 bg-[#CC826C] text-white shadow-md shadow-[#CC826C]/20 hover:bg-[#b8705a]`}
+                            className={`group flex items-center gap-2 rounded-lg px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 bg-[#d75a3f] text-white shadow-md shadow-slate-200 hover:bg-[#c94830]`}
                         >
                             <Calendar size={13} />
-                            Appointment
+                            Reserve
                             <ArrowRight
                                 size={13}
                                 className="transition-transform group-hover:translate-x-0.5"
@@ -103,7 +105,7 @@ export default function Header({
 
                 {/* Mobile hamburger */}
                 <button
-                    className={`lg:hidden p-2 rounded-xl transition-colors text-stone-700 bg-stone-100 hover:bg-stone-200`}
+                    className={`lg:hidden p-2 rounded-lg transition-colors text-slate-700 bg-slate-100 hover:bg-slate-200`}
                     onClick={() => setMobileMenuOpen(true)}
                     aria-label="Open menu"
                 >
@@ -132,20 +134,20 @@ export default function Header({
                             exit={{ x: "100%" }}
                             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                             data-lenis-prevent
-                            className="fixed right-0 top-0 z-50 flex h-screen w-[88%] max-w-sm flex-col bg-white shadow-2xl shadow-stone-300/40"
+                            className="fixed right-0 top-0 z-50 flex h-screen w-[88%] max-w-sm flex-col bg-white shadow-2xl shadow-slate-300/40"
                         >
                             {/* Top accent line */}
-                            <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-[#CC826C]/60 to-transparent" />
+                            <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-[#d75a3f]/60 to-transparent" />
 
                             {/* Drawer header */}
                             <div className="flex items-center justify-between px-7 py-5 border-b border-stone-100">
                                 <img
-                                    src={CONFIG.BASE_URL + logo}
+                                    src={logoSrc}
                                     alt="Logo"
                                     className="h-8 object-contain"
                                 />
                                 <button
-                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-stone-100 text-stone-500 hover:bg-[#CC826C] hover:text-white transition-all duration-200"
+                                    className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 hover:bg-[#1f4f46] hover:text-white transition-all duration-200"
                                     onClick={() => setMobileMenuOpen(false)}
                                     aria-label="Close menu"
                                 >
@@ -171,16 +173,16 @@ export default function Header({
                                                 <Link
                                                     to={link.href}
                                                     onClick={() => setMobileMenuOpen(false)}
-                                                    className={`flex items-center justify-between px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 ${
+                                                    className={`flex items-center justify-between px-4 py-3.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                                                         active
-                                                            ? "bg-[#CC826C]/8 text-[#CC826C] border border-[#CC826C]/20"
-                                                            : "text-stone-600 hover:bg-stone-50 hover:text-[#CC826C]"
+                                                            ? "bg-[#1f4f46]/10 text-[#1f4f46] border border-[#1f4f46]/20"
+                                                            : "text-slate-600 hover:bg-slate-50 hover:text-[#1f4f46]"
                                                     }`}
                                                 >
                                                     {link.name}
                                                     <ArrowRight
                                                         size={14}
-                                                        className={`transition-transform ${active ? "text-[#CC826C] translate-x-0.5" : "text-stone-300"}`}
+                                                        className={`transition-transform ${active ? "text-[#1f4f46] translate-x-0.5" : "text-slate-300"}`}
                                                     />
                                                 </Link>
                                             </motion.div>
@@ -190,21 +192,21 @@ export default function Header({
                             </div>
 
                             {/* Bottom CTA */}
-                            <div className="px-7 py-6 border-t border-stone-100 bg-stone-50/60">
+                            <div className="px-7 py-6 border-t border-slate-100 bg-slate-50/70">
                                 <Link
                                     to="/appointment"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     <motion.button
                                         whileTap={{ scale: 0.97 }}
-                                        className="w-full flex items-center justify-center gap-2.5 bg-[#CC826C] text-white py-4 rounded-2xl text-sm font-semibold tracking-wide shadow-md shadow-[#CC826C]/20 hover:bg-[#b8705a] transition-colors"
+                                        className="w-full flex items-center justify-center gap-2.5 bg-[#d75a3f] text-white py-4 rounded-lg text-sm font-semibold tracking-wide shadow-md shadow-slate-200 hover:bg-[#c94830] transition-colors"
                                     >
                                         <Calendar size={15} />
-                                        Book Appointment
+                                        Reserve a Table
                                     </motion.button>
                                 </Link>
-                                <p className="text-center text-[10px] text-stone-400 mt-3 tracking-wide">
-                                    Confirmed within 24 hours
+                                <p className="text-center text-[10px] text-slate-400 mt-3 tracking-wide">
+                                    We will confirm your table shortly
                                 </p>
                             </div>
                         </motion.aside>

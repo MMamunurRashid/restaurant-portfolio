@@ -1,28 +1,35 @@
 import { motion } from "framer-motion";
-import { CONFIG } from "@/config";
 import type { IService } from "@/interface/serviceInterface";
 import { useGetAllServiceQuery } from "@/redux/features/service/serviceApi";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChefHat, Coffee, UtensilsCrossed } from "lucide-react";
+import { cafeImages, fallbackServices, getCafeImageUrl } from "./cafeContent";
 
 const cardVariants = {
     hidden: { opacity: 0, y: 28 },
     show: (i: number) => ({
-        opacity: 1, y: 0,
+        opacity: 1,
+        y: 0,
         transition: { delay: i * 0.08, duration: 0.5, ease: ([0.22, 1, 0.36, 1] as any) },
     }),
 };
 
+const fallbackIcons = [Coffee, ChefHat, UtensilsCrossed, Coffee];
+
 export default function ServicesCard() {
     const { data } = useGetAllServiceQuery({});
-    const services: IService[] = data?.data || [];
+    const apiServices: IService[] = data?.data || [];
+    const services = apiServices.length ? apiServices.filter((service) => service.isActive !== false) : fallbackServices;
+    const isFallback = !apiServices.length;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((service, i) => {
                 const plainDesc = service.description
-                    ? service.description.replace(/<[^>]+>/g, "").slice(0, 72) + "…"
+                    ? service.description.replace(/<[^>]+>/g, "").slice(0, 92)
                     : "";
+                const Icon = fallbackIcons[i % fallbackIcons.length];
+                const href = isFallback ? "/services" : `/service/${service.slug}`;
 
                 return (
                     <motion.div
@@ -34,56 +41,59 @@ export default function ServicesCard() {
                         viewport={{ once: true, margin: "-40px" }}
                     >
                         <Link
-                            to={`/service/${service.slug}`}
-                            className="group flex flex-col bg-white rounded-3xl overflow-hidden border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-stone-100 hover:-translate-y-1.5 transition-all duration-400 h-full"
+                            to={href}
+                            className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#1f4f46]/30 hover:shadow-xl hover:shadow-slate-200/60"
                         >
-                            {/* Image */}
-                            <div className="relative h-56 overflow-hidden">
+                            <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
                                 <img
-                                    src={CONFIG.BASE_URL + service.thumbnail}
+                                    src={getCafeImageUrl(service.thumbnail)}
                                     alt={service.title}
-                                    className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700"
+                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     loading="lazy"
+                                    onError={(e) => {
+                                        e.currentTarget.src = cafeImages.plated;
+                                    }}
                                 />
-                                {/* Gradient fade */}
-                                <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/5 to-transparent" />
 
-                                {/* Icon badge */}
-                                <div className="absolute top-4 right-4 w-11 h-11 rounded-2xl bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center overflow-hidden border border-white">
-                                    <img
-                                        src={CONFIG.BASE_URL + service.icon}
-                                        alt={service.title}
-                                        className="w-9.5 h-9.5 object-cover rounded-2xl"
-                                        loading="lazy"
-                                    />
+                                <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center border border-white/40 bg-white/90 text-[#1f4f46] backdrop-blur-sm">
+                                    {service.icon ? (
+                                        <img
+                                            src={getCafeImageUrl(service.icon)}
+                                            alt=""
+                                            className="h-7 w-7 object-contain"
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <Icon size={18} />
+                                    )}
                                 </div>
 
-                                {/* Bottom label on image */}
-                                <div className="absolute bottom-4 left-4">
-                                    <span className="inline-block rounded-full bg-white/15 backdrop-blur-sm border border-white/20 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white">
-                                        Beauty Service
+                                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/75">
+                                        Menu Highlight
+                                    </span>
+                                    <span className="flex h-8 w-8 items-center justify-center border border-white/30 bg-white/15 text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-[#d75a3f]">
+                                        <ArrowUpRight size={14} />
                                     </span>
                                 </div>
                             </div>
 
-                            {/* Content */}
-                            <div className="flex flex-col flex-1 p-6">
-                                <h3 className="font-serif text-lg font-normal text-stone-800 mb-2 group-hover:text-[#CC826C] transition-colors duration-300 leading-snug">
+                            <div className="flex flex-1 flex-col p-5">
+                                <h3 className="font-serif text-xl font-normal leading-snug text-[#111827] transition-colors duration-300 group-hover:text-[#1f4f46]">
                                     {service.title}
                                 </h3>
 
-                                <p className="text-xs leading-relaxed text-stone-400 flex-1 mb-5">
+                                <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">
                                     {plainDesc}
+                                    {plainDesc.length >= 92 ? "..." : ""}
                                 </p>
 
-                                {/* CTA row */}
-                                <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#CC826C] border-b border-[#CC826C]/30 pb-0.5 group-hover:border-[#CC826C] transition-colors">
-                                        Explore
+                                <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d75a3f]">
+                                        View details
                                     </span>
-                                    <span className="w-8 h-8 rounded-full border border-stone-100 bg-stone-50 flex items-center justify-center text-stone-400 group-hover:bg-[#CC826C] group-hover:border-[#CC826C] group-hover:text-white transition-all duration-300">
-                                        <ArrowUpRight size={14} />
-                                    </span>
+                                    <ArrowUpRight size={16} className="text-slate-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#d75a3f]" />
                                 </div>
                             </div>
                         </Link>
