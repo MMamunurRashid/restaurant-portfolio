@@ -42,18 +42,18 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         { icon: NotebookPen, label: 'Packages', href: '/admin/packages/all' },
         {
             icon: Flower2,
-            label: 'Salon & Spa',
+            label: 'About Us',
             children: [
                 { label: 'About Studio', href: '/admin/about' },
                 { label: 'Specialists Category', href: '/admin/about/team/category/all' },
-                { label: 'Beauty Experts', href: '/admin/about/team/all' },
+                { label: 'Specialists Chef', href: '/admin/about/team/all' },
             ]
         },
         {
             icon: Heart,
             label: 'Client Inquiry',
             children: [
-                { label: "Salon Contact", href: "/admin/contact-us" },
+                { label: "Restaurant Contact", href: "/admin/contact-us" },
                 { label: 'Messages', href: "/admin/contact-message" },
                 { label: 'Bookings', href: "/admin/appointments/all" },
             ]
@@ -62,7 +62,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         { icon: FileText, label: 'Terms & Conditions', href: "/admin/terms-conditions" },
         {
             icon: Settings,
-            label: 'Salon Settings',
+            label: 'Cafe & Restaurant Settings',
             children: [
                 { label: 'General Info', href: '/admin/setting/general' },
                 { label: 'Hero Banners', href: '/admin/setting/banner/all' },
@@ -148,7 +148,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
             <aside className={`fixed top-0 left-0 z-50 h-screen w-72 bg-white border-r border-slate-100 transition-transform duration-300 flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
 
-                {/* Salon Logo Section */}
+                {/* Cafe & Restaurant Logo Section */}
                 <div className="p-6 flex items-center justify-between lg:justify-center shrink-0 bg-white">
                     <Link to="/admin/dashboard">
                         <img src={CONFIG.BASE_URL + logo || "/images/logo.png"} alt="logo" className='w-18 mx-auto' loading='lazy' />

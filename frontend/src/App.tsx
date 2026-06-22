@@ -9,8 +9,8 @@ export default function App() {
   return (
     <>
       <head>
-        <title>{seo?.title || "Eva Glamistry Women’s Beauty Salon  | Beauty, cosmetic & personal care"}</title>
-        <meta name="description" content={`${seo?.description || "Eva Glamistry Women’s Beauty Salon  | Beauty, cosmetic & personal care"}`} />
+        <title>{seo?.title || "Prestige Cafe and Restaurant"}</title>
+        <meta name="description" content={`${seo?.description || "Prestige Cafe and Restaurant | Delicious food and great service"}`} />
         <meta name="keywords" content={`${seo?.keywords || ""}`} />
         <meta name="author" content={`${seo?.author || ""}`} />
         <meta name="designer" content={`${seo?.designer || "Nasim Uddin & Mamunur Rashid"}`} />

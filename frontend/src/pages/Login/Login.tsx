@@ -75,7 +75,7 @@ export default function Login() {
                                     pattern: { value: /^\S+@\S+$/i, message: "Invalid email format" }
                                 })}
                                 type="email"
-                                placeholder="admin@salon.com"
+                                placeholder="admin@gmail.com"
                                 className={`w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12 pr-4 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 ${errors.email ? 'border-red-200' : 'border-slate-100 focus:border-primary/30'}`}
                             />
                         </div>
@@ -113,7 +113,7 @@ export default function Login() {
 
                 <div className="mt-10 pt-6 border-t border-slate-50 text-center">
                     <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-semibold">
-                        &copy; {new Date().getFullYear()} Eva Glamistry Women’s Beauty Salon
+                        &copy; {new Date().getFullYear()} Prestige Cafe and Restaurant. All rights reserved.
                     </p>
                 </div>
             </div>
