@@ -15,7 +15,7 @@ export default function CampaignBanner() {
     if (!hasCampaignData) return null;
 
     return (
-        <section className="bg-[#111827] py-14 text-white md:px-4 md:py-24">
+        <section className="bg-neutral py-14 text-white md:px-4 md:py-24">
             <div className="container mx-auto max-w-6xl">
                 <div className={`grid grid-cols-1 items-center gap-10 ${campaign.image ? "lg:grid-cols-2 lg:gap-14" : ""}`}>
                     <motion.div
@@ -26,7 +26,7 @@ export default function CampaignBanner() {
                         className="order-2 lg:order-1"
                     >
                         {campaign.subTitle && (
-                            <div className="mb-6 inline-flex items-center gap-2 border border-[#d75a3f]/40 bg-[#d75a3f]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#f6e7d8]">
+                            <div className="mb-6 inline-flex items-center gap-2 border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-secondary">
                                 <Flame size={13} />
                                 {campaign.subTitle}
                             </div>
@@ -35,7 +35,7 @@ export default function CampaignBanner() {
                         {campaign.title && (
                         <h2 className="font-serif text-4xl font-normal leading-[1.08] text-white md:text-6xl">
                             {titleWords.slice(0, -2).join(" ")}{" "}
-                            <span className="italic text-[#f6e7d8]">
+                            <span className="italic text-secondary">
                                 {titleWords.slice(-2).join(" ")}
                             </span>
                         </h2>
@@ -49,7 +49,7 @@ export default function CampaignBanner() {
 
                         <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                             <Link to="/appointment" className="w-full sm:w-auto">
-                                <button className="group flex w-full items-center justify-center gap-2 bg-[#d75a3f] px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-[#c94830] sm:w-auto">
+                                <button className="group flex w-full items-center justify-center gap-2 bg-primary px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-primary/90 sm:w-auto">
                                     <CalendarDays size={16} />
                                     Reserve This Offer
                                     <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
@@ -58,7 +58,7 @@ export default function CampaignBanner() {
 
                             <Link
                                 to="/packages"
-                                className="flex w-full items-center justify-center border border-white/15 px-6 py-4 text-sm font-bold text-white/75 transition-all hover:border-[#f6e7d8]/60 hover:text-white sm:w-auto"
+                                className="flex w-full items-center justify-center border border-white/15 px-6 py-4 text-sm font-bold text-white/75 transition-all hover:border-secondary/60 hover:text-white sm:w-auto"
                             >
                                 View dining packages
                             </Link>

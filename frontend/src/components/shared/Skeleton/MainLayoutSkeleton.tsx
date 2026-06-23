@@ -1,6 +1,6 @@
 export default function MainLayoutSkeleton() {
     return (
-        <div className="min-h-screen bg-[#FCFCFC] overflow-hidden">
+        <div className="min-h-screen bg-muted overflow-hidden">
             {/* 1. Global Navigation Skeleton */}
             <nav className="fixed top-0 left-0 right-0 z-60 h-20 bg-white/50 backdrop-blur-md border-b border-slate-100/50 px-6 lg:px-16 flex items-center justify-between">
                 <div className="h-8 w-32 bg-slate-200/60 rounded-xl animate-pulse" />

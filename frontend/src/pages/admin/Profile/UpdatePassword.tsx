@@ -55,7 +55,7 @@ export default function UpdatePassword() {
                         <p className="text-slate-500 text-xs mt-0.5 font-medium">Update your account password regularly.</p>
                     </div>
                 </div>
-                <div className="hidden sm:block p-3 bg-amber-50 text-amber-600 rounded-2xl">
+                <div className="hidden sm:block p-3 bg-secondary/10 text-secondary rounded-2xl">
                     <Lock size={24} />
                 </div>
             </div>
@@ -85,7 +85,7 @@ export default function UpdatePassword() {
                                 {showOld ? <EyeOff size={18} /> : <Eye size={18} />}
                             </button>
                         </div>
-                        {errors.oldPassword && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.oldPassword.message as string}</p>}
+                        {errors.oldPassword && <p className="text-[10px] text-destructive font-bold ml-1">{errors.oldPassword.message as string}</p>}
                     </div>
 
                     <hr className="border-slate-100" />
@@ -108,7 +108,7 @@ export default function UpdatePassword() {
                                     {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
                                 </button>
                             </div>
-                            {errors.newPassword && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.newPassword.message as string}</p>}
+                            {errors.newPassword && <p className="text-[10px] text-destructive font-bold ml-1">{errors.newPassword.message as string}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -119,7 +119,7 @@ export default function UpdatePassword() {
                                 className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 focus:ring-4 focus:ring-primary/5 outline-none transition-all font-medium"
                                 placeholder="••••••••"
                             />
-                            {errors.confirmPassword && <p className="text-[10px] text-red-500 font-bold ml-1">{errors.confirmPassword.message as string}</p>}
+                            {errors.confirmPassword && <p className="text-[10px] text-destructive font-bold ml-1">{errors.confirmPassword.message as string}</p>}
                         </div>
                     </div>
 
@@ -137,13 +137,13 @@ export default function UpdatePassword() {
             </div>
 
             {/* Security Notice */}
-            <div className="max-w-3xl mx-auto flex items-start gap-4 p-5 bg-amber-50 border border-amber-100 rounded-2xl">
-                <div className="p-2 bg-white rounded-lg text-amber-600 shadow-sm shrink-0">
+            <div className="max-w-3xl mx-auto flex items-start gap-4 p-5 bg-secondary/10 border border-secondary/20 rounded-2xl">
+                <div className="p-2 bg-white rounded-lg text-secondary shadow-sm shrink-0">
                     <ShieldCheck size={20} />
                 </div>
                 <div className="space-y-1">
-                    <h4 className="text-sm font-bold text-amber-900">Security Recommendation</h4>
-                    <p className="text-[11px] text-amber-700 leading-relaxed font-medium">
+                    <h4 className="text-sm font-bold text-neutral">Security Recommendation</h4>
+                    <p className="text-[11px] text-secondary leading-relaxed font-medium">
                         Changing your password terminates all other active sessions. You will need to log back in on your other devices after this process is complete.
                     </p>
                 </div>

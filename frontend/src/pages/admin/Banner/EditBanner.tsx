@@ -90,7 +90,7 @@ export default function EditBanner() {
                     </div>
                 </div>
 
-                <button type="submit" disabled={isUpdating} className="flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 hover:opacity-90 active:scale-95 transition-all">
+                <button type="submit" disabled={isUpdating} className="flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
                     {isUpdating ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
                     {isUpdating ? 'Updating...' : 'Save Changes'}
                 </button>
@@ -113,8 +113,8 @@ export default function EditBanner() {
                             setValue={setValue}
                             maxSize={1}
                         />
-                        <div className="mt-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100">
-                            <p className="text-[10px] text-blue-600 leading-relaxed">
+                        <div className="mt-4 p-4 bg-primary/10 rounded-2xl border border-primary/20">
+                            <p className="text-[10px] text-primary leading-relaxed">
                                 <strong>Tip:</strong> If you don't want to change the image, just leave this field as it is.
                             </p>
                         </div>
@@ -133,9 +133,9 @@ export default function EditBanner() {
                                 <input
                                     type="text"
                                     {...register("title", { required: "Title is required" })}
-                                    className={`w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 outline-none transition-all ${errors.title ? 'border-red-500 bg-red-50' : 'bg-slate-50/50'}`}
+                                    className={`w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 outline-none transition-all ${errors.title ? 'border-destructive bg-destructive/10' : 'bg-slate-50/50'}`}
                                 />
-                                {errors.title && <p className="text-xs text-red-500 font-medium ml-1">{(errors.title as any).message}</p>}
+                                {errors.title && <p className="text-xs text-destructive font-medium ml-1">{(errors.title as any).message}</p>}
                             </div>
 
                             {/* Order */}

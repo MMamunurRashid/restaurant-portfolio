@@ -36,11 +36,11 @@ export default function FeaturedPackages() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: ([0.22, 1, 0.36, 1] as any) }}
         >
-          <div className="mb-4 inline-flex items-center gap-2 border border-[#d75a3f]/25 bg-[#fff4ed] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#d75a3f]">
+          <div className="mb-4 inline-flex items-center gap-2 border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
             <CalendarDays size={13} />
             Dining Packages
           </div>
-          <h2 className="font-serif text-4xl font-normal leading-tight text-[#111827] md:text-6xl">
+          <h2 className="font-serif text-4xl font-normal leading-tight text-neutral md:text-6xl">
             Easy sets for dates, family dinners and celebrations
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
@@ -68,7 +68,7 @@ export default function FeaturedPackages() {
               <motion.div key={pkg._id} variants={cardVariants} className="h-full">
                 <article
                   className={`group flex h-full flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/70 ${
-                    pkg.isPopular ? "border-[#d75a3f]/45" : "border-slate-200 hover:border-[#1f4f46]/30"
+                    pkg.isPopular ? "border-primary/50" : "border-slate-200 hover:border-secondary/30"
                   }`}
                 >
                   {pkg.thumbnail && (
@@ -79,9 +79,9 @@ export default function FeaturedPackages() {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-[#111827]/65 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-neutral/65 via-transparent to-transparent" />
                     {pkg.isPopular && (
-                      <div className="absolute left-4 top-4 flex items-center gap-1.5 bg-[#d75a3f] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
+                      <div className="absolute left-4 top-4 flex items-center gap-1.5 bg-primary px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
                         <Star size={11} fill="currentColor" />
                         Popular
                       </div>
@@ -92,7 +92,7 @@ export default function FeaturedPackages() {
                       </h3>
                       <div className="shrink-0 bg-white px-3 py-2 text-right">
                         <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">From</p>
-                        <p className="text-sm font-black text-[#111827]">BDT {pkg.price.toLocaleString("en-BD")}</p>
+                        <p className="text-sm font-black text-neutral">BDT {pkg.price.toLocaleString("en-BD")}</p>
                       </div>
                     </div>
                   </div>
@@ -101,10 +101,10 @@ export default function FeaturedPackages() {
                   <div className="flex flex-1 flex-col p-6">
                     {!pkg.thumbnail && (
                       <div className="mb-5">
-                        <h3 className="font-serif text-2xl font-normal leading-tight text-[#111827]">
+                        <h3 className="font-serif text-2xl font-normal leading-tight text-neutral">
                           {pkg.title}
                         </h3>
-                        <p className="mt-2 text-sm font-black text-[#d75a3f]">
+                        <p className="mt-2 text-sm font-black text-primary">
                           BDT {pkg.price.toLocaleString("en-BD")}
                         </p>
                       </div>
@@ -117,7 +117,7 @@ export default function FeaturedPackages() {
                     <ul className="space-y-3">
                       {(pkg.services || []).slice(0, 4).map((service, i) => (
                         <li key={i} className="flex items-start gap-3">
-                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-[#1f4f46]/10 text-[#1f4f46]">
+                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-secondary/10 text-secondary">
                             <Check size={12} strokeWidth={3} />
                           </span>
                           <span className="text-sm leading-6 text-slate-600">
@@ -130,7 +130,7 @@ export default function FeaturedPackages() {
                     <div className="mt-auto pt-6">
                       <Link
                         to={`/appointment?package=${pkg.slug || pkg._id}`}
-                        className="group/button flex w-full items-center justify-center gap-2 bg-[#111827] px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-[#1f4f46]"
+                        className="group/button flex w-full items-center justify-center gap-2 bg-neutral px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-secondary"
                       >
                         <UtensilsCrossed size={16} />
                         Reserve Package
@@ -153,7 +153,7 @@ export default function FeaturedPackages() {
         >
           <Link
             to="/packages"
-            className="inline-flex items-center gap-2 border border-slate-200 px-5 py-3 text-sm font-bold text-[#1f4f46] transition-all hover:border-[#1f4f46]/40 hover:bg-[#f7f8f4]"
+            className="inline-flex items-center gap-2 border border-slate-200 px-5 py-3 text-sm font-bold text-secondary transition-all hover:border-secondary/40 hover:bg-muted"
           >
             View all packages
             <ArrowRight size={15} />

@@ -73,7 +73,7 @@ export default function AllGallery() {
                       <Link to={`/admin/setting/gallery/edit/${(item as any)?._id}`} className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-primary transition-all">
                         <Edit size={16} />
                       </Link>
-                      <button onClick={() => handleDelete((item as any)?._id)} className="p-2 hover:bg-red-50 rounded-lg text-slate-400 hover:text-red-600 transition-all">
+                      <button onClick={() => handleDelete((item as any)?._id)} className="p-2 hover:bg-destructive/10 rounded-lg text-slate-400 hover:text-destructive transition-all">
                         <Trash2 size={16} />
                       </button>
                     </div>

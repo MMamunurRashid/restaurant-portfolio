@@ -83,7 +83,7 @@ export default function ContactCom() {
     };
 
     return (
-        <section className="relative overflow-hidden bg-[#f7f8f4] py-14 md:px-4 md:py-24">
+        <section className="relative overflow-hidden bg-muted py-14 md:px-4 md:py-24">
             <div className="container mx-auto max-w-6xl relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
 
@@ -98,15 +98,15 @@ export default function ContactCom() {
                         {/* Header */}
                         <div>
                             {contact?.title && (
-                                <div className="mb-5 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                                <div className="mb-5 inline-flex items-center gap-2 border border-secondary/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary">
                                     <Sparkles size={12} />
                                     {contact.title}
                                 </div>
                             )}
                             {subTitle && (
-                            <h2 className="font-serif text-4xl font-normal leading-[1.08] text-[#111827] md:text-6xl">
+                            <h2 className="font-serif text-4xl font-normal leading-[1.08] text-neutral md:text-6xl">
                                 {remainingTitle}{" "}
-                                <span className="italic text-[#1f4f46]">{highlightTitle}</span>
+                                <span className="italic text-secondary">{highlightTitle}</span>
                             </h2>
                             )}
                         </div>
@@ -129,11 +129,11 @@ export default function ContactCom() {
                                         <div className="flex flex-col gap-3">
                                             {contact?.officeHours?.map((item: any, i: number) => (
                                                 <div key={i} className="flex items-center justify-between gap-4">
-                                                    <span className="text-sm font-bold text-[#111827]">{item.day}</span>
+                                                    <span className="text-sm font-bold text-neutral">{item.day}</span>
                                                     <span
                                                         className={`text-sm font-medium tabular-nums transition-colors
                                                                 ${item.hours === "Closed" || item.hours === "closed"
-                                                                ? "text-red-600"
+                                                                ? "text-destructive"
                                                                 : "text-slate-600"
                                                             }`}
                                                     >
@@ -162,7 +162,7 @@ export default function ContactCom() {
                                         rel="noreferrer"
                                         whileHover={{ y: -3 }}
                                         transition={{ duration: 0.2 }}
-                                        className="w-9 h-9 border border-slate-200 bg-white flex items-center justify-center text-slate-400 hover:bg-[#1f4f46] hover:border-[#1f4f46] hover:text-white shadow-sm transition-colors duration-200"
+                                        className="w-9 h-9 border border-slate-200 bg-white flex items-center justify-center text-slate-400 hover:bg-secondary hover:border-secondary hover:text-white shadow-sm transition-colors duration-200"
                                     >
                                         {iconMap[social.icon?.toLowerCase()] ?? iconMap.default}
                                     </motion.a>
@@ -226,7 +226,7 @@ export default function ContactCom() {
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full gap-2.5 bg-[#d75a3f] text-white hover:bg-[#c94830] shadow-sm shadow-slate-200 rounded-lg py-6 font-semibold tracking-wide text-sm transition-all duration-300 group disabled:opacity-60"
+                                    className="w-full gap-2.5 bg-primary text-white hover:bg-primary/90 shadow-sm shadow-slate-200 rounded-lg py-6 font-semibold tracking-wide text-sm transition-all duration-300 group disabled:opacity-60"
                                 >
                                     {isSubmitting ? (
                                         <>
@@ -265,12 +265,12 @@ function InfoItem({ icon, label, value, link }: {
         rel="noreferrer"
         className="group flex items-center gap-4 cursor-pointer"
     >
-        <div className="w-10 h-10 shrink-0 border border-slate-200 bg-white flex items-center justify-center text-slate-400 shadow-sm group-hover:bg-[#1f4f46] group-hover:border-[#1f4f46] group-hover:text-white transition-all duration-300">
+        <div className="w-10 h-10 shrink-0 border border-slate-200 bg-white flex items-center justify-center text-slate-400 shadow-sm group-hover:bg-secondary group-hover:border-secondary group-hover:text-white transition-all duration-300">
             {icon}
         </div>
         <div>
             <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">{label}</p>
-            <p className="text-sm font-semibold text-slate-700 group-hover:text-[#1f4f46] transition-colors duration-250">
+            <p className="text-sm font-semibold text-slate-700 group-hover:text-secondary transition-colors duration-250">
                 {value || "N/A"}
             </p>
         </div>

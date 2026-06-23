@@ -120,7 +120,7 @@ export default function Appointment() {
     }, [fetchedAppointment]);
 
     return (
-        <section className="min-h-screen bg-[#f7f8f4] py-24 px-4">
+        <section className="min-h-screen bg-muted py-24 px-4">
             <div className="relative z-10 mx-auto max-w-6xl">
 
                 {/* Header */}
@@ -130,13 +130,13 @@ export default function Appointment() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary">
                         <ShieldCheck size={13} />
                         Table Reservation
                     </div>
                     <h1 className="font-serif text-5xl font-normal leading-tight tracking-tight text-stone-800 md:text-6xl">
                         Reserve Your <br />
-                        <span className="italic text-[#1f4f46]">Table</span>
+                        <span className="italic text-secondary">Table</span>
                     </h1>
                     <p className="mt-4 max-w-md text-sm leading-relaxed text-stone-500">
                         Share your preferred date, time, and guest details. Our team will confirm your table shortly.
@@ -154,9 +154,9 @@ export default function Appointment() {
                     >
                         {/* Restaurant info card */}
                         <Card className="rounded-3xl border-stone-100 bg-white shadow-sm p-7 relative overflow-hidden">
-                            <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#1f4f46]/6" />
+                            <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-secondary/10" />
                             <h3 className="font-serif text-lg font-normal text-stone-800 mb-6 flex items-center gap-2">
-                                <Sparkles size={17} className="text-[#1f4f46]" />
+                                <Sparkles size={17} className="text-secondary" />
                                 Restaurant Info
                             </h3>
                             <div className="space-y-5">
@@ -172,9 +172,9 @@ export default function Appointment() {
                             contactData?.data?.officeHours?.length ? (
                                 <>
                                     <Card className="rounded-3xl border-stone-100 bg-white shadow-sm p-7 relative overflow-hidden">
-                                        <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#1f4f46]/6" />
+                                        <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-secondary/10" />
                                         <h3 className="font-serif text-lg font-normal text-stone-800 mb-3 flex items-center gap-2">
-                                            <Clock10 size={17} className="text-[#1f4f46]" />
+                                            <Clock10 size={17} className="text-secondary" />
                                             Opening Hours
                                         </h3>
                                         <div className="flex flex-col gap-3">
@@ -184,7 +184,7 @@ export default function Appointment() {
                                                     <span
                                                         className={`text-sm font-medium tabular-nums transition-colors
                                                                 ${item.hours === "Closed" || item.hours === "closed"
-                                                                ? "text-red-600"
+                                                                ? "text-destructive"
                                                                 : "text-stone-600"
                                                             }`}
                                                     >
@@ -199,8 +199,8 @@ export default function Appointment() {
                         }
 
                         {/* Note card */}
-                        <Card className="rounded-3xl border-[#1f4f46]/15 bg-[#1f4f46]/5 shadow-none p-6">
-                            <p className="text-xs leading-relaxed text-[#1f4f46]/80 font-medium">
+                        <Card className="rounded-3xl border-secondary/20 bg-secondary/10 shadow-none p-6">
+                            <p className="text-xs leading-relaxed text-secondary/80 font-medium">
                                 Reservations are confirmed after a follow-up call. Please ensure your phone number is correct.
                             </p>
                         </Card>
@@ -327,30 +327,30 @@ export default function Appointment() {
                                                     key={pkg._id}
                                                     onClick={() => togglePackage(pkg._id)}
                                                     className={`relative text-left p-4 rounded-2xl border-2 transition-all duration-250 group ${isSelected
-                                                        ? 'border-[#d75a3f] bg-[#d75a3f]/5'
+                                                        ? 'border-primary bg-primary/5'
                                                         : 'border-stone-100 bg-stone-50/60 hover:border-stone-200 hover:bg-white'
                                                         }`}
                                                 >
                                                     {/* Selected dot */}
-                                                    <span className={`absolute top-3.5 right-3.5 w-2 h-2 rounded-full transition-all duration-200 ${isSelected ? 'bg-[#d75a3f] scale-100' : 'bg-stone-200 scale-75'
+                                                    <span className={`absolute top-3.5 right-3.5 w-2 h-2 rounded-full transition-all duration-200 ${isSelected ? 'bg-primary scale-100' : 'bg-stone-200 scale-75'
                                                         }`} />
 
-                                                    <p className={`text-sm font-semibold leading-snug mb-1 pr-4 ${isSelected ? 'text-[#d75a3f]' : 'text-stone-700'
+                                                    <p className={`text-sm font-semibold leading-snug mb-1 pr-4 ${isSelected ? 'text-primary' : 'text-stone-700'
                                                         }`}>
                                                         {pkg.title}
                                                     </p>
 
                                                     <div className="flex items-center gap-2 flex-wrap">
-                                                        <span className={`text-xs font-bold ${isSelected ? 'text-[#d75a3f]' : 'text-stone-500'}`}>
+                                                        <span className={`text-xs font-bold ${isSelected ? 'text-primary' : 'text-stone-500'}`}>
                                                             ৳{pkg.price.toLocaleString('en-BD')}
                                                         </span>
                                                         {pkg.isPopular && (
-                                                            <Badge className="text-[9px] px-1.5 py-0 bg-rose-50 text-[#dc1f52] border border-rose-100 shadow-none font-bold uppercase tracking-wide hover:bg-rose-50">
+                                                            <Badge className="text-[9px] px-1.5 py-0 bg-primary/10 text-primary border border-primary/20 shadow-none font-bold uppercase tracking-wide hover:bg-primary/10">
                                                                 Popular
                                                             </Badge>
                                                         )}
                                                         {pkg.isFeatured && (
-                                                            <Badge className="text-[9px] px-1.5 py-0 bg-violet-50 text-violet-500 border border-violet-100 shadow-none font-bold uppercase tracking-wide hover:bg-violet-50">
+                                                            <Badge className="text-[9px] px-1.5 py-0 bg-secondary/10 text-secondary border border-secondary/20 shadow-none font-bold uppercase tracking-wide hover:bg-secondary/10">
                                                                 Featured
                                                             </Badge>
                                                         )}
@@ -372,7 +372,7 @@ export default function Appointment() {
                                     <Button
                                         type="submit"
                                         disabled={isLoading}
-                                        className="bg-[#d75a3f] hover:bg-[#c94830] text-white px-10 py-6 rounded-2xl font-semibold tracking-wide text-sm flex items-center gap-3 transition-all duration-300 group shadow-sm shadow-[#d75a3f]/20 disabled:opacity-60"
+                                        className="bg-primary hover:bg-primary/90 text-white px-10 py-6 rounded-2xl font-semibold tracking-wide text-sm flex items-center gap-3 transition-all duration-300 group shadow-sm shadow-primary/20 disabled:opacity-60"
                                     >
                                         {isLoading ? (
                                             <>
@@ -409,7 +409,7 @@ function ContactLine({ icon, label, value }: { icon: React.ReactElement<any>; la
     const iconElem = React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { size: 16 } as any) : icon;
     return (
         <div className="flex items-center gap-4">
-            <div className="w-9 h-9 rounded-full bg-[#1f4f46]/8 flex items-center justify-center text-[#1f4f46] shrink-0">
+            <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
                 {iconElem}
             </div>
             <div>

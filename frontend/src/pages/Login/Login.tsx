@@ -57,7 +57,7 @@ export default function Login() {
                 </div>
 
                 {errorMessage && (
-                    <div className="mb-6 bg-red-50 border border-red-100 p-4 rounded-2xl flex items-center gap-3 text-red-600 animate-in fade-in slide-in-from-top-2">
+                    <div className="mb-6 bg-destructive/10 border border-destructive/20 p-4 rounded-2xl flex items-center gap-3 text-destructive animate-in fade-in slide-in-from-top-2">
                         <AlertCircle size={18} />
                         <p className="text-xs font-bold leading-tight">{errorMessage}</p>
                     </div>
@@ -76,10 +76,10 @@ export default function Login() {
                                 })}
                                 type="email"
                                 placeholder="admin@gmail.com"
-                                className={`w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12 pr-4 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 ${errors.email ? 'border-red-200' : 'border-slate-100 focus:border-primary/30'}`}
+                                className={`w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12 pr-4 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 ${errors.email ? 'border-destructive/30' : 'border-slate-100 focus:border-primary/30'}`}
                             />
                         </div>
-                        {errors.email && <p className="text-[10px] text-red-500 font-bold ml-2">{errors.email.message}</p>}
+                        {errors.email && <p className="text-[10px] text-destructive font-bold ml-2">{errors.email.message}</p>}
                     </div>
 
                     {/* Password Field */}
@@ -91,10 +91,10 @@ export default function Login() {
                                 {...register("password", { required: "Password is required" })}
                                 type="password"
                                 placeholder="••••••••"
-                                className={`w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12 pr-4 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 ${errors.password ? 'border-red-200' : 'border-slate-100 focus:border-primary/30'}`}
+                                className={`w-full bg-slate-50 border-2 rounded-2xl py-4 pl-12 pr-4 outline-none transition-all focus:bg-white focus:ring-4 focus:ring-primary/5 ${errors.password ? 'border-destructive/30' : 'border-slate-100 focus:border-primary/30'}`}
                             />
                         </div>
-                        {errors.password && <p className="text-[10px] text-red-500 font-bold ml-2">{errors.password.message}</p>}
+                        {errors.password && <p className="text-[10px] text-destructive font-bold ml-2">{errors.password.message}</p>}
                     </div>
 
                     {/* Submit Button */}

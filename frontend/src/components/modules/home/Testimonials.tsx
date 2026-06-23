@@ -46,11 +46,11 @@ export default function Testimonials() {
           transition={{ duration: 0.7 }}
           className="mx-auto mb-12 max-w-2xl text-center"
         >
-          <div className="mb-4 inline-flex items-center gap-2 border border-[#d75a3f]/25 bg-[#fff4ed] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#d75a3f]">
+          <div className="mb-4 inline-flex items-center gap-2 border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
             <Star size={13} fill="currentColor" />
             Guest Notes
           </div>
-          <h2 className="font-serif text-4xl font-normal leading-tight text-[#111827] md:text-6xl">
+          <h2 className="font-serif text-4xl font-normal leading-tight text-neutral md:text-6xl">
             What guests say after the last course
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
@@ -81,10 +81,10 @@ export default function Testimonials() {
               <SwiperSlide key={item?._id || index}>
                 <motion.article
                   variants={cardVariant}
-                  className="flex h-full min-h-[320px] flex-col justify-between rounded-lg border border-slate-200 bg-[#f7f8f4] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[#1f4f46]/35 hover:bg-white hover:shadow-xl hover:shadow-slate-200/60"
+                  className="flex h-full min-h-[320px] flex-col justify-between rounded-lg border border-slate-200 bg-muted p-7 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:bg-white hover:shadow-xl hover:shadow-slate-200/60"
                 >
                   <div>
-                    <div className="mb-5 flex h-11 w-11 items-center justify-center bg-white text-[#d75a3f] shadow-sm">
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center bg-white text-primary shadow-sm">
                       <Quote size={19} />
                     </div>
 
@@ -105,8 +105,8 @@ export default function Testimonials() {
                       />
                     )}
                     <div>
-                      <h5 className="font-bold text-[#111827]">{item.name}</h5>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#1f4f46]">
+                      <h5 className="font-bold text-neutral">{item.name}</h5>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-secondary">
                         {item?.designation}
                       </p>
                     </div>

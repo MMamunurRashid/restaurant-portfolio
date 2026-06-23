@@ -141,7 +141,7 @@ export default function ServiceForm() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC]">
+        <div className="min-h-screen bg-muted">
             <form onSubmit={handleSubmit(onFormSubmit)} className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
                 {/* Left Side: Main Content */}
@@ -155,7 +155,7 @@ export default function ServiceForm() {
                         </div>
 
                         {fileError && (
-                            <div className="mb-6 flex items-center gap-2 bg-red-50 text-red-600 p-4 rounded-2xl border border-red-100 text-sm font-semibold animate-shake">
+                            <div className="mb-6 flex items-center gap-2 bg-destructive/10 text-destructive p-4 rounded-2xl border border-destructive/20 text-sm font-semibold animate-shake">
                                 <AlertCircle size={18} /> {fileError}
                             </div>
                         )}
@@ -236,7 +236,7 @@ export default function ServiceForm() {
                                     <div key={i} className="relative group aspect-square rounded-2xl overflow-hidden border border-slate-100">
                                         <img src={item.url} className="h-full w-full object-cover transition-transform group-hover:scale-110" alt="Gallery" />
                                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                            <button type="button" onClick={() => removeGalleryImage(i)} className="bg-white text-red-500 p-2 rounded-full hover:bg-red-500 hover:text-white transition-colors shadow-lg">
+                                            <button type="button" onClick={() => removeGalleryImage(i)} className="bg-white text-destructive p-2 rounded-full hover:bg-destructive hover:text-white transition-colors shadow-lg">
                                                 <Trash2 size={16} />
                                             </button>
                                         </div>

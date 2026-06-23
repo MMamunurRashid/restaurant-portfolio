@@ -65,8 +65,8 @@ export default function MessageModal({ message, onClose }: { message: any, onClo
                         <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
                             <Paperclip size={14} /> Message Content
                         </div>
-                        <div className="bg-blue-50/30 p-8 rounded-3xl border border-blue-100/50 relative">
-                            <div className="absolute top-4 right-6 text-blue-100">
+                        <div className="bg-primary/10 p-8 rounded-3xl border border-primary/20 relative">
+                            <div className="absolute top-4 right-6 text-primary/20">
                                 <MessageSquare size={40} />
                             </div>
                             <p className="text-slate-700 leading-relaxed whitespace-pre-wrap text-sm relative z-10">

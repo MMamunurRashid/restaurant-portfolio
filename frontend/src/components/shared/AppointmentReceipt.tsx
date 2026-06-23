@@ -46,7 +46,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
             const canvas = await html2canvas(el as HTMLElement, {
                 scale: 2,
                 useCORS: true,
-                backgroundColor: '#ffffff',
+                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--background').trim() || 'white',
             });
 
             const imgData = canvas.toDataURL('image/png');
@@ -70,7 +70,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                     }
                     const headHTML = document.head.innerHTML.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
                     const bodyHTML = el.outerHTML;
-                    const extraStyles = `<style>body{background:#fff;color:#111;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;margin:0;padding:20px;} .receipt-root{max-width:800px;margin:0 auto;}</style>`;
+                    const extraStyles = `<style>body{background:var(--background);color:var(--foreground);font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;margin:0;padding:20px;} .receipt-root{max-width:800px;margin:0 auto;}</style>`;
                     printWindow.document.open();
                     printWindow.document.write(`<!doctype html><html><head>${headHTML}${extraStyles}</head><body><div class="receipt-root">${bodyHTML}</div></body></html>`);
                     printWindow.document.close();
@@ -125,7 +125,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                             {/* Printable section — captured by html2canvas */}
                             <div ref={printRef} className="bg-white">
                                 {/* Brand header */}
-                                <div className="bg-[#d75a3f] px-8 pt-8 pb-10 text-center">
+                                <div className="bg-primary px-8 pt-8 pb-10 text-center">
                                     <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
                                         <CheckCircle size={24} className="text-white" />
                                     </div>
@@ -192,19 +192,19 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                                         {(pkg.isPopular || pkg.isFeatured) && (
                                                             <div className="flex gap-1">
                                                                 {pkg.isPopular && (
-                                                                    <span className="text-[9px] font-bold uppercase tracking-wide bg-rose-50 text-rose-500 border border-rose-100 px-1.5 py-0.5 rounded-full">
+                                                                    <span className="text-[9px] font-bold uppercase tracking-wide bg-primary/10 text-primary border border-primary/20 px-1.5 py-0.5 rounded-full">
                                                                         Popular
                                                                     </span>
                                                                 )}
                                                                 {pkg.isFeatured && (
-                                                                    <span className="text-[9px] font-bold uppercase tracking-wide bg-violet-50 text-violet-500 border border-violet-100 px-1.5 py-0.5 rounded-full">
+                                                                    <span className="text-[9px] font-bold uppercase tracking-wide bg-secondary/10 text-secondary border border-secondary/20 px-1.5 py-0.5 rounded-full">
                                                                         Featured
                                                                     </span>
                                                                 )}
                                                             </div>
                                                         )}
                                                     </div>
-                                                    <span className="text-[14px] font-semibold text-[#d75a3f] self-center">
+                                                    <span className="text-[14px] font-semibold text-primary self-center">
                                                         {pkg.price !== undefined
                                                             ? `৳${pkg.price.toLocaleString('en-BD')}`
                                                             : '—'}
@@ -213,11 +213,11 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                             ))}
                                             {/* Total row */}
                                             {totalPrice > 0 && (
-                                                <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#d75a3f]/5 border-t border-[#d75a3f]/20">
+                                                <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-primary/5 border-t border-primary/20">
                                                     <span className="text-[13px] font-semibold text-stone-600">
                                                         Estimated Total
                                                     </span>
-                                                    <span className="text-[15px] font-bold text-[#d75a3f]">
+                                                    <span className="text-[15px] font-bold text-primary">
                                                         ৳{totalPrice.toLocaleString('en-BD')}
                                                     </span>
                                                 </div>
@@ -255,7 +255,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                         <div className="shrink-0 border-t border-stone-100 px-8 py-4 bg-white">
                             <button
                                 onClick={handleDownload}
-                                className="w-full flex items-center justify-center gap-2.5 bg-[#d75a3f] hover:bg-[#c94830] active:scale-[0.98] text-white text-sm font-semibold py-3 rounded-xl transition-all duration-200 shadow-sm shadow-[#d75a3f]/20"
+                                className="w-full flex items-center justify-center gap-2.5 bg-primary hover:bg-primary/90 active:scale-[0.98] text-white text-sm font-semibold py-3 rounded-xl transition-all duration-200 shadow-sm shadow-primary/20"
                             >
                                 <Download size={15} />
                                 Download Receipt as PDF
@@ -290,7 +290,7 @@ function ZigZag() {
         >
             <path
                 d="M0,0 L20,16 L40,0 L60,16 L80,0 L100,16 L120,0 L140,16 L160,0 L180,16 L200,0 L220,16 L240,0 L260,16 L280,0 L300,16 L320,0 L340,16 L360,0 L380,16 L400,0 L420,16 L440,0 L460,16 L480,0 L500,16 L500,16 L0,16 Z"
-                fill="white"
+                fill="var(--background)"
             />
         </svg>
     );

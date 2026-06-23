@@ -35,7 +35,7 @@ export default function AllPackagesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f7f8f4] px-4 pb-24 relative overflow-x-hidden">
+    <div className="min-h-screen bg-muted px-4 pb-24 relative overflow-x-hidden">
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Page Hero */}
         <motion.div
@@ -44,7 +44,7 @@ export default function AllPackagesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: ([0.22, 1, 0.36, 1] as any) }}
         >
-          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#d75a3f]">
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
             Dining Packages
           </p>
           <h1 className="font-serif text-5xl font-normal leading-[1.1] tracking-tight text-stone-800 md:text-6xl">
@@ -69,7 +69,7 @@ export default function AllPackagesPage() {
               placeholder="Search dining packages..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-stone-200 rounded-xl py-3 pl-10 pr-4 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:border-[#d75a3f]/40 focus:ring-2 focus:ring-[#d75a3f]/10 transition-all shadow-sm"
+              className="w-full bg-white border border-stone-200 rounded-xl py-3 pl-10 pr-4 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/10 transition-all shadow-sm"
             />
           </div>
         </motion.div>
@@ -89,7 +89,7 @@ export default function AllPackagesPage() {
             ].map((stat, i, arr) => (
               <div key={stat.label} className="flex items-center gap-8">
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-sans text-3xl font-bold tracking-tight text-[#d75a3f] leading-none">
+                  <span className="font-sans text-3xl font-bold tracking-tight text-primary leading-none">
                     {stat.num}
                   </span>
                   <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400">
@@ -108,7 +108,7 @@ export default function AllPackagesPage() {
         {isLoading && (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <Skeleton key={i} className="h-90 rounded-2xl bg-rose-100/50" />
+              <Skeleton key={i} className="h-90 rounded-2xl bg-primary/10" />
             ))}
           </div>
         )}
@@ -123,8 +123,8 @@ export default function AllPackagesPage() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="rounded-full border border-[#d75a3f]/15 bg-white p-5">
-                <PackageOpen size={28} className="text-[#d75a3f]" />
+              <div className="rounded-full border border-primary/20 bg-white p-5">
+                <PackageOpen size={28} className="text-primary" />
               </div>
               <p className="text-stone-500 text-sm">
                 No dining packages found for{" "}
@@ -134,7 +134,7 @@ export default function AllPackagesPage() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setSearch("")}
-                className="text-[#d75a3f] hover:text-secondary hover:bg-white"
+                className="text-primary hover:text-secondary hover:bg-white"
               >
                 Clear search
               </Button>
@@ -161,13 +161,13 @@ export default function AllPackagesPage() {
                   <Card
                     className={`group relative flex flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full ${
                       pkg.isPopular
-                        ? "border-rose-200 bg-white shadow-rose-100/80 shadow-md"
-                        : "border-stone-200 bg-white hover:border-rose-100 hover:shadow-stone-100"
+                        ? "border-primary/30 bg-white shadow-primary/10 shadow-md"
+                        : "border-stone-200 bg-white hover:border-primary/20 hover:shadow-stone-100"
                     }`}
                   >
                     {/* Popular top accent */}
                     {pkg.isPopular && (
-                      <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-rose-400/80 to-transparent" />
+                      <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-primary/80 to-transparent" />
                     )}
 
                     {pkg.thumbnail && (
@@ -185,13 +185,13 @@ export default function AllPackagesPage() {
                       {/* Badges */}
                       <div className="flex flex-wrap gap-1.5 min-h-5.5 mb-2">
                         {pkg.isPopular && (
-                          <Badge className="gap-1 bg-rose-50 text-secondary border border-rose-200 hover:bg-rose-50 text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 shadow-none">
+                          <Badge className="gap-1 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/10 text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 shadow-none">
                             <Star size={9} fill="currentColor" />
                             Popular
                           </Badge>
                         )}
                         {pkg.isFeatured && (
-                          <Badge className="gap-1 bg-violet-50 text-violet-500 border border-violet-200 hover:bg-violet-50 text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 shadow-none">
+                          <Badge className="gap-1 bg-secondary/10 text-secondary border border-secondary/20 hover:bg-secondary/10 text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 shadow-none">
                             <Zap size={9} fill="currentColor" />
                             Featured
                           </Badge>
@@ -203,7 +203,7 @@ export default function AllPackagesPage() {
                       </h3>
 
                       <div className="mt-2 flex items-baseline gap-0.5">
-                        <span className="text-sm font-medium text-rose-400">৳</span>
+                        <span className="text-sm font-medium text-primary">৳</span>
                         <span className="font-sans text-3xl font-bold tracking-tight text-stone-800 leading-none">
                           {pkg.price.toLocaleString("en-BD")}
                         </span>
@@ -220,7 +220,7 @@ export default function AllPackagesPage() {
                       <ul className="space-y-2.5">
                         {pkg.services.map((service, i) => (
                           <li key={i} className="flex items-start gap-2.5">
-                            <span className="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border border-rose-200 bg-rose-50 text-rose-400">
+                            <span className="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary">
                               <Check size={9} strokeWidth={3} />
                             </span>
                             <span className="text-xs leading-snug text-stone-500">
@@ -239,8 +239,8 @@ export default function AllPackagesPage() {
                         <Button
                           className={`w-full gap-2 text-xs font-semibold tracking-wide transition-all duration-200 rounded-xl ${
                             pkg.isPopular
-                              ? "bg-[#d75a3f] text-white hover:bg-[#bd4931] shadow-sm shadow-[#d75a3f]/20"
-                              : "bg-transparent border border-stone-200 text-stone-500 hover:bg-white hover:border-[#d75a3f]/25 hover:text-secondary"
+                              ? "bg-primary text-white hover:bg-primary/90 shadow-sm shadow-primary/20"
+                              : "bg-transparent border border-stone-200 text-stone-500 hover:bg-white hover:border-primary/30 hover:text-secondary"
                           }`}
                         >
                           Reserve Table

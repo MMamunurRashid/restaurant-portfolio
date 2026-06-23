@@ -67,7 +67,7 @@ export default function TeamCategory() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
+                    <div className="p-3 bg-primary/10 text-primary rounded-xl">
                         <Tag size={24} />
                     </div>
                     <div>
@@ -95,7 +95,7 @@ export default function TeamCategory() {
                             <tr key={category?._id} className="group hover:bg-slate-50/50 transition-all">
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3 font-bold text-slate-800 text-sm">
-                                        <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                                        <div className="w-2 h-2 rounded-full bg-primary"></div>
                                         {category?.name}
                                     </div>
                                 </td>
@@ -104,10 +104,10 @@ export default function TeamCategory() {
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex items-center justify-end gap-2">
-                                        <button onClick={() => openModal(category)} className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-lg transition-all">
+                                        <button onClick={() => openModal(category)} className="p-2 hover:bg-primary/10 text-slate-400 hover:text-primary rounded-lg transition-all">
                                             <Edit size={16} />
                                         </button>
-                                        <button onClick={() => handleDelete(category?._id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-lg transition-all">
+                                        <button onClick={() => handleDelete(category?._id)} className="p-2 hover:bg-destructive/10 text-slate-400 hover:text-destructive rounded-lg transition-all">
                                             <Trash2 size={16} />
                                         </button>
                                     </div>
@@ -135,7 +135,7 @@ export default function TeamCategory() {
                                     {...register("name", { required: "Name is required" })}
                                     placeholder="e.g. Web Development"
                                 />
-                                {errors.name && <p className="text-[10px] text-red-500 font-bold">{errors.name.message as string}</p>}
+                                {errors.name && <p className="text-[10px] text-destructive font-bold">{errors.name.message as string}</p>}
                             </div>
 
                             <div className="space-y-2">
@@ -145,7 +145,7 @@ export default function TeamCategory() {
                                     {...register("order", { required: "Order is required" })}
                                     placeholder="e.g. 1"
                                 />
-                                {errors.order && <p className="text-[10px] text-red-500 font-bold">{errors.order.message as string}</p>}
+                                {errors.order && <p className="text-[10px] text-destructive font-bold">{errors.order.message as string}</p>}
                             </div>
 
                             <div className="space-y-2">
@@ -155,7 +155,7 @@ export default function TeamCategory() {
                                     placeholder="e.g. Web Development"
                                     rows={4}
                                 ></textarea>
-                                {errors.description && <p className="text-[10px] text-red-500 font-bold">{errors.description.message as string}</p>}
+                                {errors.description && <p className="text-[10px] text-destructive font-bold">{errors.description.message as string}</p>}
                             </div>
 
                             <div className="pt-4">

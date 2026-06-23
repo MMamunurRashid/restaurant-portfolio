@@ -10,7 +10,7 @@ export default function ErrorPage() {
                 <h1 className="text-9xl font-extrabold text-primary tracking-widest">
                     {error?.status || "404"}
                 </h1>
-                <div className="bg-[#FF6A3D] px-2 text-sm rounded rotate-12 absolute">
+                <div className="bg-primary px-2 text-sm rounded rotate-12 absolute">
                     Page {error?.statusText || "Not Found"}
                 </div>
 

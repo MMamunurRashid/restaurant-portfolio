@@ -37,7 +37,7 @@ export default function FileUploadField({ label, name, register, watch, errors, 
             <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">{label}</label>
 
             <div className={`relative border-2 border-dashed rounded-2xl p-4 transition-all min-h-35 flex items-center justify-center overflow-hidden
-                ${errors[name] ? 'border-red-200 bg-red-50/30' : 'border-slate-100 bg-slate-50 hover:bg-white hover:border-primary/20 hover:shadow-sm'}`}>
+                ${errors[name] ? 'border-destructive/30 bg-destructive/10' : 'border-slate-100 bg-slate-50 hover:bg-white hover:border-primary/20 hover:shadow-sm'}`}>
 
                 {/* Hidden Input - It should always be present and cover the area when no file is there */}
 
@@ -71,7 +71,7 @@ export default function FileUploadField({ label, name, register, watch, errors, 
                             <button
                                 type="button"
                                 onClick={handleRemove}
-                                className="absolute -top-2 -right-2 z-30 bg-red-500 text-white p-1.5 rounded-full shadow-lg hover:scale-110 transition-transform active:scale-90"
+                                className="absolute -top-2 -right-2 z-30 bg-destructive text-white p-1.5 rounded-full shadow-lg hover:scale-110 transition-transform active:scale-90"
                             >
                                 <X size={12} strokeWidth={3} />
                             </button>
@@ -81,7 +81,7 @@ export default function FileUploadField({ label, name, register, watch, errors, 
                             </div>
                             {/* file size */}
                             {fileValue instanceof FileList && fileValue[0] && (
-                                <p className="text-[9px] text-red-400 bg-red-100 px-2 py-1 rounded-full">
+                                <p className="text-[9px] text-destructive bg-destructive/10 px-2 py-1 rounded-full">
                                     Size: {(fileValue[0].size / 1024 / 1024).toFixed(2)} MB
                                 </p>
                             )}
@@ -101,7 +101,7 @@ export default function FileUploadField({ label, name, register, watch, errors, 
             </div>
 
             {errors[name] && (
-                <p className="text-[10px] text-red-500 font-bold ml-1 animate-in fade-in slide-in-from-top-1">
+                <p className="text-[10px] text-destructive font-bold ml-1 animate-in fade-in slide-in-from-top-1">
                     {errors[name].message}
                 </p>
             )}

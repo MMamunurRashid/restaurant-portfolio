@@ -109,14 +109,14 @@ export default function AllBanner() {
                                             <div className="flex items-center justify-end gap-2.5">
                                                 <Link
                                                     to={`/admin/setting/banner/edit/${banner?._id}`}
-                                                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-500 hover:bg-blue-50 transition-all duration-200 shadow-sm"
+                                                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-200 shadow-sm"
                                                     title="Edit Banner"
                                                 >
                                                     <Edit size={15} />
                                                 </Link>
                                                 <button
                                                     onClick={() => handleDelete(banner?._id)}
-                                                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-red-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200 shadow-sm"
+                                                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200 shadow-sm"
                                                     title="Delete Banner"
                                                 >
                                                     <Trash2 size={15} />

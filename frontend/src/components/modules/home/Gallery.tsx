@@ -49,7 +49,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
 
     if (showSkeleton) {
         return (
-            <section className="bg-[#f7f8f4] py-14 md:px-4 md:py-24">
+            <section className="bg-muted py-14 md:px-4 md:py-24">
                 <div className="container mx-auto max-w-6xl">
                     <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                         {Array.from({ length: max }).map((_, i) => (
@@ -66,7 +66,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     }
 
     return (
-        <section className="relative overflow-hidden bg-[#f7f8f4] py-14 md:px-4 md:py-24">
+        <section className="relative overflow-hidden bg-muted py-14 md:px-4 md:py-24">
             <div className="container relative z-10 mx-auto max-w-6xl">
                 <motion.div
                     className="mx-auto mb-12 max-w-2xl text-center"
@@ -75,11 +75,11 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="mb-4 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                    <div className="mb-4 inline-flex items-center gap-2 border border-secondary/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary">
                         <Camera size={13} />
                         Gallery
                     </div>
-                    <h2 className="font-serif text-4xl font-normal leading-tight text-[#111827] md:text-6xl">
+                    <h2 className="font-serif text-4xl font-normal leading-tight text-neutral md:text-6xl">
                         A look inside Prestige
                     </h2>
                     <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
@@ -100,8 +100,8 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                             onClick={() => setFilter(cat)}
                             className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${
                                 filter === cat
-                                    ? "bg-[#1f4f46] text-white"
-                                    : "border border-slate-200 bg-white text-slate-500 hover:border-[#1f4f46]/35 hover:text-[#1f4f46]"
+                                    ? "bg-secondary text-white"
+                                    : "border border-slate-200 bg-white text-slate-500 hover:border-secondary/40 hover:text-secondary"
                             }`}
                         >
                             {cat}
@@ -133,7 +133,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                     />
                                 </div>
 
-                                <div className="absolute inset-0 bg-linear-to-t from-[#111827]/70 via-[#111827]/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
+                                <div className="absolute inset-0 bg-linear-to-t from-neutral/70 via-neutral/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95" />
 
                                 <div className="absolute bottom-4 left-4 right-4">
                                     <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
@@ -144,7 +144,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                     </h3>
                                 </div>
 
-                                <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center bg-white text-[#1f4f46] opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100">
+                                <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center bg-white text-secondary opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100">
                                     <ZoomIn size={15} />
                                 </div>
                             </motion.div>
@@ -171,7 +171,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                     <div className="mt-10 text-center">
                         <Link
                             to="/gallery"
-                            className="inline-flex items-center gap-2 border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-[#1f4f46] transition-all hover:border-[#1f4f46]/40"
+                            className="inline-flex items-center gap-2 border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-secondary transition-all hover:border-secondary/40"
                         >
                             View full gallery
                             <ArrowRight size={15} />
@@ -191,7 +191,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         onClick={() => setSelectedImg(null)}
                     >
                         <button
-                            className="absolute right-6 top-6 flex h-10 w-10 items-center justify-center border border-white/20 bg-white/10 text-white transition-all duration-200 hover:bg-[#d75a3f]"
+                            className="absolute right-6 top-6 flex h-10 w-10 items-center justify-center border border-white/20 bg-white/10 text-white transition-all duration-200 hover:bg-primary"
                             onClick={() => setSelectedImg(null)}
                             aria-label="Close preview"
                         >

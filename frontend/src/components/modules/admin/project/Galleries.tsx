@@ -71,7 +71,7 @@ export default function Galleries({
 
                                 <button
                                     onClick={() => removeGalleryUrl(index)}
-                                    className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/60 text-base-100 opacity-0 duration-300 hover:text-red-500 hover:opacity-100"
+                                    className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/60 text-base-100 opacity-0 duration-300 hover:text-destructive hover:opacity-100"
                                 >
                                     <MdDeleteForever className="text-2xl" />
                                 </button>
@@ -92,7 +92,7 @@ export default function Galleries({
 
                                 <button
                                     onClick={() => removeImage(index)}
-                                    className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/60 text-base-100 opacity-0 duration-300 hover:text-red-500 hover:opacity-100"
+                                    className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/60 text-base-100 opacity-0 duration-300 hover:text-destructive hover:opacity-100"
                                 >
                                     <MdDeleteForever className="text-2xl" />
                                 </button>

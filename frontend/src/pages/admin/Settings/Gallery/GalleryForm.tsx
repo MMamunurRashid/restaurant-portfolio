@@ -49,7 +49,7 @@ function ImageCard({
         <button
           type="button"
           onClick={() => onRemove(item.id)}
-          className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-white/90 text-rose-500 shadow opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-rose-500 hover:text-white"
+          className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-white/90 text-destructive shadow opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-destructive hover:text-white"
           aria-label="Remove image"
         >
           <X size={14} />
@@ -62,7 +62,7 @@ function ImageCard({
 
         {/* New badge */}
         {item.kind === 'new' && (
-          <span className="absolute bottom-2 left-2 text-[10px] font-semibold tracking-widest uppercase bg-emerald-500 text-white px-2 py-0.5 rounded-full">
+          <span className="absolute bottom-2 left-2 text-[10px] font-semibold tracking-widest uppercase bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
             New
           </span>
         )}
@@ -318,7 +318,7 @@ export default function GalleryForm() {
                 <button
                   type="button"
                   onClick={() => items.forEach((i) => removeItem(i.id))}
-                  className="text-xs text-rose-400 hover:text-rose-600 transition-colors"
+                  className="text-xs text-primary hover:text-destructive transition-colors"
                 >
                   Remove all
                 </button>
@@ -385,7 +385,7 @@ export default function GalleryForm() {
                 </div>
                 <div className="flex justify-between">
                   <span>New uploads</span>
-                  <span className="font-semibold text-emerald-600">{newCount}</span>
+                  <span className="font-semibold text-primary">{newCount}</span>
                 </div>
               </>
             )}

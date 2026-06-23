@@ -163,10 +163,10 @@ export default function AllTeam() {
                                         </td>
                                         <td className="p-4">
                                             <div className="flex items-center justify-end gap-2">
-                                                <Link to={`/admin/about/team/edit/${member?._id}`} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-blue-600 hover:border-blue-600 transition-all">
+                                                <Link to={`/admin/about/team/edit/${member?._id}`} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-primary hover:border-primary transition-all">
                                                     <Edit size={14} />
                                                 </Link>
-                                                <button onClick={() => handleDelete(member?._id)} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-red-600 hover:border-red-600 transition-all">
+                                                <button onClick={() => handleDelete(member?._id)} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-destructive hover:border-destructive transition-all">
                                                     <Trash2 size={14} />
                                                 </button>
                                             </div>

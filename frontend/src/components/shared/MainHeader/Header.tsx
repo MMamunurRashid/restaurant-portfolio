@@ -52,11 +52,11 @@ export default function Header({
                             <img
                                 src={logoSrc}
                                 alt={generalSetting?.siteName || "Logo"}
-                                className={`object-contain transition-all duration-300 hover:opacity-80 h-12`}
+                                className={`object-contain transition-all duration-300 hover:opacity-80 h-16`}
                                 loading="lazy"
                             />
                         ) : (
-                            <span className="font-serif text-2xl text-[#111827]">{generalSetting.siteName}</span>
+                            <span className="font-serif text-2xl text-neutral">{generalSetting.siteName}</span>
                         )}
                     </Link>
                 )}
@@ -70,14 +70,14 @@ export default function Header({
                                 key={link.href}
                                 to={link.href}
                                 className={`relative px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] transition-colors duration-200 rounded-xl group ${
-                                    active ? "text-[#1f4f46]" : "text-slate-500 hover:text-[#1f4f46]"
+                                    active ? "text-secondary" : "text-slate-500 hover:text-secondary"
                                 }`}
                             >
                                 {/* Active dot */}
                                 {active && (
                                     <motion.span
                                         layoutId="nav-active"
-                                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#d75a3f]"
+                                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1/2 rounded-2xl h-1 bg-primary"
                                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                     />
                                 )}
@@ -93,7 +93,7 @@ export default function Header({
                         <motion.button
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className={`group flex items-center gap-2 rounded-lg px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 bg-[#d75a3f] text-white shadow-md shadow-slate-200 hover:bg-[#c94830]`}
+                            className={`group flex items-center gap-2 rounded-lg px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 bg-primary text-white shadow-md shadow-slate-200 hover:bg-primary/90`}
                         >
                             <Calendar size={13} />
                             Reserve
@@ -139,7 +139,7 @@ export default function Header({
                             className="fixed right-0 top-0 z-50 flex h-screen w-[88%] max-w-sm flex-col bg-white shadow-2xl shadow-slate-300/40"
                         >
                             {/* Top accent line */}
-                            <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-[#d75a3f]/60 to-transparent" />
+                            <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-primary/60 to-transparent" />
 
                             {/* Drawer header */}
                             <div className="flex items-center justify-between px-7 py-5 border-b border-stone-100">
@@ -151,11 +151,11 @@ export default function Header({
                                             className="h-8 object-contain"
                                         />
                                     ) : (
-                                        <span className="font-serif text-xl text-[#111827]">{generalSetting.siteName}</span>
+                                        <span className="font-serif text-xl text-neutral">{generalSetting.siteName}</span>
                                     )
                                 )}
                                 <button
-                                    className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 hover:bg-[#1f4f46] hover:text-white transition-all duration-200"
+                                    className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 hover:bg-secondary hover:text-white transition-all duration-200"
                                     onClick={() => setMobileMenuOpen(false)}
                                     aria-label="Close menu"
                                 >
@@ -183,14 +183,14 @@ export default function Header({
                                                     onClick={() => setMobileMenuOpen(false)}
                                                     className={`flex items-center justify-between px-4 py-3.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                                                         active
-                                                            ? "bg-[#1f4f46]/10 text-[#1f4f46] border border-[#1f4f46]/20"
-                                                            : "text-slate-600 hover:bg-slate-50 hover:text-[#1f4f46]"
+                                                            ? "bg-secondary/10 text-secondary border border-secondary/20"
+                                                            : "text-slate-600 hover:bg-slate-50 hover:text-secondary"
                                                     }`}
                                                 >
                                                     {link.name}
                                                     <ArrowRight
                                                         size={14}
-                                                        className={`transition-transform ${active ? "text-[#1f4f46] translate-x-0.5" : "text-slate-300"}`}
+                                                        className={`transition-transform ${active ? "text-secondary translate-x-0.5" : "text-slate-300"}`}
                                                     />
                                                 </Link>
                                             </motion.div>
@@ -207,7 +207,7 @@ export default function Header({
                                 >
                                     <motion.button
                                         whileTap={{ scale: 0.97 }}
-                                        className="w-full flex items-center justify-center gap-2.5 bg-[#d75a3f] text-white py-4 rounded-lg text-sm font-semibold tracking-wide shadow-md shadow-slate-200 hover:bg-[#c94830] transition-colors"
+                                        className="w-full flex items-center justify-center gap-2.5 bg-primary text-white py-4 rounded-lg text-sm font-semibold tracking-wide shadow-md shadow-slate-200 hover:bg-primary/90 transition-colors"
                                     >
                                         <Calendar size={15} />
                                         Reserve a Table

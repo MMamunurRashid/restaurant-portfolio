@@ -59,15 +59,15 @@ export default function AboutCom() {
                                 className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105"
                                 loading="lazy"
                             />
-                            <div className="absolute inset-0 bg-linear-to-t from-[#111827]/50 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-linear-to-t from-neutral/50 via-transparent to-transparent" />
 
                             {counters.length > 0 && (
                             <div className="absolute bottom-5 left-5 right-5 grid grid-cols-3 gap-2">
                                 {counters.slice(0, 3).map((item: any, i: number) => (
                                     <div key={i} className="rounded-lg border border-white/30 bg-white/90 p-3 text-center backdrop-blur-sm">
-                                        <p className="text-lg font-bold leading-none text-[#111827]">
+                                        <p className="text-lg font-bold leading-none text-neutral">
                                             {item.count}
-                                            <span className="text-[#d75a3f]">+</span>
+                                            <span className="text-primary">+</span>
                                         </p>
                                         <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-slate-500">
                                             {item.title}
@@ -88,16 +88,16 @@ export default function AboutCom() {
                         className="flex flex-col"
                     >
                         {about?.subtitle && (
-                        <div className="mb-5 inline-flex items-center gap-2 self-start border border-[#1f4f46]/20 bg-[#f7f8f4] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                        <div className="mb-5 inline-flex items-center gap-2 self-start border border-secondary/20 bg-muted px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary">
                             <Leaf size={13} />
                             {about.subtitle}
                         </div>
                         )}
 
                         {title && (
-                        <h2 className="font-serif text-4xl font-normal leading-[1.08] text-[#111827] md:text-6xl">
+                        <h2 className="font-serif text-4xl font-normal leading-[1.08] text-neutral md:text-6xl">
                             {remainingTitle}{" "}
-                            <span className="italic text-[#1f4f46]">
+                            <span className="italic text-secondary">
                                 {highlightTitle}
                             </span>
                         </h2>
@@ -114,10 +114,10 @@ export default function AboutCom() {
                         {!about?.image && counters.length > 0 && (
                             <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
                                 {counters.slice(0, 3).map((item: any, i: number) => (
-                                    <div key={i} className="rounded-lg border border-slate-200 bg-[#f7f8f4] p-4">
-                                        <p className="text-2xl font-bold leading-none text-[#111827]">
+                                    <div key={i} className="rounded-lg border border-slate-200 bg-muted p-4">
+                                        <p className="text-2xl font-bold leading-none text-neutral">
                                             {item.count}
-                                            <span className="text-[#d75a3f]">+</span>
+                                            <span className="text-primary">+</span>
                                         </p>
                                         <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
                                             {item.title}
@@ -129,9 +129,9 @@ export default function AboutCom() {
 
                         {!isAboutPage && (
                             <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-                                <Link to="/about-us" className="group inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.18em] text-[#111827]">
+                                <Link to="/about-us" className="group inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.18em] text-neutral">
                                     Our Story
-                                    <span className="flex h-11 w-11 items-center justify-center border border-[#1f4f46]/25 text-[#1f4f46] transition-all group-hover:bg-[#1f4f46] group-hover:text-white">
+                                    <span className="flex h-11 w-11 items-center justify-center border border-secondary/30 text-secondary transition-all group-hover:bg-secondary group-hover:text-white">
                                         <ArrowUpRight size={18} className="transition-transform group-hover:rotate-45" />
                                     </span>
                                 </Link>

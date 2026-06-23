@@ -138,13 +138,13 @@ export default function AllAppointment() {
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
                                                     onClick={() => setSelectedAppointment(appointment)}
-                                                    className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-blue-600 hover:border-blue-600 transition-all"
+                                                    className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-primary hover:border-primary transition-all"
                                                 >
                                                     <Eye size={14} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(appointment?._id)}
-                                                    className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-red-600 hover:border-red-600 transition-all"
+                                                    className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-destructive hover:border-destructive transition-all"
                                                 >
                                                     <Trash2 size={14} />
                                                 </button>

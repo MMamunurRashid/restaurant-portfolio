@@ -134,8 +134,8 @@ export default function AllPackage() {
                                         <div className="flex items-center gap-6">
                                             {/* Featured Toggle */}
                                             <button onClick={() => handleToggleFeaturedStatus(item?._id)} className="flex flex-col items-center gap-1 group">
-                                                <Star size={16} className={`${item?.isFeatured ? 'text-yellow-500' : 'text-slate-300'}`} />
-                                                <span className="text-[9px] font-bold text-slate-400 group-hover:text-yellow-600">Featured</span>
+                                                <Star size={16} className={`${item?.isFeatured ? 'text-secondary' : 'text-slate-300'}`} />
+                                                <span className="text-[9px] font-bold text-slate-400 group-hover:text-secondary">Featured</span>
                                             </button>
                                         </div>
                                     </td>
@@ -143,8 +143,8 @@ export default function AllPackage() {
                                         <div className="flex items-center gap-6">
                                             {/* Popular Toggle */}
                                             <button onClick={() => handleTogglePopularStatus(item?._id)} className="flex flex-col items-center gap-1 group">
-                                                <TrendingUp size={16} className={`${item?.isPopular ? 'text-blue-500' : 'text-slate-300'}`} />
-                                                <span className="text-[9px] font-bold text-slate-400 group-hover:text-blue-600">Popular</span>
+                                                <TrendingUp size={16} className={`${item?.isPopular ? 'text-primary' : 'text-slate-300'}`} />
+                                                <span className="text-[9px] font-bold text-slate-400 group-hover:text-primary">Popular</span>
                                             </button>
                                         </div>
                                     </td>
@@ -153,7 +153,7 @@ export default function AllPackage() {
                                             <Link to={`/admin/package/edit/${item?._id}`} className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-primary transition-all">
                                                 <Edit size={16} />
                                             </Link>
-                                            <button onClick={() => handleDelete(item?._id)} className="p-2 hover:bg-red-50 rounded-lg text-slate-400 hover:text-red-600 transition-all">
+                                            <button onClick={() => handleDelete(item?._id)} className="p-2 hover:bg-destructive/10 rounded-lg text-slate-400 hover:text-destructive transition-all">
                                                 <Trash2 size={16} />
                                             </button>
                                         </div>

@@ -16,15 +16,15 @@ interface AdminAppointmentReceiptProps {
 const STATUS_CONFIG = {
     pending: {
         label: 'Pending',
-        className: 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-50',
+        className: 'bg-secondary/10 text-secondary border border-secondary/20 hover:bg-secondary/10',
     },
     confirmed: {
         label: 'Confirmed',
-        className: 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-50',
+        className: 'bg-primary/10 text-primary border border-primary/20 hover:bg-primary/10',
     },
     cancelled: {
         label: 'Cancelled',
-        className: 'bg-red-50 text-red-500 border border-red-200 hover:bg-red-50',
+        className: 'bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/10',
     },
 };
 
@@ -79,7 +79,7 @@ export default function AdminAppointmentReceipt({
             const canvas = await html2canvas(el as HTMLElement, {
                 scale: 2,
                 useCORS: true,
-                backgroundColor: '#ffffff',
+                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--background').trim() || 'white',
             });
 
             const imgData = canvas.toDataURL('image/png');
@@ -102,7 +102,7 @@ export default function AdminAppointmentReceipt({
                     }
                     const headHTML = document.head.innerHTML.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
                     const bodyHTML = el.outerHTML;
-                    const extraStyles = `<style>body{background:#fff;color:#111;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;margin:0;padding:20px;} .receipt-root{max-width:900px;margin:0 auto;}</style>`;
+                    const extraStyles = `<style>body{background:var(--background);color:var(--foreground);font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;margin:0;padding:20px;} .receipt-root{max-width:900px;margin:0 auto;}</style>`;
                     printWindow.document.open();
                     printWindow.document.write(`<!doctype html><html><head>${headHTML}${extraStyles}</head><body><div class="receipt-root">${bodyHTML}</div></body></html>`);
                     printWindow.document.close();
@@ -137,7 +137,7 @@ export default function AdminAppointmentReceipt({
                     {/* Header */}
                     <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100">
                         <div className="flex items-center gap-3">
-                            <div className="h-11 w-11 rounded-full bg-[#fff4ed] flex items-center justify-center text-[#d75a3f] text-sm font-semibold shrink-0">
+                            <div className="h-11 w-11 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-semibold shrink-0">
                                 {initials}
                             </div>
                             <div>
@@ -226,12 +226,12 @@ export default function AdminAppointmentReceipt({
                                         </span>
                                         <div className="flex flex-wrap gap-1 justify-center">
                                             {pkg.isPopular && (
-                                                <span className="text-[9px] font-bold uppercase tracking-wide bg-rose-50 text-rose-500 border border-rose-100 px-1.5 py-0.5 rounded-full">
+                                                <span className="text-[9px] font-bold uppercase tracking-wide bg-primary/10 text-primary border border-primary/20 px-1.5 py-0.5 rounded-full">
                                                     Popular
                                                 </span>
                                             )}
                                             {pkg.isFeatured && (
-                                                <span className="text-[9px] font-bold uppercase tracking-wide bg-violet-50 text-violet-500 border border-violet-100 px-1.5 py-0.5 rounded-full">
+                                                <span className="text-[9px] font-bold uppercase tracking-wide bg-secondary/10 text-secondary border border-secondary/20 px-1.5 py-0.5 rounded-full">
                                                     Featured
                                                 </span>
                                             )}
@@ -239,7 +239,7 @@ export default function AdminAppointmentReceipt({
                                                 <span className="text-[11px] text-stone-300">—</span>
                                             )}
                                         </div>
-                                        <span className="text-[14px] font-semibold text-[#d75a3f] text-right">
+                                        <span className="text-[14px] font-semibold text-primary text-right">
                                             {pkg.price !== undefined
                                                 ? `৳${pkg.price.toLocaleString('en-BD')}`
                                                 : '—'}
@@ -249,11 +249,11 @@ export default function AdminAppointmentReceipt({
 
                                 {/* Total */}
                                 {totalPrice > 0 && (
-                                    <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#d75a3f]/5 border-t border-[#d75a3f]/20">
+                                    <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-primary/5 border-t border-primary/20">
                                         <span className="text-[13px] font-semibold text-stone-600">
                                             Estimated Total
                                         </span>
-                                        <span className="text-[15px] font-bold text-[#d75a3f]">
+                                        <span className="text-[15px] font-bold text-primary">
                                             ৳{totalPrice.toLocaleString('en-BD')}
                                         </span>
                                     </div>
@@ -283,7 +283,7 @@ export default function AdminAppointmentReceipt({
             <div className="shrink-0 border-t border-stone-100 px-6 py-4 bg-white">
                 <button
                     onClick={handleDownload}
-                    className="w-full flex items-center justify-center gap-2.5 border border-[#d75a3f] text-[#d75a3f] hover:bg-[#d75a3f] hover:text-white active:scale-[0.98] text-sm font-semibold py-2.5 rounded-xl transition-all duration-200"
+                    className="w-full flex items-center justify-center gap-2.5 border border-primary text-primary hover:bg-primary hover:text-white active:scale-[0.98] text-sm font-semibold py-2.5 rounded-xl transition-all duration-200"
                 >
                     <Download size={15} />
                     Download as PDF

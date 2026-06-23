@@ -123,8 +123,8 @@
   input[type="date"],
   textarea,
   select {
-    @apply w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl 
-           outline-none transition-all duration-200 text-slate-700 text-sm;
+    @apply w-full px-4 py-3 bg-muted border border-border rounded-xl 
+           outline-none transition-all duration-200 text-neutral text-sm;
   }
 
   /* Focus States */
@@ -136,7 +136,7 @@
 
   /* Placeholder Styling */
   ::placeholder {
-    @apply text-slate-400 text-sm;
+    @apply text-muted-foreground text-sm;
   }
 
   /* Textarea Specific */
@@ -154,7 +154,7 @@
 
   /* Error State - Just add 'error' class from React Hook Form */
   .input-error {
-    @apply border-red-200 bg-red-50/30 focus:ring-red-500/5 focus:border-red-300;
+    @apply border-destructive/30 bg-destructive/10 focus:ring-destructive/10 focus:border-destructive/40;
   }
 
   label {
@@ -216,7 +216,7 @@ html.lenis {
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px #e52329;
+  -webkit-text-stroke: 1px var(--primary);
 }
 
 .text-outline-white {
@@ -225,13 +225,13 @@ html.lenis {
 }
 
 .admin_primary_btn {
-  @apply flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 hover:opacity-90 active:scale-95 transition-all;
+  @apply flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all;
 }
 
 table thead tr th {
-  @apply px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest last:text-end;
+  @apply px-8 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest last:text-end;
 }
 
 table tbody tr td {
-  @apply px-8 py-3 text-sm font-mono text-slate-400;
+  @apply px-8 py-3 text-sm font-mono text-muted-foreground;
 }

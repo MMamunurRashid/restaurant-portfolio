@@ -117,7 +117,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         to={item.href || '#'}
                         onClick={() => setIsOpen(false)}
                         className={`flex items-center gap-4 py-3.5 px-5 rounded-2xl transition-all duration-300 group
-                        ${isActive ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-slate-500 hover:bg-slate-50 hover:text-primary'}`}
+                        ${isActive ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'text-slate-500 hover:bg-slate-50 hover:text-primary'}`}
                     >
                         {item.icon && <item.icon size={20} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-primary'} />}
                         <span className={`flex-1 text-left font-bold text-[14.5px] tracking-wide`}>{item.label}</span>

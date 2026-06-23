@@ -105,15 +105,15 @@ export default function AllUsers() {
                                     </span>
                                 </td>
                                 <td>
-                                    <div className={`flex items-center gap-1.5 text-[11px] font-bold uppercase ${user?.status === 'active' ? 'text-green-600' : 'text-red-500'}`}>
+                                    <div className={`flex items-center gap-1.5 text-[11px] font-bold uppercase ${user?.status === 'active' ? 'text-primary' : 'text-destructive'}`}>
                                         <Circle size={8} fill="currentColor" /> {user?.status}
                                     </div>
                                 </td>
                                 <td>
                                     {
                                         user?.role !== 'superAdmin' && <div className="flex justify-end">
-                                            <button onClick={() => handleOpenSidebar(user)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"><Edit size={16} /></button>
-                                            <button onClick={() => handleDelete(user?._id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"><Trash2 size={16} /></button>
+                                            <button onClick={() => handleOpenSidebar(user)} className="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"><Edit size={16} /></button>
+                                            <button onClick={() => handleDelete(user?._id)} className="p-2 text-slate-400 hover:text-destructive hover:bg-destructive/10 rounded-lg transition-all"><Trash2 size={16} /></button>
                                         </div>
                                     }
                                 </td>

@@ -40,7 +40,7 @@ export default function ServicesCard({ services: providedServices }: { services?
                     >
                         <Link
                             to={href}
-                            className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#1f4f46]/30 hover:shadow-xl hover:shadow-slate-200/60"
+                            className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary/30 hover:shadow-xl hover:shadow-slate-200/60"
                         >
                             {service.thumbnail && (
                             <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
@@ -53,7 +53,7 @@ export default function ServicesCard({ services: providedServices }: { services?
                                 <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/5 to-transparent" />
 
                                 {service.icon && (
-                                <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center border border-white/40 bg-white/90 text-[#1f4f46] backdrop-blur-sm">
+                                <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center border border-white/40 bg-white/90 text-secondary backdrop-blur-sm">
                                     <img
                                         src={getMediaUrl(service.icon)}
                                         alt=""
@@ -67,7 +67,7 @@ export default function ServicesCard({ services: providedServices }: { services?
                                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/75">
                                         Menu Highlight
                                     </span>
-                                    <span className="flex h-8 w-8 items-center justify-center border border-white/30 bg-white/15 text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-[#d75a3f]">
+                                    <span className="flex h-8 w-8 items-center justify-center border border-white/30 bg-white/15 text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-primary">
                                         <ArrowUpRight size={14} />
                                     </span>
                                 </div>
@@ -75,7 +75,7 @@ export default function ServicesCard({ services: providedServices }: { services?
                             )}
 
                             <div className="flex flex-1 flex-col p-5">
-                                <h3 className="font-serif text-xl font-normal leading-snug text-[#111827] transition-colors duration-300 group-hover:text-[#1f4f46]">
+                                <h3 className="font-serif text-xl font-normal leading-snug text-neutral transition-colors duration-300 group-hover:text-secondary">
                                     {service.title}
                                 </h3>
 
@@ -85,10 +85,10 @@ export default function ServicesCard({ services: providedServices }: { services?
                                 </p>
 
                                 <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d75a3f]">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">
                                         {service.price ? `BDT ${service.price.toLocaleString("en-BD")}` : "View details"}
                                     </span>
-                                    <ArrowUpRight size={16} className="text-slate-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#d75a3f]" />
+                                    <ArrowUpRight size={16} className="text-slate-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
                                 </div>
                             </div>
                         </Link>

@@ -106,7 +106,7 @@ export default function About() {
             {/* Top Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <div className="p-3 bg-primary/10 text-primary rounded-xl">
                         <Info size={24} />
                     </div>
                     <div>
@@ -169,7 +169,7 @@ export default function About() {
                                                 type="text"
                                                 {...register(`stats.${index}.count` as const, { required: "Required" })}
                                                 placeholder="12+"
-                                                className={`bg-white ${((errors.stats && Array.isArray(errors.stats) && errors.stats[index]?.count) ? 'border-red-500 focus:ring-red-500' : '')}`}
+                                                className={`bg-white ${((errors.stats && Array.isArray(errors.stats) && errors.stats[index]?.count) ? 'border-destructive focus:ring-destructive/20' : '')}`}
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -178,7 +178,7 @@ export default function About() {
                                                 type="text"
                                                 {...register(`stats.${index}.title` as const, { required: "Required" })}
                                                 placeholder="Years of Experience"
-                                                className={`bg-white ${((errors.stats && Array.isArray(errors.stats) && errors.stats[index]?.title) ? 'border-red-500 focus:ring-red-500' : '')}`}
+                                                className={`bg-white ${((errors.stats && Array.isArray(errors.stats) && errors.stats[index]?.title) ? 'border-destructive focus:ring-destructive/20' : '')}`}
                                             />
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@ export default function About() {
                                     <button
                                         type="button"
                                         onClick={() => remove(index)}
-                                        className="p-2.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all mb-0.5"
+                                        className="p-2.5 bg-destructive/10 text-destructive rounded-lg hover:bg-destructive hover:text-white transition-all mb-0.5"
                                     >
                                         <Trash2 size={16} />
                                     </button>

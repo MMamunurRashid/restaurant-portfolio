@@ -103,10 +103,10 @@ export default function AllTestimonial() {
                                         <td className="text-sm text-slate-600">{review?.review}</td>
                                         <td>
                                             <div className="flex items-center justify-end gap-2">
-                                                <Link to={`/admin/setting/testimonial/edit/${review?._id}`} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-blue-600 hover:border-blue-600 transition-all">
+                                                <Link to={`/admin/setting/testimonial/edit/${review?._id}`} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-primary hover:border-primary transition-all">
                                                     <Edit size={14} />
                                                 </Link>
-                                                <button onClick={() => handleDelete(review?._id)} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-red-600 hover:border-red-600 transition-all">
+                                                <button onClick={() => handleDelete(review?._id)} className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-destructive hover:border-destructive transition-all">
                                                     <Trash2 size={14} />
                                                 </button>
                                             </div>

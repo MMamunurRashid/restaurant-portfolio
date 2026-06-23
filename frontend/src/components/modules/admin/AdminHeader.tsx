@@ -61,7 +61,7 @@ export default function AdminHeader({ setIsSidebarOpen }: AdminHeaderProps) {
                                 </div>
                             )}
                             {/* Online Indicator */}
-                            <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></div>
+                            <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-primary border-2 border-white rounded-full"></div>
                         </div>
 
                         <div className="hidden md:block text-left pr-1">
@@ -120,9 +120,9 @@ export default function AdminHeader({ setIsSidebarOpen }: AdminHeaderProps) {
                                         setIsProfileOpen(false);
                                         dispatch(userLogout());
                                     }}
-                                    className="w-[calc(100%-16px)] mx-2 flex items-center gap-3 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                                    className="w-[calc(100%-16px)] mx-2 flex items-center gap-3 px-3 py-2.5 text-sm text-destructive hover:bg-destructive/10 rounded-xl transition-all"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                                    <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center">
                                         <LogOut size={16} />
                                     </div>
                                     <span className="font-bold">Logout</span>

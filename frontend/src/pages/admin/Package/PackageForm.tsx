@@ -99,7 +99,7 @@ export default function PackageForm() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC]">
+        <div className="min-h-screen bg-muted">
             <form onSubmit={handleSubmit(onFormSubmit)} className="">
 
                 {/* Left Side: Main Content */}
@@ -240,11 +240,11 @@ export default function PackageForm() {
                                     ) : (
                                         services.map((s, idx) => (
                                             <div key={idx} className="flex items-center justify-between gap-2 bg-slate-50 border border-slate-100 rounded-xl py-2 px-4">
-                                                <p className='flex items-center gap-2'><CircleCheckBig className='text-blue-600 h-5 w-5' /><span className="text-[16px]">{s}</span></p>
+                                                <p className='flex items-center gap-2'><CircleCheckBig className='text-primary h-5 w-5' /><span className="text-[16px]">{s}</span></p>
                                                 <button
                                                     type="button"
                                                     onClick={() => setServices((prev) => prev.filter((_, i) => i !== idx))}
-                                                    className="text-red-500 hover:text-red-600"
+                                                    className="text-destructive hover:text-destructive"
                                                     title="Remove service"
                                                 >
                                                     <Trash2 size={16} />

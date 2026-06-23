@@ -83,7 +83,7 @@ export default function AddBanner() {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 hover:opacity-90 active:scale-95 transition-all disabled:opacity-70"
+                    className="flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all disabled:opacity-70"
                 >
                     {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
                     {isLoading ? 'Saving...' : 'Publish Banner'}
@@ -131,9 +131,9 @@ export default function AddBanner() {
                                     type="text"
                                     {...register("title", { required: "Title is required" })}
                                     placeholder="Enter eye-catching title"
-                                    className={`${errors.title ? 'border-red-500 bg-red-50/30' : 'bg-slate-50/50'}`}
+                                    className={`${errors.title ? 'border-destructive bg-destructive/10' : 'bg-slate-50/50'}`}
                                 />
-                                {errors.title && <p className="text-xs text-red-500 font-medium ml-1">{(errors.title as any).message}</p>}
+                                {errors.title && <p className="text-xs text-destructive font-medium ml-1">{(errors.title as any).message}</p>}
                             </div>
 
                             {/* Order */}
@@ -160,9 +160,9 @@ export default function AddBanner() {
                                 <textarea
                                     {...register("description", { required: "Description is required" })}
                                     placeholder="Write a short description about this banner..."
-                                    className={`${errors.description ? 'border-red-500 bg-red-50/30' : 'bg-slate-50/50'}`}
+                                    className={`${errors.description ? 'border-destructive bg-destructive/10' : 'bg-slate-50/50'}`}
                                 ></textarea>
-                                {errors.description && <p className="text-xs text-red-500 font-medium ml-1">{(errors.description as any).message}</p>}
+                                {errors.description && <p className="text-xs text-destructive font-medium ml-1">{(errors.description as any).message}</p>}
                             </div>
 
                             {/* Hero Highlights */}

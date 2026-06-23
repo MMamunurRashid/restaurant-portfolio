@@ -86,7 +86,7 @@ export default function SeoSettings() {
             {/* Top Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <div className="p-3 bg-primary/10 text-primary rounded-xl">
                         <Search size={24} />
                     </div>
                     <div>
@@ -145,7 +145,7 @@ export default function SeoSettings() {
                                     {fields.map((field, index) => (
                                         <div key={field.id} className="flex items-center gap-1 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
                                             <input type="text" {...register(`keywords.${index}`)} className="bg-transparent border-none p-0 focus:ring-0 text-sm w-32 shadow-none" placeholder="tag..." />
-                                            <button type="button" onClick={() => remove(index)} className="text-slate-400 hover:text-red-500"><X size={14} /></button>
+                                            <button type="button" onClick={() => remove(index)} className="text-slate-400 hover:text-destructive"><X size={14} /></button>
                                         </div>
                                     ))}
                                 </div>

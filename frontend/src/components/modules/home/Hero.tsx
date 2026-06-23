@@ -77,7 +77,7 @@ export default function Hero() {
     if (!banners.length) return null;
 
     return (
-        <section className="relative mt-16 min-h-[calc(100svh-8rem)] overflow-hidden bg-[#111827] text-white md:mt-[72px] md:min-h-[calc(100svh-9rem)]">
+        <section className="relative mt-16 min-h-[calc(100svh-8rem)] overflow-hidden bg-neutral text-white md:mt-[72px] md:min-h-[calc(100svh-9rem)]">
             <AnimatePresence mode="wait" custom={direction}>
                 <motion.img
                     key={banner?._id || current}
@@ -92,8 +92,8 @@ export default function Hero() {
                 />
             </AnimatePresence>
 
-            <div className="absolute inset-0 bg-linear-to-r from-[#111827]/90 via-[#111827]/62 to-[#111827]/18" />
-            <div className="absolute inset-0 bg-linear-to-t from-[#111827]/78 via-transparent to-[#111827]/18" />
+            <div className="absolute inset-0 bg-linear-to-r from-neutral/90 via-neutral/62 to-neutral/18" />
+            <div className="absolute inset-0 bg-linear-to-t from-neutral/78 via-transparent to-neutral/18" />
 
             <div className="relative z-10 mx-auto flex min-h-[calc(100svh-8rem)] w-full max-w-[1250px] items-center px-6 py-12 md:min-h-[calc(100svh-9rem)] md:px-8 md:py-16 xl:px-0">
                 <AnimatePresence mode="wait" custom={direction}>
@@ -125,7 +125,7 @@ export default function Hero() {
                             </Link>
 
                             <Link to="/services" className="w-full max-w-[20rem] sm:w-auto">
-                                <button className="flex w-full items-center justify-center gap-2 border border-white/25 bg-white/10 px-6 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-[#f6e7d8]/70 hover:bg-white/15 sm:w-auto">
+                                <button className="flex w-full items-center justify-center gap-2 border border-white/25 bg-white/10 px-6 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-secondary/70 hover:bg-white/15 sm:w-auto">
                                     Explore Menu
                                     <Coffee size={16} />
                                 </button>
@@ -149,23 +149,23 @@ export default function Hero() {
             </div>
 
             {hasContactBar && (
-            <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/12 bg-[#111827]/55 backdrop-blur-md">
+            <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/12 bg-neutral/55 backdrop-blur-md">
                 <div className="container flex flex-col gap-3 py-4 text-xs text-white/70 md:flex-row md:items-center md:justify-between">
                     {openingHour && (
                         <div className="flex items-center gap-2">
-                            <Clock size={15} className="text-[#f6e7d8]" />
+                            <Clock size={15} className="text-secondary" />
                             <span>{openingHour.day}: {openingHour.hours}</span>
                         </div>
                     )}
                     {displayAddress && (
                         <div className="flex items-center gap-2">
-                            <MapPin size={15} className="text-[#f6e7d8]" />
+                            <MapPin size={15} className="text-secondary" />
                             <span>{displayAddress}</span>
                         </div>
                     )}
                     {displayPhone && (
-                        <a href={`tel:${displayPhone}`} className="flex items-center gap-2 transition-colors hover:text-[#f6e7d8]">
-                            <PhoneCall size={15} className="text-[#f6e7d8]" />
+                        <a href={`tel:${displayPhone}`} className="flex items-center gap-2 transition-colors hover:text-secondary">
+                            <PhoneCall size={15} className="text-secondary" />
                             <span>{displayPhone}</span>
                         </a>
                     )}

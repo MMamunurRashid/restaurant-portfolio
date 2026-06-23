@@ -75,7 +75,7 @@ export default function Campaign() {
             {/* Top Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <div className="p-3 bg-primary/10 text-primary rounded-xl">
                         <Info size={24} />
                     </div>
                     <div>

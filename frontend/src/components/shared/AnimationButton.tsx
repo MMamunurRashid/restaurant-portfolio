@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export default function AnimationButton({ text, link }: { text: string; link?: string; }) {
+    const defaultStroke = "var(--primary-foreground)";
+    const hoverStroke = "var(--primary)";
+
     return (
         <Link to={link || "/"}>
             <motion.div
@@ -24,14 +27,14 @@ export default function AnimationButton({ text, link }: { text: string; link?: s
                             d="M0 8H46"
                             strokeWidth="2"
                             strokeLinecap="round"
-                            initial={{ stroke: "#ffffff", scaleX: 0.5, originX: 0 }}
+                            initial={{ stroke: defaultStroke, scaleX: 0.5, originX: 0 }}
                             variants={{
                                 initial: {
-                                    stroke: "#ffffff",
+                                    stroke: defaultStroke,
                                     scaleX: 0.5
                                 },
                                 hover: {
-                                    stroke: "#e52329",
+                                    stroke: hoverStroke,
                                     scaleX: 1
                                 },
                             }}
@@ -44,8 +47,8 @@ export default function AnimationButton({ text, link }: { text: string; link?: s
                             strokeWidth="2"
                             strokeLinecap="round"
                             variants={{
-                                initial: { stroke: "#ffffff", pathLength: 0, opacity: 0 },
-                                hover: { stroke: "#e52329", pathLength: 1, opacity: 1 },
+                                initial: { stroke: defaultStroke, pathLength: 0, opacity: 0 },
+                                hover: { stroke: hoverStroke, pathLength: 1, opacity: 1 },
                             }}
                             transition={{ duration: 0.3 }}
                         />
@@ -56,8 +59,8 @@ export default function AnimationButton({ text, link }: { text: string; link?: s
                             strokeWidth="2"
                             strokeLinecap="round"
                             variants={{
-                                initial: { stroke: "#ffffff", pathLength: 0, opacity: 0 },
-                                hover: { stroke: "#e52329", pathLength: 1, opacity: 1 },
+                                initial: { stroke: defaultStroke, pathLength: 0, opacity: 0 },
+                                hover: { stroke: hoverStroke, pathLength: 1, opacity: 1 },
                             }}
                             transition={{ duration: 0.3 }}
                         />

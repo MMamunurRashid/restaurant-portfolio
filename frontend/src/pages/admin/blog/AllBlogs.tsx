@@ -132,10 +132,10 @@ export default function AllBlogs() {
                                 </td>
                                 <td>
                                     <div className="flex items-center justify-end gap-2">
-                                        <Link to={`/admin/blogs/edit/${blog?._id}`} className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-lg transition-all">
+                                        <Link to={`/admin/blogs/edit/${blog?._id}`} className="p-2 hover:bg-primary/10 text-slate-400 hover:text-primary rounded-lg transition-all">
                                             <Edit size={16} />
                                         </Link>
-                                        <button onClick={() => handleDelete(blog?._id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-lg transition-all">
+                                        <button onClick={() => handleDelete(blog?._id)} className="p-2 hover:bg-destructive/10 text-slate-400 hover:text-destructive rounded-lg transition-all">
                                             <Trash2 size={16} />
                                         </button>
                                     </div>

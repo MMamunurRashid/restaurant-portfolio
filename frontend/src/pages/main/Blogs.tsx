@@ -35,7 +35,7 @@ export default function Blogs() {
     };
 
     return (
-        <div className="bg-[#FCFCFC] min-h-screen py-32 px-4">
+        <div className="bg-muted min-h-screen py-32 px-4">
             <div className="max-w-7xl mx-auto">
 
                 {/* 1. Refined Header */}

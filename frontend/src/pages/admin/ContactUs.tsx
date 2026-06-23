@@ -9,13 +9,13 @@ import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 
 const SOCIAL_OPTIONS = [
-    { label: 'Facebook', value: 'facebook', icon: <FaFacebook size={16} className="text-blue-600" /> },
-    { label: 'Instagram', value: 'instagram', icon: <FaInstagram size={16} className="text-pink-600" /> },
+    { label: 'Facebook', value: 'facebook', icon: <FaFacebook size={16} className="text-primary" /> },
+    { label: 'Instagram', value: 'instagram', icon: <FaInstagram size={16} className="text-secondary" /> },
     { label: 'Twitter / X', value: 'twitter', icon: <FaTwitter size={16} className="text-slate-900" /> },
-    { label: 'LinkedIn', value: 'linkedin', icon: <FaLinkedin size={16} className="text-blue-700" /> },
-    { label: 'YouTube', value: 'youtube', icon: <FaYoutube size={16} className="text-red-600" /> },
+    { label: 'LinkedIn', value: 'linkedin', icon: <FaLinkedin size={16} className="text-primary" /> },
+    { label: 'YouTube', value: 'youtube', icon: <FaYoutube size={16} className="text-destructive" /> },
     { label: 'TikTok', value: 'tiktok', icon: <SiTiktok size={16} /> },
-    { label: 'WhatsApp', value: 'whatsapp', icon: <FaWhatsapp size={16} className="text-emerald-500" /> },
+    { label: 'WhatsApp', value: 'whatsapp', icon: <FaWhatsapp size={16} className="text-primary" /> },
     { label: 'GitHub', value: 'github', icon: <FaGithub size={16} className="text-slate-800" /> },
 ];
 
@@ -159,7 +159,7 @@ export default function ContactUsManagement() {
                                                 <button
                                                     type="button"
                                                     onClick={() => removeOffice(index)}
-                                                    className="text-red-500 bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-red-50"
+                                                    className="text-destructive bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-destructive/10"
                                                 >
                                                     <Trash2 size={14} />
                                                 </button>
@@ -198,7 +198,7 @@ export default function ContactUsManagement() {
                                     <button
                                         type="button"
                                         onClick={() => remove(index)}
-                                        className="absolute -top-2 -right-2 text-red-500 bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-red-50"
+                                        className="absolute -top-2 -right-2 text-destructive bg-white border border-slate-200 rounded-full p-1 shadow-sm hover:bg-destructive/10"
                                     >
                                         <Trash2 size={14} />
                                     </button>

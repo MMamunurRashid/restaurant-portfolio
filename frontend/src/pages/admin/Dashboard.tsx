@@ -27,11 +27,11 @@ export default function Dashboard() {
     const messages = message?.data || [];
 
     const stats = [
-        { label: 'Reservations', count: appointmentCount?.data?.totalAppointments || 0, icon: Calendar, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/appointments/all' },
-        { label: 'Menu Items', count: serviceCount?.data?.totalService || 0, icon: UtensilsCrossed, color: 'text-indigo-600', bg: 'bg-indigo-50', link: '/admin/services/all' },
-        { label: 'Dining Packages', count: packagesCount?.data?.totalPackages || 0, icon: NotebookPen, color: 'text-purple-600', bg: 'bg-purple-50', link: '/admin/packages/all' },
-        { label: 'Unread Messages', count: messageCount?.data?.unreadMessages || 0, icon: MessageSquare, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/contact-message' },
-        { label: 'Journal Posts', count: blogCount?.data?.totalBlogs || 0, icon: BookOpen, color: 'text-orange-600', bg: 'bg-orange-50', link: '/admin/blogs/all' },
+        { label: 'Reservations', count: appointmentCount?.data?.totalAppointments || 0, icon: Calendar, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/appointments/all' },
+        { label: 'Menu Items', count: serviceCount?.data?.totalService || 0, icon: UtensilsCrossed, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/services/all' },
+        { label: 'Dining Packages', count: packagesCount?.data?.totalPackages || 0, icon: NotebookPen, color: 'text-secondary', bg: 'bg-secondary/10', link: '/admin/packages/all' },
+        { label: 'Unread Messages', count: messageCount?.data?.unreadMessages || 0, icon: MessageSquare, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/contact-message' },
+        { label: 'Journal Posts', count: blogCount?.data?.totalBlogs || 0, icon: BookOpen, color: 'text-secondary', bg: 'bg-secondary/10', link: '/admin/blogs/all' },
     ];
 
     return (
@@ -156,12 +156,12 @@ export default function Dashboard() {
                     </div>
 
                     {/* SEO Quick Card */}
-                    <div className="bg-linear-to-br from-indigo-600 to-primary rounded-3xl p-8 text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+                    <div className="bg-linear-to-br from-primary to-primary rounded-3xl p-8 text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
                         <TrendingUp className="absolute -right-6 -bottom-6 text-white/10 rotate-12 group-hover:scale-125 transition-transform duration-500" size={160} />
 
                         <div className="relative z-10">
                             <h3 className="text-xl font-black mb-2">Performance</h3>
-                            <p className="text-indigo-100 text-xs font-medium mb-8 leading-relaxed">
+                            <p className="text-primary-foreground/70 text-xs font-medium mb-8 leading-relaxed">
                                 Keep your restaurant profile, search visibility, and marketing pages ready.
                             </p>
                             <div className="grid grid-cols-2 gap-3">
