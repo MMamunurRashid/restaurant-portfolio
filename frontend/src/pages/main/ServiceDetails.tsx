@@ -15,10 +15,10 @@ export default function ServiceDetails() {
 
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
-    usePageView(service?.title || "Service Details");
+    usePageView(service?.title || "Menu Item Details");
 
     if (isLoading) return <MainLayoutSkeleton />;
-    if (!service) return <div className="py-40 text-center font-serif italic text-2xl">Service not found.</div>;
+    if (!service) return <div className="py-40 text-center font-serif italic text-2xl">Menu item not found.</div>;
 
     return (
         <section className="bg-white min-h-screen">
@@ -42,11 +42,16 @@ export default function ServiceDetails() {
                             className="max-w-3xl"
                         >
                             <span className="inline-flex items-center gap-2 bg-primary px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white mb-6">
-                                <Sparkles size={12} /> Special Treatment
+                                <Sparkles size={12} /> Chef's Pick
                             </span>
                             <h1 className="text-5xl md:text-8xl font-serif italic text-white drop-shadow-2xl">
                                 {service.title}
                             </h1>
+                            {service.price ? (
+                                <p className="mt-5 inline-flex bg-white px-4 py-2 text-sm font-black uppercase tracking-widest text-slate-900">
+                                    BDT {service.price.toLocaleString("en-BD")}
+                                </p>
+                            ) : null}
                         </motion.div>
                     </div>
                 </div>
@@ -60,7 +65,7 @@ export default function ServiceDetails() {
                         {/* Description */}
                         <div className="prose prose-slate max-w-none">
                             <h2 className="text-3xl font-serif italic text-slate-900 mb-6 flex items-center gap-4">
-                                About Service <div className="h-px flex-1 bg-slate-100" />
+                                About This Menu Item <div className="h-px flex-1 bg-slate-100" />
                             </h2>
                             <div
                                 className="text-slate-600 text-lg leading-relaxed font-light first-letter:text-5xl first-letter:font-serif first-letter:mr-3 first-letter:float-left first-letter:text-primary"
@@ -72,7 +77,7 @@ export default function ServiceDetails() {
                         {service?.galleries && service?.galleries?.length > 0 && (
                             <div className="space-y-8">
                                 <h2 className="text-3xl font-serif italic text-slate-900 mb-6 flex items-center gap-4">
-                                    Service Portfolio <div className="h-px flex-1 bg-slate-100" />
+                                    Menu Gallery <div className="h-px flex-1 bg-slate-100" />
                                 </h2>
                                 {/* Image Grid */}
                                 <motion.div

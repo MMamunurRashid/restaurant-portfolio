@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGetAllPackageQuery } from "@/redux/features/packages/packagesApi";
 import type { IPackage } from "@/interface/packageInterface";
 import { Link } from "react-router-dom";
+import { getMediaUrl } from "@/utils/media";
 
 const containerVariants = {
   hidden: {},
@@ -26,7 +27,7 @@ const cardVariants = {
 export default function AllPackagesPage() {
   const [search, setSearch] = useState("");
 
-  const { data, isLoading } = useGetAllPackageQuery({});
+  const { data, isLoading } = useGetAllPackageQuery({ sort: 'order,createdAt' });
   const packages: IPackage[] = data?.data || [];
 
   const filtered = packages.filter((pkg) =>
@@ -34,11 +35,7 @@ export default function AllPackagesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-rose-50 via-white to-amber-50/40 px-4 pb-24 relative overflow-x-hidden">
-      {/* Background blobs */}
-      <div className="pointer-events-none fixed top-0 right-0 h-150 w-150 rounded-full bg-rose-200/20 blur-[120px]" />
-      <div className="pointer-events-none fixed bottom-0 left-0 h-100 w-100 rounded-full bg-amber-200/20 blur-[100px]" />
-
+    <div className="min-h-screen bg-[#f7f8f4] px-4 pb-24 relative overflow-x-hidden">
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Page Hero */}
         <motion.div
@@ -47,18 +44,18 @@ export default function AllPackagesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: ([0.22, 1, 0.36, 1] as any) }}
         >
-          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-rose-400">
-            All Packages
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#d75a3f]">
+            Dining Packages
           </p>
           <h1 className="font-serif text-5xl font-normal leading-[1.1] tracking-tight text-stone-800 md:text-6xl">
             Find Your{" "}
             <span className="italic text-secondary">Signature</span>
             <br />
-            Beauty Experience
+            Dining Experience
           </h1>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-stone-500">
-            From everyday essentials to luxury treatments — every package is
-            crafted with care and premium products.
+            From relaxed brunch sets to private dinner menus, every package is
+            built for easy hosting and memorable tables.
           </p>
 
           {/* Search */}
@@ -69,10 +66,10 @@ export default function AllPackagesPage() {
             />
             <input
               type="text"
-              placeholder="Search packages..."
+              placeholder="Search dining packages..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-stone-200 rounded-xl py-3 pl-10 pr-4 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:border-rose-300 focus:ring-2 focus:ring-rose-100 transition-all shadow-sm"
+              className="w-full bg-white border border-stone-200 rounded-xl py-3 pl-10 pr-4 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:border-[#d75a3f]/40 focus:ring-2 focus:ring-[#d75a3f]/10 transition-all shadow-sm"
             />
           </div>
         </motion.div>
@@ -86,13 +83,13 @@ export default function AllPackagesPage() {
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             {[
-              { num: packages.length, label: "Total Packages" },
+              { num: packages.length, label: "Dining Packages" },
               { num: packages.filter((p) => p.isPopular).length, label: "Popular" },
               { num: packages.filter((p) => p.isFeatured).length, label: "Featured" },
             ].map((stat, i, arr) => (
               <div key={stat.label} className="flex items-center gap-8">
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-sans text-3xl font-bold tracking-tight text-rose-400 leading-none">
+                  <span className="font-sans text-3xl font-bold tracking-tight text-[#d75a3f] leading-none">
                     {stat.num}
                   </span>
                   <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400">
@@ -126,18 +123,18 @@ export default function AllPackagesPage() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="rounded-full border border-rose-100 bg-rose-50 p-5">
-                <PackageOpen size={28} className="text-rose-300" />
+              <div className="rounded-full border border-[#d75a3f]/15 bg-white p-5">
+                <PackageOpen size={28} className="text-[#d75a3f]" />
               </div>
               <p className="text-stone-500 text-sm">
-                No packages found for{" "}
+                No dining packages found for{" "}
                 <span className="text-stone-700 font-medium">&quot;{search}&quot;</span>
               </p>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setSearch("")}
-                className="text-rose-400 hover:text-secondary hover:bg-rose-50"
+                className="text-[#d75a3f] hover:text-secondary hover:bg-white"
               >
                 Clear search
               </Button>
@@ -173,6 +170,17 @@ export default function AllPackagesPage() {
                       <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-transparent via-rose-400/80 to-transparent" />
                     )}
 
+                    {pkg.thumbnail && (
+                      <div className="aspect-[16/10] overflow-hidden bg-stone-100">
+                        <img
+                          src={getMediaUrl(pkg.thumbnail)}
+                          alt={pkg.title}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+
                     <CardHeader className="px-5 pt-5 pb-3">
                       {/* Badges */}
                       <div className="flex flex-wrap gap-1.5 min-h-5.5 mb-2">
@@ -204,6 +212,11 @@ export default function AllPackagesPage() {
 
                     <CardContent className="flex-1 px-5 pb-4">
                       <Separator className="bg-stone-100 mb-4" />
+                      {pkg.description && (
+                        <p className="mb-4 text-xs leading-5 text-stone-500">
+                          {pkg.description}
+                        </p>
+                      )}
                       <ul className="space-y-2.5">
                         {pkg.services.map((service, i) => (
                           <li key={i} className="flex items-start gap-2.5">
@@ -226,11 +239,11 @@ export default function AllPackagesPage() {
                         <Button
                           className={`w-full gap-2 text-xs font-semibold tracking-wide transition-all duration-200 rounded-xl ${
                             pkg.isPopular
-                              ? "bg-rose-500 text-white hover:bg-rose-600 shadow-sm shadow-rose-100"
-                              : "bg-transparent border border-stone-200 text-stone-500 hover:bg-rose-50 hover:border-rose-200 hover:text-secondary"
+                              ? "bg-[#d75a3f] text-white hover:bg-[#bd4931] shadow-sm shadow-[#d75a3f]/20"
+                              : "bg-transparent border border-stone-200 text-stone-500 hover:bg-white hover:border-[#d75a3f]/25 hover:text-secondary"
                           }`}
                         >
-                          Book Appointment
+                          Reserve Table
                           <ArrowRight
                             size={13}
                             className="transition-transform group-hover:translate-x-0.5"

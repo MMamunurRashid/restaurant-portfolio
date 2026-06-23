@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import { ChefHat } from "lucide-react";
 import ServicesCard from "./ServicesCard";
+import { useGetAllServiceQuery } from "@/redux/features/service/serviceApi";
+import type { IService } from "@/interface/serviceInterface";
 
 export default function Services() {
+    const { data } = useGetAllServiceQuery({ sort: 'order,createdAt' });
+    const services: IService[] = (data?.data || []).filter((service: IService) => service.isActive !== false);
+
+    if (!services.length) return null;
+
     return (
         <section className="relative overflow-hidden bg-[#f7f8f4] py-14 md:px-4 md:py-24">
             <div className="container relative z-10">
@@ -26,7 +33,7 @@ export default function Services() {
                     </p>
                 </motion.div>
 
-                <ServicesCard />
+                <ServicesCard services={services} />
             </div>
         </section>
     );

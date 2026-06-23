@@ -6,6 +6,7 @@ const bannerSchema = new Schema<IBanner>({
   image: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
+  highlights: [{ type: String, trim: true }],
 });
 
 export const Banner = model<IBanner>('Banner', bannerSchema);

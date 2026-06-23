@@ -6,4 +6,7 @@ export type IPackage = {
   price: number;
   isPopular: boolean;
   isFeatured: boolean;
+  thumbnail?: string;
+  description?: string;
+  order?: number;
 };

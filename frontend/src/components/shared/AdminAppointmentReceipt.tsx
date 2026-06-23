@@ -53,8 +53,8 @@ export default function AdminAppointmentReceipt({
         : '—';
 
     const refId = appointment._id
-        ? `APT-${appointment._id.slice(-6).toUpperCase()}`
-        : 'APT-XXXXXX';
+        ? `RES-${appointment._id.slice(-6).toUpperCase()}`
+        : 'RES-XXXXXX';
 
     const statusConfig = STATUS_CONFIG[status];
 
@@ -137,7 +137,7 @@ export default function AdminAppointmentReceipt({
                     {/* Header */}
                     <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100">
                         <div className="flex items-center gap-3">
-                            <div className="h-11 w-11 rounded-full bg-[#FDF0EB] flex items-center justify-center text-[#CC826C] text-sm font-semibold shrink-0">
+                            <div className="h-11 w-11 rounded-full bg-[#fff4ed] flex items-center justify-center text-[#d75a3f] text-sm font-semibold shrink-0">
                                 {initials}
                             </div>
                             <div>
@@ -195,7 +195,7 @@ export default function AdminAppointmentReceipt({
                     {appointment.packages && appointment.packages.length > 0 && (
                         <div className="px-6 py-4 border-b border-stone-100">
                             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 mb-3">
-                                Packages & Pricing
+                                Dining Packages & Pricing
                             </p>
                             <div className="w-full border border-stone-200 rounded-xl overflow-hidden">
                                 {/* Table head */}
@@ -239,7 +239,7 @@ export default function AdminAppointmentReceipt({
                                                 <span className="text-[11px] text-stone-300">—</span>
                                             )}
                                         </div>
-                                        <span className="text-[14px] font-semibold text-[#CC826C] text-right">
+                                        <span className="text-[14px] font-semibold text-[#d75a3f] text-right">
                                             {pkg.price !== undefined
                                                 ? `৳${pkg.price.toLocaleString('en-BD')}`
                                                 : '—'}
@@ -249,11 +249,11 @@ export default function AdminAppointmentReceipt({
 
                                 {/* Total */}
                                 {totalPrice > 0 && (
-                                    <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#CC826C]/6 border-t border-[#CC826C]/20">
+                                    <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#d75a3f]/5 border-t border-[#d75a3f]/20">
                                         <span className="text-[13px] font-semibold text-stone-600">
                                             Estimated Total
                                         </span>
-                                        <span className="text-[15px] font-bold text-[#CC826C]">
+                                        <span className="text-[15px] font-bold text-[#d75a3f]">
                                             ৳{totalPrice.toLocaleString('en-BD')}
                                         </span>
                                     </div>
@@ -283,7 +283,7 @@ export default function AdminAppointmentReceipt({
             <div className="shrink-0 border-t border-stone-100 px-6 py-4 bg-white">
                 <button
                     onClick={handleDownload}
-                    className="w-full flex items-center justify-center gap-2.5 border border-[#CC826C] text-[#CC826C] hover:bg-[#CC826C] hover:text-white active:scale-[0.98] text-sm font-semibold py-2.5 rounded-xl transition-all duration-200"
+                    className="w-full flex items-center justify-center gap-2.5 border border-[#d75a3f] text-[#d75a3f] hover:bg-[#d75a3f] hover:text-white active:scale-[0.98] text-sm font-semibold py-2.5 rounded-xl transition-all duration-200"
                 >
                     <Download size={15} />
                     Download as PDF

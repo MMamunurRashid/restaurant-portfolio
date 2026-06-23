@@ -40,7 +40,7 @@ export const createServiceController = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Service add successfully',
+      message: 'Menu item added successfully',
       data: result,
     });
   } catch (error) {
@@ -60,7 +60,7 @@ export const getAllServiceController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Service get successfully',
+    message: 'Menu items fetched successfully',
     meta,
     data,
   });
@@ -68,22 +68,22 @@ export const getAllServiceController = catchAsync(async (req, res) => {
 
 export const getByIdServiceController = catchAsync(async (req, res) => {
   const result = await getByIdServiceService(req.params.id);
-  if (!result) throw new AppError(httpStatus.NOT_FOUND, 'Service not found');
+  if (!result) throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
 
   res.status(200).json({
     success: true,
-    message: 'Service get successfully',
+    message: 'Menu item fetched successfully',
     data: result,
   });
 });
 
 export const getBySlugServiceController = catchAsync(async (req, res) => {
   const result = await getBySlugServiceService(req.params.slug);
-  if (!result) throw new AppError(httpStatus.NOT_FOUND, 'Service not found');
+  if (!result) throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
 
   res.status(200).json({
     success: true,
-    message: 'Service get successfully',
+    message: 'Menu item fetched successfully',
     data: result,
   });
 });
@@ -110,7 +110,7 @@ export const updateServiceController = catchAsync(async (req, res, next) => {
       if (iconFile) {
         deleteFile(`./uploads/service/${iconFile}`);
       }
-      throw new AppError(httpStatus.NOT_FOUND, 'Service not found');
+      throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
     }
 
     const bodyData = req.body;
@@ -148,7 +148,7 @@ export const updateServiceController = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Service updated successfully',
+      message: 'Menu item updated successfully',
       data: result,
     });
 
@@ -194,7 +194,7 @@ export const deleteServiceController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Service deleted successfully',
+    message: 'Menu item deleted successfully',
   });
 });
 
@@ -203,7 +203,7 @@ export const updateServiceActiveController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Service active status update successfully',
+    message: 'Menu item active status updated successfully',
     data: result,
   });
 });
@@ -213,7 +213,7 @@ export const getServiceCountController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Service count fetched successfully',
+    message: 'Menu item count fetched successfully',
     data: result,
   });
 });

@@ -6,6 +6,12 @@ import { useAddBannerMutation } from '@/redux/features/banner/bannerApi';
 import toast from 'react-hot-toast';
 import type { TResponse } from '@/interface/globalInterface';
 
+const parseHighlights = (value?: string) =>
+    (value || "")
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+
 export default function AddBanner() {
     const navigate = useNavigate();
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<any>({});
@@ -24,6 +30,7 @@ export default function AddBanner() {
             title: data.title,
             description: data.description,
             order: Number(data.order),
+            highlights: parseHighlights(data.highlights),
         };
 
         formData.append('data', JSON.stringify(bannerData));
@@ -156,6 +163,20 @@ export default function AddBanner() {
                                     className={`${errors.description ? 'border-red-500 bg-red-50/30' : 'bg-slate-50/50'}`}
                                 ></textarea>
                                 {errors.description && <p className="text-xs text-red-500 font-medium ml-1">{(errors.description as any).message}</p>}
+                            </div>
+
+                            {/* Hero Highlights */}
+                            <div className="space-y-2">
+                                <label>Hero Highlights</label>
+                                <textarea
+                                    {...register("highlights")}
+                                    rows={4}
+                                    placeholder="One highlight per line&#10;Freshly brewed coffee&#10;Private dining tables&#10;Chef-led menu"
+                                    className="bg-slate-50/50"
+                                />
+                                <p className="text-[11px] text-slate-400">
+                                    Optional. Each line will appear as a small badge on the hero banner.
+                                </p>
                             </div>
                         </div>
                     </div>

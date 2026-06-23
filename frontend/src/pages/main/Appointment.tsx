@@ -88,7 +88,7 @@ export default function Appointment() {
         try {
             const res = await createAppointment(formData) as TResponse;
             if (res?.data?.success) {
-                toast.success("Appointment submitted successfully!");
+                toast.success("Reservation request submitted successfully!");
                 const created = res?.data?.data as IAppointment;
                 // fetch populated appointment (with packages) for the receipt
                 if (created && created._id) setCreatedAppointmentId(created._id as any as string);
@@ -100,7 +100,7 @@ export default function Appointment() {
                 );
             }
         } catch (error: any) {
-            toast.error(error?.data?.message || "Failed to submit appointment");
+            toast.error(error?.data?.message || "Failed to submit reservation");
         }
     };
 
@@ -120,11 +120,7 @@ export default function Appointment() {
     }, [fetchedAppointment]);
 
     return (
-        <section className="min-h-screen bg-linear-to-br from-rose-50 via-white to-orange-50/30 py-24 px-4">
-            {/* Blobs */}
-            <div className="pointer-events-none fixed top-0 right-0 h-125 w-125 rounded-full bg-[#CC826C]/8 blur-[120px]" />
-            <div className="pointer-events-none fixed bottom-0 left-0 h-100 w-100 rounded-full bg-rose-200/15 blur-[100px]" />
-
+        <section className="min-h-screen bg-[#f7f8f4] py-24 px-4">
             <div className="relative z-10 mx-auto max-w-6xl">
 
                 {/* Header */}
@@ -134,16 +130,16 @@ export default function Appointment() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#CC826C]/25 bg-[#CC826C]/8 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#CC826C]">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
                         <ShieldCheck size={13} />
-                        Secure Booking
+                        Table Reservation
                     </div>
                     <h1 className="font-serif text-5xl font-normal leading-tight tracking-tight text-stone-800 md:text-6xl">
-                        Book Your <br />
-                        <span className="italic text-[#CC826C]">Beauty Session</span>
+                        Reserve Your <br />
+                        <span className="italic text-[#1f4f46]">Table</span>
                     </h1>
                     <p className="mt-4 max-w-md text-sm leading-relaxed text-stone-500">
-                        Fill in your details below and we'll confirm your appointment within 24 hours.
+                        Share your preferred date, time, and guest details. Our team will confirm your table shortly.
                     </p>
                 </motion.div>
 
@@ -156,12 +152,12 @@ export default function Appointment() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.15, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                     >
-                        {/* Studio info card */}
+                        {/* Restaurant info card */}
                         <Card className="rounded-3xl border-stone-100 bg-white shadow-sm p-7 relative overflow-hidden">
-                            <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#CC826C]/6" />
+                            <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#1f4f46]/6" />
                             <h3 className="font-serif text-lg font-normal text-stone-800 mb-6 flex items-center gap-2">
-                                <Sparkles size={17} className="text-[#CC826C]" />
-                                Studio Info
+                                <Sparkles size={17} className="text-[#1f4f46]" />
+                                Restaurant Info
                             </h3>
                             <div className="space-y-5">
                                 <ContactLine icon={<Phone />} label="Direct Line" value={contactData?.data?.phone} />
@@ -176,10 +172,10 @@ export default function Appointment() {
                             contactData?.data?.officeHours?.length ? (
                                 <>
                                     <Card className="rounded-3xl border-stone-100 bg-white shadow-sm p-7 relative overflow-hidden">
-                                        <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#CC826C]/6" />
+                                        <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-[#1f4f46]/6" />
                                         <h3 className="font-serif text-lg font-normal text-stone-800 mb-3 flex items-center gap-2">
-                                            <Clock10 size={17} className="text-[#CC826C]" />
-                                            Office Hours
+                                            <Clock10 size={17} className="text-[#1f4f46]" />
+                                            Opening Hours
                                         </h3>
                                         <div className="flex flex-col gap-3">
                                             {contactData?.data?.officeHours?.map((item: any, i: number) => (
@@ -203,9 +199,9 @@ export default function Appointment() {
                         }
 
                         {/* Note card */}
-                        <Card className="rounded-3xl border-[#CC826C]/15 bg-[#CC826C]/5 shadow-none p-6">
-                            <p className="text-xs leading-relaxed text-[#CC826C]/80 font-medium">
-                                📌 Appointments are confirmed after a follow-up call. Please ensure your phone number is correct.
+                        <Card className="rounded-3xl border-[#1f4f46]/15 bg-[#1f4f46]/5 shadow-none p-6">
+                            <p className="text-xs leading-relaxed text-[#1f4f46]/80 font-medium">
+                                Reservations are confirmed after a follow-up call. Please ensure your phone number is correct.
                             </p>
                         </Card>
 
@@ -289,7 +285,7 @@ export default function Appointment() {
                                         </motion.div>
                                         <motion.div custom={5} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldInput
-                                                label="Your Address"
+                                                label="Area / Address"
                                                 placeholder="Dhaka, Bangladesh"
                                                 icon={<MapPin size={16} />}
                                                 value={formData.address}
@@ -301,7 +297,7 @@ export default function Appointment() {
                                         <motion.div custom={6} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldTextarea
                                                 label="Additional Notes"
-                                                placeholder="Any specific requests or questions?"
+                                                placeholder="Guest count, seating preference, dietary needs, or event details."
                                                 icon={<Package size={16} />}
                                                 value={formData.notes}
                                                 onChange={set('notes')}
@@ -316,11 +312,11 @@ export default function Appointment() {
                                 <motion.div custom={6} variants={fieldVariants} initial="hidden" animate="show">
                                     <div className="flex items-center gap-2 mb-1">
                                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600">
-                                            Choose a Package
+                                            Choose a Dining Package
                                         </p>
                                         <Package size={12} className="text-stone-400" />
                                     </div>
-                                    <p className="text-xs text-stone-600 mb-5">Select the package you'd like to book.</p>
+                                    <p className="text-xs text-stone-600 mb-5">Select a dining package or submit a general reservation.</p>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         {packages.map((pkg: any) => {
@@ -331,21 +327,21 @@ export default function Appointment() {
                                                     key={pkg._id}
                                                     onClick={() => togglePackage(pkg._id)}
                                                     className={`relative text-left p-4 rounded-2xl border-2 transition-all duration-250 group ${isSelected
-                                                        ? 'border-[#CC826C] bg-[#CC826C]/5'
+                                                        ? 'border-[#d75a3f] bg-[#d75a3f]/5'
                                                         : 'border-stone-100 bg-stone-50/60 hover:border-stone-200 hover:bg-white'
                                                         }`}
                                                 >
                                                     {/* Selected dot */}
-                                                    <span className={`absolute top-3.5 right-3.5 w-2 h-2 rounded-full transition-all duration-200 ${isSelected ? 'bg-[#CC826C] scale-100' : 'bg-stone-200 scale-75'
+                                                    <span className={`absolute top-3.5 right-3.5 w-2 h-2 rounded-full transition-all duration-200 ${isSelected ? 'bg-[#d75a3f] scale-100' : 'bg-stone-200 scale-75'
                                                         }`} />
 
-                                                    <p className={`text-sm font-semibold leading-snug mb-1 pr-4 ${isSelected ? 'text-[#CC826C]' : 'text-stone-700'
+                                                    <p className={`text-sm font-semibold leading-snug mb-1 pr-4 ${isSelected ? 'text-[#d75a3f]' : 'text-stone-700'
                                                         }`}>
                                                         {pkg.title}
                                                     </p>
 
                                                     <div className="flex items-center gap-2 flex-wrap">
-                                                        <span className={`text-xs font-bold ${isSelected ? 'text-[#CC826C]' : 'text-stone-500'}`}>
+                                                        <span className={`text-xs font-bold ${isSelected ? 'text-[#d75a3f]' : 'text-stone-500'}`}>
                                                             ৳{pkg.price.toLocaleString('en-BD')}
                                                         </span>
                                                         {pkg.isPopular && (
@@ -376,7 +372,7 @@ export default function Appointment() {
                                     <Button
                                         type="submit"
                                         disabled={isLoading}
-                                        className="bg-[#CC826C] hover:bg-[#b8705a] text-white px-10 py-6 rounded-2xl font-semibold tracking-wide text-sm flex items-center gap-3 transition-all duration-300 group shadow-sm shadow-[#CC826C]/20 disabled:opacity-60"
+                                        className="bg-[#d75a3f] hover:bg-[#c94830] text-white px-10 py-6 rounded-2xl font-semibold tracking-wide text-sm flex items-center gap-3 transition-all duration-300 group shadow-sm shadow-[#d75a3f]/20 disabled:opacity-60"
                                     >
                                         {isLoading ? (
                                             <>
@@ -384,7 +380,7 @@ export default function Appointment() {
                                             </>
                                         ) : (
                                             <>
-                                                Confirm Appointment
+                                                Request Reservation
                                                 <ArrowRight
                                                     size={16}
                                                     className="transition-transform group-hover:translate-x-1"
@@ -413,7 +409,7 @@ function ContactLine({ icon, label, value }: { icon: React.ReactElement<any>; la
     const iconElem = React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { size: 16 } as any) : icon;
     return (
         <div className="flex items-center gap-4">
-            <div className="w-9 h-9 rounded-full bg-[#CC826C]/8 flex items-center justify-center text-[#CC826C] shrink-0">
+            <div className="w-9 h-9 rounded-full bg-[#1f4f46]/8 flex items-center justify-center text-[#1f4f46] shrink-0">
                 {iconElem}
             </div>
             <div>

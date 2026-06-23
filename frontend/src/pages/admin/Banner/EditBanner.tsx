@@ -6,6 +6,12 @@ import FileUploadField from '@/utils/fileUploadField';
 import { useGetBannerByIdQuery, useUpdateBannerMutation } from '@/redux/features/banner/bannerApi';
 import toast from 'react-hot-toast';
 
+const parseHighlights = (value?: string) =>
+    (value || "")
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+
 export default function EditBanner() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -23,6 +29,7 @@ export default function EditBanner() {
                 title: bannerData?.data?.title,
                 description: bannerData?.data?.description,
                 order: bannerData?.data?.order,
+                highlights: bannerData?.data?.highlights?.join('\n') || '',
                 image: bannerData?.data?.image,
             });
         }
@@ -34,6 +41,7 @@ export default function EditBanner() {
             title: data.title,
             description: data.description,
             order: Number(data.order),
+            highlights: parseHighlights(data.highlights),
         };
 
         // check file size
@@ -152,6 +160,22 @@ export default function EditBanner() {
                                     rows={6}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-primary/20 outline-none resize-none"
                                 ></textarea>
+                            </div>
+
+                            {/* Hero Highlights */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <AlignLeft size={16} className="text-primary" /> Hero Highlights
+                                </label>
+                                <textarea
+                                    {...register("highlights")}
+                                    rows={4}
+                                    placeholder="One highlight per line"
+                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-primary/20 outline-none resize-none"
+                                />
+                                <p className="text-[11px] text-slate-400">
+                                    Optional. Each line will appear as a small badge on the hero banner.
+                                </p>
                             </div>
                         </div>
                     </div>

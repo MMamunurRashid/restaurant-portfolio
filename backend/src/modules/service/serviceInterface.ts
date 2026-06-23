@@ -5,5 +5,7 @@ export type IService = {
   title: string;
   slug: string;
   description: string;
+  price?: number;
+  order?: number;
   isActive: boolean;
 };

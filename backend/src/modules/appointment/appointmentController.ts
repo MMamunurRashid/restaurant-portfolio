@@ -13,7 +13,7 @@ export const addAppointmentController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Appointment add successfully',
+    message: 'Reservation added successfully',
     data: result,
   });
 });
@@ -23,7 +23,7 @@ export const getAllAppointmentController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Appointments get successfully',
+    message: 'Reservations fetched successfully',
     meta,
     data,
   });
@@ -35,7 +35,7 @@ export const getSingleAppointmentController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Appointment get successfully',
+    message: 'Reservation fetched successfully',
     data: result,
   });
 });
@@ -47,7 +47,7 @@ export const updateAppointmentController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Appointment update successfully',
+    message: 'Reservation updated successfully',
     data: result,
   });
 });
@@ -58,7 +58,7 @@ export const deleteAppointmentController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Appointment delete successfully',
+    message: 'Reservation deleted successfully',
   });
 });
 
@@ -67,7 +67,7 @@ export const getAppointmentCountsController = catchAsync(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Appointment counts fetched successfully',
+    message: 'Reservation counts fetched successfully',
     data: result,
   });
 });

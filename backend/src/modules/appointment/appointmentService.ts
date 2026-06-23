@@ -39,7 +39,7 @@ export const updateAppointmentService = async (
 ) => {
   const isExist = await Appointment.findById(id);
   if (!isExist)
-    throw new AppError(httpStatus.NOT_FOUND, 'Appointment not found !');
+    throw new AppError(httpStatus.NOT_FOUND, 'Reservation not found !');
 
   const result = await Appointment.findByIdAndUpdate(
     id,
@@ -52,7 +52,7 @@ export const updateAppointmentService = async (
 export const deleteAppointmentService = async (id: string) => {
   const isExist = await Appointment.findById(id);
   if (!isExist)
-    throw new AppError(httpStatus.NOT_FOUND, 'Appointment not found !');
+    throw new AppError(httpStatus.NOT_FOUND, 'Reservation not found !');
 
   await Appointment.findByIdAndDelete(id);
   return true;

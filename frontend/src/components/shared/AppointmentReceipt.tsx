@@ -22,8 +22,8 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
         : '—';
 
     const refId = appointment._id
-        ? `APT-${appointment._id.slice(-6).toUpperCase()}`
-        : 'APT-XXXXXX';
+        ? `RES-${appointment._id.slice(-6).toUpperCase()}`
+        : 'RES-XXXXXX';
 
     const totalPrice =
         appointment.packages?.reduce((sum, pkg) => sum + (pkg.price ?? 0), 0) ?? 0;
@@ -54,7 +54,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
             const pdfW = pdf.internal.pageSize.getWidth();
             const pdfH = (canvas.height * pdfW) / canvas.width;
             pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH);
-            pdf.save(`appointment-${refId}.pdf`);
+            pdf.save(`reservation-${refId}.pdf`);
         } catch (err) {
             
             console.error('Failed to generate PDF', err);
@@ -125,12 +125,12 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                             {/* Printable section — captured by html2canvas */}
                             <div ref={printRef} className="bg-white">
                                 {/* Brand header */}
-                                <div className="bg-[#CC826C] px-8 pt-8 pb-10 text-center">
+                                <div className="bg-[#d75a3f] px-8 pt-8 pb-10 text-center">
                                     <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
                                         <CheckCircle size={24} className="text-white" />
                                     </div>
                                     <h2 className="font-serif text-[24px] font-normal text-white leading-snug">
-                                        Booking Confirmed!
+                                        Reservation Request Received
                                     </h2>
                                     <p className="mt-1 text-xs text-white/70 tracking-wide">
                                         We'll call you within 24 hours to confirm your slot.
@@ -163,7 +163,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                 {appointment.packages && appointment.packages.length > 0 && (
                                     <div className="px-4 md:px-8 pb-5">
                                         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 mb-3">
-                                            Packages & Pricing
+                                        Dining Packages & Pricing
                                         </p>
                                         <div className="w-full border border-stone-200 rounded-xl overflow-hidden">
                                             {/* Table head */}
@@ -204,7 +204,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                                             </div>
                                                         )}
                                                     </div>
-                                                    <span className="text-[14px] font-semibold text-[#CC826C] self-center">
+                                                    <span className="text-[14px] font-semibold text-[#d75a3f] self-center">
                                                         {pkg.price !== undefined
                                                             ? `৳${pkg.price.toLocaleString('en-BD')}`
                                                             : '—'}
@@ -213,11 +213,11 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                             ))}
                                             {/* Total row */}
                                             {totalPrice > 0 && (
-                                                <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#CC826C]/6 border-t border-[#CC826C]/20">
+                                                <div className="grid grid-cols-[1fr_auto] px-4 py-3 bg-[#d75a3f]/5 border-t border-[#d75a3f]/20">
                                                     <span className="text-[13px] font-semibold text-stone-600">
                                                         Estimated Total
                                                     </span>
-                                                    <span className="text-[15px] font-bold text-[#CC826C]">
+                                                    <span className="text-[15px] font-bold text-[#d75a3f]">
                                                         ৳{totalPrice.toLocaleString('en-BD')}
                                                     </span>
                                                 </div>
@@ -242,7 +242,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                 <div className="border-t border-dashed border-stone-200 mx-4 md:mx-8" />
                                 <div className="px-4 md:px-8 py-5 text-center space-y-1.5">
                                     <p className="text-[11px] text-stone-400 leading-relaxed">
-                                        Please keep your phone reachable. Our team will confirm your appointment shortly.
+                                        Please keep your phone reachable. Our team will confirm your reservation shortly.
                                     </p>
                                     <p className="font-mono text-[11px] text-stone-300 tracking-wider">
                                         REF · {refId}
@@ -255,7 +255,7 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                         <div className="shrink-0 border-t border-stone-100 px-8 py-4 bg-white">
                             <button
                                 onClick={handleDownload}
-                                className="w-full flex items-center justify-center gap-2.5 bg-[#CC826C] hover:bg-[#b8705a] active:scale-[0.98] text-white text-sm font-semibold py-3 rounded-xl transition-all duration-200 shadow-sm shadow-[#CC826C]/20"
+                                className="w-full flex items-center justify-center gap-2.5 bg-[#d75a3f] hover:bg-[#c94830] active:scale-[0.98] text-white text-sm font-semibold py-3 rounded-xl transition-all duration-200 shadow-sm shadow-[#d75a3f]/20"
                             >
                                 <Download size={15} />
                                 Download Receipt as PDF

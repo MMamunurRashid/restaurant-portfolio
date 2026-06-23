@@ -140,12 +140,17 @@ export default function AllTeam() {
                                         <td className="p-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200 bg-slate-50">
-                                                    <img
-                                                        src={`${API_URL}${member?.image}`}
-                                                        alt={member?.name}
-                                                        className="w-full h-full object-cover"
-                                                        onError={(e: any) => e.target.src = 'https://ui-avatars.com/api/?name=' + member?.name}
-                                                    />
+                                                    {member?.image ? (
+                                                        <img
+                                                            src={`${API_URL}${member.image}`}
+                                                            alt={member?.name}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <div className="flex h-full w-full items-center justify-center text-xs font-bold uppercase text-slate-500">
+                                                            {member?.name?.charAt(0)}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <span className="font-bold text-slate-800 text-sm">{member?.name}</span>
                                             </div>

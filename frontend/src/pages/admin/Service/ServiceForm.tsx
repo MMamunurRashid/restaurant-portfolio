@@ -27,15 +27,14 @@ export default function ServiceForm() {
         defaultValues: {
             title: '',
             description: '',
+            price: 0,
+            order: 0,
             isActive: true
         }
     });
 
     const { data: serviceData } = useGetServiceByIdQuery(id, { skip: !id });
     const initialData = serviceData?.data;
-
-    console.log(serviceData);
-
 
     useEffect(() => {
         if (initialData) {
@@ -117,6 +116,8 @@ export default function ServiceForm() {
         const info = {
             title: data.title,
             description: data.description,
+            price: Number(data.price || 0),
+            order: Number(data.order || 0),
             isActive: data.isActive,
             existingGalleries,
         };
@@ -132,7 +133,7 @@ export default function ServiceForm() {
         }
 
         if (res?.data?.success) {
-            toast.success(id ? "Service updated!" : "Service added!");
+            toast.success(id ? "Menu item updated!" : "Menu item added!");
             navigate('/admin/services/all');
         } else {
             toast.error(res?.error?.data?.message || "Something went wrong!");
@@ -150,7 +151,7 @@ export default function ServiceForm() {
                             <div className="p-2 bg-primary/10 rounded-xl text-primary">
                                 <LayoutGrid size={24} />
                             </div>
-                            <h2 className="text-xl font-bold text-slate-800">Service Information</h2>
+                            <h2 className="text-xl font-bold text-slate-800">Menu Item Information</h2>
                         </div>
 
                         {fileError && (
@@ -161,13 +162,35 @@ export default function ServiceForm() {
 
                         <div className="space-y-5">
                             <div className="space-y-2">
-                                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Service Title</label>
+                                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Menu Item Title</label>
                                 <input
                                     type="text"
                                     {...register("title", { required: true })}
-                                    placeholder="e.g., Luxury Facial Treatment"
+                                    placeholder="e.g., Signature Beef Burger"
                                     className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 focus:bg-white focus:border-primary/30 outline-none transition-all"
                                 />
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Price</label>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        {...register("price")}
+                                        placeholder="e.g., 450"
+                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 focus:bg-white focus:border-primary/30 outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Sort Order</label>
+                                    <input
+                                        type="number"
+                                        {...register("order")}
+                                        placeholder="e.g., 1"
+                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 focus:bg-white focus:border-primary/30 outline-none transition-all"
+                                    />
+                                </div>
                             </div>
 
                             <div className="space-y-2">
@@ -192,7 +215,7 @@ export default function ServiceForm() {
 
                     {/* Gallery Section */}
                     <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
-                        <h2 className="text-lg font-bold text-slate-800 mb-4">Service Gallery</h2>
+                        <h2 className="text-lg font-bold text-slate-800 mb-4">Menu Gallery</h2>
                         <div
                             onClick={() => document.getElementById('gallery-input')?.click()}
                             className="group border-2 border-dashed border-slate-200 rounded-2xl p-10 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all"
@@ -201,7 +224,7 @@ export default function ServiceForm() {
                                 <div className="p-3 bg-slate-50 rounded-full group-hover:scale-110 transition-transform">
                                     <ImagePlus className="text-slate-400 group-hover:text-primary" size={24} />
                                 </div>
-                                <span className="text-slate-500 font-bold text-sm">Click to upload gallery images</span>
+                                <span className="text-slate-500 font-bold text-sm">Click to upload menu or restaurant images</span>
                                 <p className="text-[10px] text-slate-400 uppercase tracking-tighter italic">Max 2MB per image</p>
                             </div>
                             <input id="gallery-input" type="file" multiple onChange={(e) => handleFileChange(e, 'gallery')} className="hidden" accept="image/*" />
@@ -228,7 +251,7 @@ export default function ServiceForm() {
                 <div className="lg:col-span-4 space-y-4">
                     {/* Icon Upload */}
                     <div className="bg-white rounded-3xl p-2 md:p-6 shadow-sm border border-slate-100">
-                        <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-widest">Service Icon</h2>
+                        <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-widest">Menu Icon</h2>
                         <div
                             onClick={() => iconInputRef.current?.click()}
                             className="relative w-20 h-20 mx-auto bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex items-center justify-center cursor-pointer hover:border-primary/40 transition-all overflow-hidden"
@@ -269,7 +292,7 @@ export default function ServiceForm() {
                             type="submit"
                             className="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                         >
-                            {isLoading || isUpdating ? <Loader2 className="animate-spin" /> : (id ? 'Update Service' : 'Publish Service')}
+                            {isLoading || isUpdating ? <Loader2 className="animate-spin" /> : (id ? 'Update Menu Item' : 'Publish Menu Item')}
                         </button>
                     </div>
                 </div>

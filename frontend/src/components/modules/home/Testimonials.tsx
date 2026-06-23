@@ -7,12 +7,15 @@ import { motion } from "framer-motion";
 import { useGetAllTestimonialQuery } from "@/redux/features/testimonial/testimonialApi";
 import type { ITestimonial } from "@/interface/testimonialInterface";
 import { Quote, Star } from "lucide-react";
-import { fallbackTestimonials, getCafeImageUrl } from "./cafeContent";
+import { getMediaUrl } from "@/utils/media";
 
 export default function Testimonials() {
   const { data } = useGetAllTestimonialQuery({ limit: 10 });
-  const apiTestimonials: ITestimonial[] = data?.data || [];
-  const testimonials = apiTestimonials.length ? apiTestimonials : fallbackTestimonials;
+  const testimonials: ITestimonial[] = (data?.data || []).filter(
+    (item: ITestimonial) => item?.review || item?.name
+  );
+
+  if (!testimonials.length) return null;
 
   const containerVariant = {
     hidden: { opacity: 0 },
@@ -85,21 +88,22 @@ export default function Testimonials() {
                       <Quote size={19} />
                     </div>
 
-                    <p className="text-base leading-8 text-slate-700">
-                      "{item?.review}"
-                    </p>
+                    {item?.review && (
+                      <p className="text-base leading-8 text-slate-700">
+                        &ldquo;{item.review}&rdquo;
+                      </p>
+                    )}
                   </div>
 
                   <div className="mt-8 flex items-center gap-4 border-t border-slate-200 pt-5">
-                    <img
-                      src={getCafeImageUrl(item?.image)}
-                      alt={item?.name}
-                      className="h-12 w-12 rounded-full object-cover"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item?.name || "Guest")}`;
-                      }}
-                    />
+                    {item?.image && (
+                      <img
+                        src={getMediaUrl(item.image)}
+                        alt={item?.name}
+                        className="h-12 w-12 rounded-full object-cover"
+                        loading="lazy"
+                      />
+                    )}
                     <div>
                       <h5 className="font-bold text-[#111827]">{item.name}</h5>
                       <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#1f4f46]">

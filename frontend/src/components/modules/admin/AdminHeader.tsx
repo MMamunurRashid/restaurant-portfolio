@@ -49,11 +49,17 @@ export default function AdminHeader({ setIsSidebarOpen }: AdminHeaderProps) {
                             }`}
                     >
                         <div className="relative">
-                            <img
-                                src={loggedUser?.profileUrl ? CONFIG.BASE_URL + loggedUser.profileUrl : `https://ui-avatars.com/api/?name=${loggedUser?.name}&background=f8fafc&color=475569&bold=true`}
-                                className="w-8 h-8 rounded-lg object-cover border border-slate-200 bg-slate-100"
-                                alt="Admin"
-                            />
+                            {loggedUser?.profileUrl ? (
+                                <img
+                                    src={CONFIG.BASE_URL + loggedUser.profileUrl}
+                                    className="w-8 h-8 rounded-lg object-cover border border-slate-200 bg-slate-100"
+                                    alt={loggedUser?.name || "Admin"}
+                                />
+                            ) : (
+                                <div className="flex w-8 h-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-500">
+                                    <User size={16} />
+                                </div>
+                            )}
                             {/* Online Indicator */}
                             <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></div>
                         </div>

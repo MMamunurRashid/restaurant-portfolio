@@ -8,6 +8,7 @@ export type IPackage = {
   isFeatured: boolean;
   thumbnail?: string;
   description?: string;
+  order?: number;
 
   createdAt: string;
   updatedAt: string;

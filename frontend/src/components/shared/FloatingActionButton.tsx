@@ -1,7 +1,9 @@
 import { FaWhatsapp } from 'react-icons/fa';
 
-export default function FloatingActionButton({ whatsappLink }: { whatsappLink: string }) {
-    const message = "Hello! I would like to know more about your projects.";
+export default function FloatingActionButton({ whatsappLink }: { whatsappLink?: string }) {
+    const message = "Hello! I would like to know more about your restaurant.";
+
+    if (!whatsappLink) return null;
 
 
     const handleClick = () => {

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import type { IPackage } from "@/interface/packageInterface";
 import { useGetAllPackageQuery } from "@/redux/features/packages/packagesApi";
 import { Link } from "react-router-dom";
-import { cafeImages, fallbackPackages, getCafeImageUrl } from "./cafeContent";
+import { getMediaUrl } from "@/utils/media";
 
 const containerVariants = {
   hidden: {},
@@ -19,10 +19,12 @@ const cardVariants = {
 };
 
 export default function FeaturedPackages() {
-  const { data, isLoading } = useGetAllPackageQuery({ isFeatured: true });
+  const { data, isLoading } = useGetAllPackageQuery({ isFeatured: true, sort: 'order,createdAt' });
   const apiPackages: IPackage[] = data?.data || [];
-  const packages = apiPackages.length ? apiPackages : fallbackPackages;
+  const packages = apiPackages;
   const showSkeleton = isLoading && !apiPackages.length;
+
+  if (!showSkeleton && !packages.length) return null;
 
   return (
     <section className="relative overflow-hidden bg-white py-14 md:px-4 md:py-24">
@@ -54,7 +56,7 @@ export default function FeaturedPackages() {
           </div>
         )}
 
-        {!showSkeleton && (
+        {!showSkeleton && packages.length > 0 && (
           <motion.div
             className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             variants={containerVariants}
@@ -69,9 +71,10 @@ export default function FeaturedPackages() {
                     pkg.isPopular ? "border-[#d75a3f]/45" : "border-slate-200 hover:border-[#1f4f46]/30"
                   }`}
                 >
+                  {pkg.thumbnail && (
                   <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                     <img
-                      src={getCafeImageUrl(pkg.thumbnail || cafeImages.dinner)}
+                      src={getMediaUrl(pkg.thumbnail)}
                       alt={pkg.title}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
@@ -93,8 +96,24 @@ export default function FeaturedPackages() {
                       </div>
                     </div>
                   </div>
+                  )}
 
                   <div className="flex flex-1 flex-col p-6">
+                    {!pkg.thumbnail && (
+                      <div className="mb-5">
+                        <h3 className="font-serif text-2xl font-normal leading-tight text-[#111827]">
+                          {pkg.title}
+                        </h3>
+                        <p className="mt-2 text-sm font-black text-[#d75a3f]">
+                          BDT {pkg.price.toLocaleString("en-BD")}
+                        </p>
+                      </div>
+                    )}
+                    {pkg.description && (
+                      <p className="mb-5 text-sm leading-6 text-slate-600">
+                        {pkg.description}
+                      </p>
+                    )}
                     <ul className="space-y-3">
                       {(pkg.services || []).slice(0, 4).map((service, i) => (
                         <li key={i} className="flex items-start gap-3">

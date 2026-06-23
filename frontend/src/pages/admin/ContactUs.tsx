@@ -60,7 +60,7 @@ export default function ContactUsManagement() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-base-100 rounded-2xl p-4 shadow">
                 <div>
                     <h1 className="text-2xl font-bold text-neutral">Contact Management</h1>
-                    <p className="text-slate-500 text-sm">Configure how clients reach your agency.</p>
+                    <p className="text-slate-500 text-sm">Configure how guests reach your restaurant.</p>
                 </div>
                 <button
                     type="submit"
@@ -102,7 +102,7 @@ export default function ContactUsManagement() {
                                 <textarea {...register("phone")} rows={2} className={inputClasses} placeholder="+8801... | +8801..." />
                             </div>
                             <div className="md:col-span-2">
-                                <label className={labelClasses}>Office Address</label>
+                                <label className={labelClasses}>Restaurant Address</label>
                                 <textarea {...register("address")} rows={2} className={inputClasses} placeholder="Full address here..." />
                             </div>
                         </div>
@@ -132,7 +132,7 @@ export default function ContactUsManagement() {
                             </div>
                             <div className="mt-4">
                                 <div className="flex items-center justify-between mb-3">
-                                    <h3 className="font-bold text-slate-800">Office Hours</h3>
+                                    <h3 className="font-bold text-slate-800">Opening Hours</h3>
                                     <button
                                         type="button"
                                         onClick={() => appendOffice({ day: '', hours: '' })}
@@ -169,7 +169,7 @@ export default function ContactUsManagement() {
 
                                     {officeFields.length === 0 && (
                                         <div className="text-slate-400 text-sm italic border-2 border-dashed border-slate-100 rounded-lg p-3">
-                                            No office hours added yet.
+                                            No opening hours added yet.
                                         </div>
                                     )}
                                 </div>

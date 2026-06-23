@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Camera, ImageOff, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { fallbackGalleries, getCafeImageUrl } from "./cafeContent";
+import { getMediaUrl } from "@/utils/media";
 
 export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolean; max?: number }) {
     const [filter, setFilter] = useState("All");
@@ -11,7 +11,10 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
 
     const { data, isLoading } = useGetAllGalleryQuery({ fields: "title,images" });
     const apiGalleries = useMemo(() => data?.data || [], [data?.data]);
-    const galleries = apiGalleries.length ? apiGalleries : fallbackGalleries;
+    const galleries = useMemo(
+        () => apiGalleries.filter((gallery: any) => gallery?.images?.some((imgObj: any) => imgObj?.image)),
+        [apiGalleries]
+    );
     const showSkeleton = isLoading && !apiGalleries.length;
 
     const categories = useMemo(() => {
@@ -23,10 +26,11 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
         const imgs: any[] = [];
         galleries.forEach((gallery: any) => {
             gallery.images?.forEach((imgObj: any, i: number) => {
+                if (!imgObj?.image) return;
                 imgs.push({
                     id: `${gallery._id}-${i}`,
                     category: gallery.title,
-                    image: getCafeImageUrl(imgObj?.image),
+                    image: getMediaUrl(imgObj.image),
                     title: imgObj?.title || gallery.title,
                 });
             });
@@ -40,6 +44,8 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     );
 
     const displayImages = showAll ? filteredImages : filteredImages.slice(0, max);
+
+    if (!showSkeleton && !allImages.length) return null;
 
     if (showSkeleton) {
         return (

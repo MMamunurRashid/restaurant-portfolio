@@ -9,7 +9,7 @@ export default function AppointmentModal({ appointment, onClose }: { appointment
                 {/* Modal Header */}
                 <div className="sticky top-0 z-30 bg-slate-50 px-8 py-5 border-b border-slate-100 flex items-center justify-between">
                     <h2 className="font-bold text-slate-800 flex items-center gap-2">
-                        <Layout className="text-primary" size={18} /> Appointment Details
+                        <Layout className="text-primary" size={18} /> Reservation Details
                     </h2>
                     <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors">
                         <X size={20} />
@@ -25,7 +25,7 @@ export default function AppointmentModal({ appointment, onClose }: { appointment
                     </button>
                     {appointment.email && (
                         <a href={`mailto:${appointment.email}`} className="px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-primary/30 transition-all flex items-center gap-2">
-                            <Mail size={16} /> Contact Client
+                            <Mail size={16} /> Contact Guest
                         </a>
                     )}
                 </div>

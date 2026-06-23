@@ -9,7 +9,7 @@ import { useAppSelector } from '@/redux/hook/hooks';
 import {
     MessageSquare, Users, BookOpen,
     TrendingUp, ArrowRight, Calendar, Bell,
-    Scissors,
+    UtensilsCrossed,
     NotebookPen
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -27,11 +27,11 @@ export default function Dashboard() {
     const messages = message?.data || [];
 
     const stats = [
-        { label: 'Appointments', count: appointmentCount?.data?.totalAppointments || 0, icon: Calendar, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/appointments/all' },
-        { label: 'Total Services', count: serviceCount?.data?.totalService || 0, icon: Scissors, color: 'text-indigo-600', bg: 'bg-indigo-50', link: '/admin/projects/all' },
-        { label: 'Total Packages', count: packagesCount?.data?.totalPackages || 0, icon: NotebookPen, color: 'text-purple-600', bg: 'bg-purple-50', link: '/admin/packages/all' },
+        { label: 'Reservations', count: appointmentCount?.data?.totalAppointments || 0, icon: Calendar, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/appointments/all' },
+        { label: 'Menu Items', count: serviceCount?.data?.totalService || 0, icon: UtensilsCrossed, color: 'text-indigo-600', bg: 'bg-indigo-50', link: '/admin/services/all' },
+        { label: 'Dining Packages', count: packagesCount?.data?.totalPackages || 0, icon: NotebookPen, color: 'text-purple-600', bg: 'bg-purple-50', link: '/admin/packages/all' },
         { label: 'Unread Messages', count: messageCount?.data?.unreadMessages || 0, icon: MessageSquare, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/contact-message' },
-        { label: 'Active Blogs', count: blogCount?.data?.totalBlogs || 0, icon: BookOpen, color: 'text-orange-600', bg: 'bg-orange-50', link: '/admin/blogs/all' },
+        { label: 'Journal Posts', count: blogCount?.data?.totalBlogs || 0, icon: BookOpen, color: 'text-orange-600', bg: 'bg-orange-50', link: '/admin/blogs/all' },
     ];
 
     return (
@@ -41,10 +41,10 @@ export default function Dashboard() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-                        Hello, {loggedUser?.name?.split(' ')[0]} 👋
+                        Welcome, {loggedUser?.name?.split(' ')[0]}
                     </h1>
                     <p className="text-slate-500 font-medium mt-1">
-                        System overview and recent activity for today.
+                        Restaurant operations, reservations, and recent guest activity.
                     </p>
                 </div>
                 <div className="flex items-center gap-3 bg-white border border-slate-200 p-1.5 rounded-2xl shadow-sm">
@@ -85,7 +85,7 @@ export default function Dashboard() {
                                 <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-primary shadow-sm">
                                     <Bell size={20} />
                                 </div>
-                                <h3 className="font-black text-slate-800 text-lg">Latest Inquiries</h3>
+                                <h3 className="font-black text-slate-800 text-lg">Latest Guest Messages</h3>
                             </div>
                             <Link to="/admin/contact-message" className="text-xs font-bold text-primary hover:underline">View All</Link>
                         </div>
@@ -139,7 +139,7 @@ export default function Dashboard() {
                             <div className="p-2 bg-primary/10 text-primary rounded-lg">
                                 <Users size={20} />
                             </div>
-                            <h3 className="font-black text-slate-800">Team Management</h3>
+                            <h3 className="font-black text-slate-800">Restaurant Team</h3>
                         </div>
 
                         <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl mb-6">
@@ -162,7 +162,7 @@ export default function Dashboard() {
                         <div className="relative z-10">
                             <h3 className="text-xl font-black mb-2">Performance</h3>
                             <p className="text-indigo-100 text-xs font-medium mb-8 leading-relaxed">
-                                Optimize your website's visibility and search engine ranking.
+                                Keep your restaurant profile, search visibility, and marketing pages ready.
                             </p>
                             <div className="grid grid-cols-2 gap-3">
                                 <Link to="/admin/setting/general" className="bg-white/10 hover:bg-white/20 backdrop-blur-md py-3 rounded-xl text-[11px] font-black text-center transition-all uppercase tracking-wider">

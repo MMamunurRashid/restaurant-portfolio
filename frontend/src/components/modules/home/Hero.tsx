@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGetAllBannerQuery } from "@/redux/features/banner/bannerApi";
+import { useGetContactQuery } from "@/redux/features/contact/contactApi";
 import {
     ArrowRight,
     ChevronLeft,
@@ -9,18 +10,25 @@ import {
     Coffee,
     MapPin,
     PhoneCall,
-    UtensilsCrossed,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { fallbackBanners, getCafeImageUrl, heroHighlights } from "./cafeContent";
+import { getMediaUrl } from "@/utils/media";
 
 export default function Hero() {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState(1);
     const { data } = useGetAllBannerQuery({});
-    const apiBanners = data?.data || [];
-    const banners = apiBanners.length ? apiBanners : fallbackBanners;
+    const { data: contactData } = useGetContactQuery({});
+    const banners = (data?.data || []).filter((item: any) => item?.image);
     const banner = banners[current] || banners[0];
+    const contact = contactData?.data;
+    const displayPhone = contact?.phone?.split("|")?.[0]?.trim();
+    const displayAddress = contact?.address?.trim();
+    const openingHour = contact?.officeHours?.find((item: any) => item?.day && item?.hours);
+    const hasContactBar = Boolean(displayPhone || displayAddress || openingHour);
+    const highlights = Array.isArray(banner?.highlights)
+        ? banner.highlights.filter((item: string) => item?.trim())
+        : [];
 
     useEffect(() => {
         if (current >= banners.length) setCurrent(0);
@@ -66,6 +74,8 @@ export default function Hero() {
         exit: { scale: 1.03, opacity: 0, transition: { duration: 0.5 } },
     };
 
+    if (!banners.length) return null;
+
     return (
         <section className="relative mt-16 min-h-[calc(100svh-8rem)] overflow-hidden bg-[#111827] text-white md:mt-[72px] md:min-h-[calc(100svh-9rem)]">
             <AnimatePresence mode="wait" custom={direction}>
@@ -76,8 +86,8 @@ export default function Hero() {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    src={getCafeImageUrl(banner?.image)}
-                    alt={banner?.title || "Prestige Cafe and Restaurant"}
+                    src={getMediaUrl(banner?.image)}
+                    alt={banner?.title || "Banner"}
                     className="absolute inset-0 h-full w-full object-cover"
                 />
             </AnimatePresence>
@@ -96,22 +106,19 @@ export default function Hero() {
                         exit="exit"
                         className="w-full min-w-0 max-w-[calc(100vw-3rem)] md:max-w-3xl"
                     >
-                        <div className="mb-5 inline-flex items-center gap-2 border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[#f6e7d8] backdrop-blur-sm">
-                            <UtensilsCrossed size={13} />
-                            Cafe, Dining and Private Tables
-                        </div>
-
                         <h1 className="max-w-[18rem] break-words font-serif text-4xl font-normal leading-[1.02] text-white sm:max-w-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                            {banner?.title || "Prestige Cafe & Restaurant"}
+                            {banner?.title}
                         </h1>
 
-                        <p className="mt-6 max-w-[18rem] text-sm leading-7 text-white/75 sm:max-w-2xl md:text-base md:leading-8">
-                            {banner?.description}
-                        </p>
+                        {banner?.description && (
+                            <p className="mt-6 max-w-[18rem] text-sm leading-7 text-white/75 sm:max-w-2xl md:text-base md:leading-8">
+                                {banner.description}
+                            </p>
+                        )}
 
                         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                             <Link to="/appointment" className="w-full max-w-[20rem] sm:w-auto">
-                                <button className="group flex w-full items-center justify-center gap-2 bg-[#d75a3f] px-6 py-4 text-sm font-bold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:bg-[#c94830] sm:w-auto">
+                                <button className="group flex w-full items-center justify-center gap-2 bg-primary px-6 py-4 text-sm font-bold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:bg-secondary sm:w-auto">
                                     Reserve a Table
                                     <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                                 </button>
@@ -125,36 +132,46 @@ export default function Hero() {
                             </Link>
                         </div>
 
-                        <div className="mt-8 flex flex-wrap gap-2">
-                            {heroHighlights.map((item) => (
-                                <span
-                                    key={item}
-                                    className="border border-white/20 bg-white/10 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/70 backdrop-blur-sm"
-                                >
-                                    {item}
-                                </span>
-                            ))}
-                        </div>
+                        {highlights.length > 0 && (
+                            <div className="mt-8 flex flex-wrap gap-2">
+                                {highlights.map((item: string) => (
+                                    <span
+                                        key={item}
+                                        className="border border-white/20 bg-white/10 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/70 backdrop-blur-sm"
+                                    >
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </motion.div>
                 </AnimatePresence>
             </div>
 
+            {hasContactBar && (
             <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/12 bg-[#111827]/55 backdrop-blur-md">
                 <div className="container flex flex-col gap-3 py-4 text-xs text-white/70 md:flex-row md:items-center md:justify-between">
-                    <div className="flex items-center gap-2">
-                        <Clock size={15} className="text-[#f6e7d8]" />
-                        <span>Open daily from 10:00 AM to 11:00 PM</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <MapPin size={15} className="text-[#f6e7d8]" />
-                        <span>Dhaka, Bangladesh</span>
-                    </div>
-                    <a href="tel:+8801700000000" className="flex items-center gap-2 transition-colors hover:text-[#f6e7d8]">
-                        <PhoneCall size={15} className="text-[#f6e7d8]" />
-                        <span>Call for reservations</span>
-                    </a>
+                    {openingHour && (
+                        <div className="flex items-center gap-2">
+                            <Clock size={15} className="text-[#f6e7d8]" />
+                            <span>{openingHour.day}: {openingHour.hours}</span>
+                        </div>
+                    )}
+                    {displayAddress && (
+                        <div className="flex items-center gap-2">
+                            <MapPin size={15} className="text-[#f6e7d8]" />
+                            <span>{displayAddress}</span>
+                        </div>
+                    )}
+                    {displayPhone && (
+                        <a href={`tel:${displayPhone}`} className="flex items-center gap-2 transition-colors hover:text-[#f6e7d8]">
+                            <PhoneCall size={15} className="text-[#f6e7d8]" />
+                            <span>{displayPhone}</span>
+                        </a>
+                    )}
                 </div>
             </div>
+            )}
 
             {banners.length > 1 && (
                 <>
@@ -182,7 +199,7 @@ export default function Hero() {
                                 onClick={() => goTo(i)}
                                 aria-label={`Go to slide ${i + 1}`}
                                 className={`h-2 transition-all duration-300 ${
-                                    i === current ? "w-8 bg-[#d75a3f]" : "w-2 bg-white/40 hover:bg-white/70"
+                                    i === current ? "w-8 bg-primary" : "w-2 bg-white/40 hover:bg-white/70"
                                 }`}
                             />
                         ))}

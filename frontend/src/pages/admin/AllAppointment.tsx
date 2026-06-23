@@ -25,10 +25,10 @@ export default function AllAppointment() {
     const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
 
     const handleDelete = async (id: string) => {
-        if (window.confirm("Are you sure you want to delete this appointment?")) {
+        if (window.confirm("Are you sure you want to delete this reservation?")) {
             const res = await deleteAppointment(id) as TResponse;
             if (res?.data?.success) {
-                toast.success(res.data.message || "Appointment deleted successfully");
+                toast.success(res.data.message || "Reservation deleted successfully");
             } else {
                 toast.error(
                     Array.isArray(res?.error?.data?.error) && res?.error?.data?.error.length > 0
@@ -54,8 +54,8 @@ export default function AllAppointment() {
                         <MessageSquare size={20} />
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-neutral">All Appointments</h1>
-                        <p className="text-slate-500 text-xs mt-1">You have {data?.meta?.total || 0} total booking appointments.</p>
+                        <h1 className="text-xl font-bold text-neutral">Table Reservations</h1>
+                        <p className="text-slate-500 text-xs mt-1">You have {data?.meta?.total || 0} total reservation requests.</p>
                     </div>
                 </div>
             </div>
@@ -89,9 +89,9 @@ export default function AllAppointment() {
                     <table className="w-full text-left border-separate border-spacing-0">
                         <thead>
                             <tr className="bg-slate-50/80">
-                                <th className="p-4 text-xs font-bold text-slate-500 uppercase">Sender</th>
+                                <th className="p-4 text-xs font-bold text-slate-500 uppercase">Guest</th>
                                 <th className="p-4 text-xs font-bold text-slate-500 uppercase">Contact</th>
-                                <th className="p-4 text-xs font-bold text-slate-500 uppercase">Packages & Date</th>
+                                <th className="p-4 text-xs font-bold text-slate-500 uppercase">Package & Date</th>
                                 <th className="p-4 text-xs font-bold text-slate-500 uppercase text-right">Actions</th>
                             </tr>
                         </thead>
@@ -127,7 +127,7 @@ export default function AllAppointment() {
                                                     {appointment?.packages && appointment.packages.length > 0 && appointment.packages[0]?.thumbnail && (
                                                         <img src={CONFIG.BASE_URL + appointment.packages[0].thumbnail} alt="" className='w-6 h-6 rounded object-cover' />
                                                     )}
-                                                    <p className="text-sm font-semibold text-primary line-clamp-1">{(appointment?.packages && appointment.packages[0]?.title) || 'General'}{appointment?.packages && appointment.packages.length > 1 ? ` +${appointment.packages.length - 1} more` : ''}</p>
+                                                    <p className="text-sm font-semibold text-primary line-clamp-1">{(appointment?.packages && appointment.packages[0]?.title) || 'General Reservation'}{appointment?.packages && appointment.packages.length > 1 ? ` +${appointment.packages.length - 1} more` : ''}</p>
                                                 </div>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase">
                                                     {new Date(appointment?.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
@@ -155,7 +155,7 @@ export default function AllAppointment() {
                             ) : (
                                 <tr>
                                     <td colSpan={4} className="p-10 text-center text-slate-400 text-sm italic">
-                                        No appointments found.
+                                        No reservations found.
                                     </td>
                                 </tr>
                             )}

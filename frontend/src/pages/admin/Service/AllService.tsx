@@ -20,6 +20,7 @@ export default function AllService() {
         page,
         limit: 10,
         search: searchTerm,
+        sort: 'order,createdAt',
     });
     const services = data?.data || [];
 
@@ -28,10 +29,10 @@ export default function AllService() {
 
     // --- All Previous Logic Kept Intact ---
     const handleDelete = async (id: string) => {
-        if (window.confirm("Permanent delete this project?")) {
+        if (window.confirm("Permanent delete this menu item?")) {
             const res = await deleteService(id) as TResponse;
             if (res?.data?.success) {
-                toast.success(res.data.message || "Project deleted successfully");
+                toast.success(res.data.message || "Menu item deleted successfully");
             } else {
                 toast.error(
                     Array.isArray(res?.error?.data?.error) && res?.error?.data?.error.length > 0
@@ -44,10 +45,10 @@ export default function AllService() {
 
     const handleToggleActiveStatus = async (id: string) => {
         if (!id) return;
-        if (window.confirm("Change active status of this project?")) {
+        if (window.confirm("Change active status of this menu item?")) {
             const res = await toggleStatusService(id) as TResponse;
             if (res?.data?.success) {
-                toast.success("Project status updated successfully");
+                toast.success("Menu item status updated successfully");
             } else {
                 toast.error(res?.error?.data?.message || "Something went wrong!");
             }
@@ -60,11 +61,11 @@ export default function AllService() {
             {/* Header Area */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm">
                 <div>
-                    <h1 className="text-xl font-bold text-neutral">Service Inventory</h1>
-                    <p className="text-slate-500 text-xs mt-1">Manage {data?.meta?.total || 0} property listings and their visibility.</p>
+                    <h1 className="text-xl font-bold text-neutral">Menu Inventory</h1>
+                    <p className="text-slate-500 text-xs mt-1">Manage {data?.meta?.total || 0} menu items and their visibility.</p>
                 </div>
                 <Link to="/admin/service/add" className="admin_primary_btn">
-                    <Plus size={18} /> Add New Service
+                    <Plus size={18} /> Add Menu Item
                 </Link>
             </div>
 
@@ -88,14 +89,16 @@ export default function AllService() {
                     <table className="w-full text-left border-separate border-spacing-0">
                         <thead>
                             <tr className="bg-slate-50/80">
-                                <th className="p-4">Project Info</th>
+                                <th className="p-4">Menu Item</th>
+                                <th className="p-4">Price</th>
+                                <th className="p-4">Order</th>
                                 <th className="p-4">Icon</th>
                                 <th className="p-4">Status</th>
                                 <th className="p-4">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                            {isLoading ? <TableSkeleton columns={5} /> : services?.length > 0 ? services?.map((item: IService) => (
+                            {isLoading ? <TableSkeleton columns={6} /> : services?.length > 0 ? services?.map((item: IService) => (
                                 <tr key={item?._id} className="hover:bg-slate-50/50 transition-all">
                                     <td className="p-4">
                                         <div className="flex items-center gap-4">
@@ -105,6 +108,14 @@ export default function AllService() {
                                                 <Link to={`/service/${item?.slug}`}>{item?.slug}</Link>
                                             </div>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <p className="text-sm font-semibold text-neutral">BDT {(item?.price || 0).toLocaleString('en-BD')}</p>
+                                    </td>
+                                    <td>
+                                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-xs font-bold text-slate-600">
+                                            {item?.order ?? 0}
+                                        </span>
                                     </td>
                                     <td>
                                         <img src={CONFIG.BASE_URL + item?.icon} className="w-12 h-12 rounded-lg object-cover border border-slate-200" alt="service" loading='lazy' />
@@ -131,7 +142,7 @@ export default function AllService() {
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan={5} className="p-10 text-center text-slate-400 text-sm">No projects found.</td>
+                                    <td colSpan={6} className="p-10 text-center text-slate-400 text-sm">No menu items found.</td>
                                 </tr>
                             )}
                         </tbody>

@@ -3,6 +3,7 @@ import AppError from '../../errors/AppError';
 import { IPackage } from './packageInterface';
 import { Package } from './packageModel';
 import QueryBuilder from '../../builders/QueryBuilder';
+import { deleteFile } from '../../utils/deleteFile';
 
 export const addPackageService = async (data: IPackage) => {
   const result = await Package.create({ ...data });
@@ -11,7 +12,7 @@ export const addPackageService = async (data: IPackage) => {
 
 export const getAllPackageService = async (query: Record<string, unknown>) => {
   const result = new QueryBuilder(Package.find(), query)
-    .search(['title', 'services'])
+    .search(['title', 'services', 'description'])
     .filter()
     .sort()
     .paginate()
@@ -40,6 +41,11 @@ export const updatePackageService = async (id: string, data: IPackage) => {
     { ...data },
     { new: true },
   );
+
+  if (result && data?.thumbnail && isExist?.thumbnail) {
+    deleteFile(`./uploads${isExist.thumbnail}`);
+  }
+
   return result;
 };
 
@@ -48,6 +54,9 @@ export const deletePackageService = async (id: string) => {
   if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Package not found !');
 
   await Package.findByIdAndDelete(id);
+  if (isExist?.thumbnail) {
+    deleteFile(`./uploads${isExist.thumbnail}`);
+  }
   return true;
 };
 

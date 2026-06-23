@@ -7,7 +7,7 @@ import { useGetGeneralSettingQuery } from "@/redux/features/generalSetting/gener
 import { useMemo } from "react";
 import FloatingActionButton from "./FloatingActionButton";
 import { Separator } from "@/components/ui/separator";
-import { fallbackContact, getCafeImageUrl } from "@/components/modules/home/cafeContent";
+import { getMediaUrl } from "@/utils/media";
 
 // React Icons
 import {
@@ -17,42 +17,44 @@ import {
 } from "react-icons/fa";
 
 const iconMap: Record<string, React.ReactNode> = {
-    facebook:  <FaFacebookF size={13} />,
+    facebook: <FaFacebookF size={13} />,
     instagram: <FaInstagram size={13} />,
-    twitter:   <FaTwitter size={13} />,
-    linkedin:  <FaLinkedinIn size={13} />,
-    youtube:   <FaYoutube size={13} />,
-    whatsapp:  <FaWhatsapp size={13} />,
-    github:    <FaGithub size={13} />,
-    tiktok:    <FaTiktok size={13} />,
+    twitter: <FaTwitter size={13} />,
+    linkedin: <FaLinkedinIn size={13} />,
+    youtube: <FaYoutube size={13} />,
+    whatsapp: <FaWhatsapp size={13} />,
+    github: <FaGithub size={13} />,
+    tiktok: <FaTiktok size={13} />,
     pinterest: <FaPinterestP size={13} />,
-    snapchat:  <FaSnapchatGhost size={13} />,
-    default:   <FaGlobe size={13} />,
+    snapchat: <FaSnapchatGhost size={13} />,
+    default: <FaGlobe size={13} />,
 };
 
 const menus = [
-    { name: "Home",         link: "/" },
-    { name: "Menu",         link: "/services" },
-    { name: "Dining Sets",  link: "/packages" },
-    { name: "About",        link: "/about-us" },
-    { name: "Gallery",      link: "/gallery" },
-    { name: "Contact",      link: "/contact-us" },
-    { name: "Journal",      link: "/blogs" },
+    { name: "Home", link: "/" },
+    { name: "Menu", link: "/services" },
+    { name: "Dining Sets", link: "/packages" },
+    { name: "About", link: "/about-us" },
+    { name: "Gallery", link: "/gallery" },
+    { name: "Contact", link: "/contact-us" },
+    { name: "Journal", link: "/blogs" },
+    { name: "Privacy Policy", link: "/privacy-policy" },
+    { name: "Terms & Conditions", link: "/terms-condition" },
 ];
 
 export default function MainFooter() {
     const currentYear = new Date().getFullYear();
     const { data } = useGetContactQuery({});
-    const contact = data?.data || fallbackContact;
+    const contact = data?.data;
     const { data: setting } = useGetGeneralSettingQuery({});
     const generalSetting = setting?.data || {};
-    const logoSrc = generalSetting?.logo ? getCafeImageUrl(generalSetting.logo) : "/images/logo.png";
-    const displayEmail = contact?.email?.split("|")[0]?.trim() || fallbackContact.email;
+    const logoSrc = generalSetting?.logo ? getMediaUrl(generalSetting.logo) : "";
+    const displayEmail = contact?.email?.split("|")[0]?.trim();
 
     const displayPhone = useMemo(() => {
         if (!contact?.phone) return "";
         return contact.phone.split("|")[0].trim();
-    }, [contact.phone]);
+    }, [contact?.phone]);
 
     return (
         <footer className="relative bg-[#111827] text-white overflow-hidden">
@@ -100,12 +102,14 @@ export default function MainFooter() {
                                     <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                                 </motion.button>
                             </Link>
-                            <a
-                                href={`mailto:${displayEmail}`}
-                                className="flex w-full sm:w-auto items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-7 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-[#f6e7d8]/40 hover:bg-white/10 hover:text-white"
-                            >
-                                Send a Message
-                            </a>
+                            {displayEmail && (
+                                <a
+                                    href={`mailto:${displayEmail}`}
+                                    className="flex w-full sm:w-auto items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-7 py-4 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-[#f6e7d8]/40 hover:bg-white/10 hover:text-white"
+                                >
+                                    Send a Message
+                                </a>
+                            )}
                         </motion.div>
                     </div>
                 </div>
@@ -117,17 +121,25 @@ export default function MainFooter() {
 
                     {/* Brand */}
                     <div className="lg:col-span-1 flex flex-col gap-6">
-                        <Link to="/">
-                            <img
-                                src={logoSrc}
-                                alt="Logo"
-                                className="h-10 w-auto object-contain"
-                                loading="lazy"
-                            />
-                        </Link>
-                        <p className="text-sm leading-relaxed text-white/40 italic max-w-52">
-                            &ldquo;{generalSetting?.tagline || "Specialty coffee, fresh plates, and warm service from morning to night."}&rdquo;
-                        </p>
+                        {(logoSrc || generalSetting?.siteName) && (
+                            <Link to="/" className="inline-flex">
+                                {logoSrc ? (
+                                    <img
+                                        src={logoSrc}
+                                        alt={generalSetting?.siteName || "Logo"}
+                                        className="h-10 w-auto object-contain"
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <span className="font-serif text-2xl text-white">{generalSetting.siteName}</span>
+                                )}
+                            </Link>
+                        )}
+                        {generalSetting?.tagline && (
+                            <p className="text-sm leading-relaxed text-white/40 italic max-w-52">
+                                &ldquo;{generalSetting.tagline}&rdquo;
+                            </p>
+                        )}
 
                         {/* Socials */}
                         <div className="flex flex-wrap gap-2 mt-1">
@@ -215,7 +227,7 @@ export default function MainFooter() {
                             Opening Hours
                         </p>
                         <div className="flex flex-col gap-4">
-                            { contact?.officeHours?.map((row: any) => (
+                            {contact?.officeHours?.map((row: any) => (
                                 <div key={row.day} className="flex flex-col gap-1">
                                     <p className="text-xs text-white/40">{row.day}</p>
                                     <p className={`text-sm font-semibold ${row.hours === "Closed" ? "text-[#dc1f52]" : "text-white/70"}`}>
@@ -243,7 +255,7 @@ export default function MainFooter() {
             <div className="relative z-10 border-t border-white/10">
                 <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25">
-                        © {currentYear} {generalSetting?.siteName || "Prestige Cafe and Restaurant"}. All rights reserved.
+                        © {currentYear}{generalSetting?.siteName ? ` ${generalSetting.siteName}` : ""}. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
                         <Link to="/privacy-policy" className="text-[10px] uppercase tracking-widest text-white/25 hover:text-[#f6e7d8] transition-colors">

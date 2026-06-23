@@ -81,13 +81,18 @@ export default function AllTestimonial() {
                                         <td>
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200 bg-slate-50">
-                                                    <img
-                                                        src={`${API_URL}${review?.image}`}
-                                                        alt={review?.name}
-                                                        className="w-full h-full object-cover"
-                                                        onError={(e: any) => e.target.src = 'https://ui-avatars.com/api/?name=' + review?.name}
-                                                        loading='lazy'
-                                                    />
+                                                    {review?.image ? (
+                                                        <img
+                                                            src={`${API_URL}${review.image}`}
+                                                            alt={review?.name}
+                                                            className="w-full h-full object-cover"
+                                                            loading='lazy'
+                                                        />
+                                                    ) : (
+                                                        <div className="flex h-full w-full items-center justify-center text-xs font-bold uppercase text-slate-500">
+                                                            {review?.name?.charAt(0)}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div>
                                                     <p className="font-bold text-slate-800 text-sm">{review?.name}</p>

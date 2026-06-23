@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
     LayoutDashboard, Settings, X, ChevronDown, UserCog, ShieldCheck, Search,
-    FileText, Heart, Flower2, Scissors,
+    FileText, Heart, ChefHat, UtensilsCrossed,
     Newspaper,
     NotebookPen,
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { CONFIG } from '@/config';
 import { useGetGeneralSettingQuery } from '@/redux/features/generalSetting/generalSettingApi';
+import { getMediaUrl } from '@/utils/media';
 
 interface MenuItem {
     icon?: any;
@@ -26,7 +26,8 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     const [openMenus, setOpenMenus] = useState<string[]>([]);
 
     const { data } = useGetGeneralSettingQuery({});
-    const logo = data?.data?.logo;
+    const generalSetting = data?.data || {};
+    const logoSrc = generalSetting?.logo ? getMediaUrl(generalSetting.logo) : '';
 
     // 1. Move isUrlActive to the top (Before useMemo)
     const isUrlActive = useCallback((item: MenuItem): boolean => {
@@ -38,24 +39,24 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
     const menuItems: MenuItem[] = useMemo(() => [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
-        { icon: Scissors, label: 'Our Services', href: '/admin/services/all' },
-        { icon: NotebookPen, label: 'Packages', href: '/admin/packages/all' },
+        { icon: UtensilsCrossed, label: 'Menu Items', href: '/admin/services/all' },
+        { icon: NotebookPen, label: 'Dining Packages', href: '/admin/packages/all' },
         {
-            icon: Flower2,
-            label: 'About Us',
+            icon: ChefHat,
+            label: 'Restaurant Profile',
             children: [
-                { label: 'About Studio', href: '/admin/about' },
-                { label: 'Specialists Category', href: '/admin/about/team/category/all' },
-                { label: 'Specialists Chef', href: '/admin/about/team/all' },
+                { label: 'About Restaurant', href: '/admin/about' },
+                { label: 'Team Categories', href: '/admin/about/team/category/all' },
+                { label: 'Team Members', href: '/admin/about/team/all' },
             ]
         },
         {
             icon: Heart,
-            label: 'Client Inquiry',
+            label: 'Guest Requests',
             children: [
                 { label: "Restaurant Contact", href: "/admin/contact-us" },
                 { label: 'Messages', href: "/admin/contact-message" },
-                { label: 'Bookings', href: "/admin/appointments/all" },
+                { label: 'Table Reservations', href: "/admin/appointments/all" },
             ]
         },
         { icon: ShieldCheck, label: 'Privacy Policy', href: "/admin/privacy-policy" },
@@ -66,14 +67,14 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             children: [
                 { label: 'General Info', href: '/admin/setting/general' },
                 { label: 'Hero Banners', href: '/admin/setting/banner/all' },
-                { label: 'Promotional', href: '/admin/setting/campaign-banner' },
+                { label: 'Special Offer', href: '/admin/setting/campaign-banner' },
                 { label: 'Testimonials', href: '/admin/setting/testimonials/all' },
                 { label: 'Gallery', href: '/admin/setting/gallery/all' },
             ]
         },
-        { icon: Newspaper, label: 'Blogs', href: '/admin/blogs/all' },
-        { icon: UserCog, label: 'Staff Management', href: '/admin/user/all' },
-        { icon: Search, label: 'SEO Marketing', href: "/admin/seo" },
+        { icon: Newspaper, label: 'Journal', href: '/admin/blogs/all' },
+        { icon: UserCog, label: 'Admin Users', href: '/admin/user/all' },
+        { icon: Search, label: 'SEO & Marketing', href: "/admin/seo" },
     ], []);
 
     useEffect(() => {
@@ -150,9 +151,15 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
                 {/* Cafe & Restaurant Logo Section */}
                 <div className="p-6 flex items-center justify-between lg:justify-center shrink-0 bg-white">
-                    <Link to="/admin/dashboard">
-                        <img src={CONFIG.BASE_URL + logo || "/images/logo.png"} alt="logo" className='w-18 mx-auto' loading='lazy' />
-                    </Link>
+                    {(logoSrc || generalSetting?.siteName) && (
+                        <Link to="/admin/dashboard">
+                            {logoSrc ? (
+                                <img src={logoSrc} alt={generalSetting?.siteName || 'logo'} className='w-18 mx-auto' loading='lazy' />
+                            ) : (
+                                <span className="font-serif text-xl font-semibold text-slate-900">{generalSetting.siteName}</span>
+                            )}
+                        </Link>
+                    )}
                     <button onClick={() => setIsOpen(false)} className="lg:hidden text-slate-300 hover:text-primary p-1 transition-colors"><X size={24} /></button>
                 </div>
 

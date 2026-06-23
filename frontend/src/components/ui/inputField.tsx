@@ -9,12 +9,12 @@ export function FieldInput({ label, placeholder = '', icon, type = 'text', value
 }) {
     return (
         <div className="group">
-            <label className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-600 mb-2 block group-focus-within:text-[#CC826C] transition-colors">
+            <label className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-600 mb-2 block group-focus-within:text-primary transition-colors">
                 {label}
-                {required && <span className="text-[#dc1f52] ml-0.5">*</span>}
+                {required && <span className="text-primary ml-0.5">*</span>}
             </label>
-            <div className="flex items-center gap-3 border-b-2 border-stone-100 group-focus-within:border-[#CC826C] transition-colors pb-2">
-                <span className="text-stone-400 group-focus-within:text-[#CC826C] transition-colors shrink-0">
+            <div className="flex items-center gap-3 border-b-2 border-stone-100 group-focus-within:border-primary transition-colors pb-2">
+                <span className="text-stone-400 group-focus-within:text-primary transition-colors shrink-0">
                     {icon}
                 </span>
                 <input

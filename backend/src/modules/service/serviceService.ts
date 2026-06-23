@@ -39,7 +39,7 @@ export const getBySlugServiceService = async (slug: string) => {
 
 export const updateServiceService = async (id: string, data: IService) => {
   const isExist = await Service.findById(id);
-  if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Service not found');
+  if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
 
   const result = await Service.findByIdAndUpdate(id, data, { new: true });
   return result;
@@ -47,7 +47,7 @@ export const updateServiceService = async (id: string, data: IService) => {
 
 export const deleteServiceService = async (id: string) => {
   const isExist = await Service.findById(id);
-  if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Service not found');
+  if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
 
   const result = await Service.findByIdAndDelete(id);
   if (result) {
@@ -67,7 +67,7 @@ export const deleteServiceService = async (id: string) => {
 
 export const updateServiceActiveService = async (id: string) => {
   const isExist = await Service.findById(id);
-  if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Service not found');
+  if (!isExist) throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
 
   const result = await Service.findByIdAndUpdate(id, {
     isActive: !isExist.isActive,

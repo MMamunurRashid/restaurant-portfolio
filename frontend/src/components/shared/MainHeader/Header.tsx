@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { useGetGeneralSettingQuery } from "@/redux/features/generalSetting/generalSettingApi";
-import { CONFIG } from "@/config";
 import { ArrowRight, Calendar } from "lucide-react";
+import { getMediaUrl } from "@/utils/media";
 
 const navLinks = [
     { name: "Home",       href: "/" },
@@ -27,12 +27,8 @@ export default function Header({
     const location = useLocation();
 
     const { data } = useGetGeneralSettingQuery({});
-    const logo = data?.data?.logo;
-    const logoSrc = logo
-        ? logo.startsWith("http")
-            ? logo
-            : `${CONFIG.BASE_URL.replace(/\/$/, "")}/${logo.replace(/^\/+/, "")}`
-        : "/images/logo.png";
+    const generalSetting = data?.data || {};
+    const logoSrc = generalSetting?.logo ? getMediaUrl(generalSetting.logo) : "";
 
     // Removed scroll effect: header uses static (scrolled) styles now.
 
@@ -50,14 +46,20 @@ export default function Header({
             <div className="container flex items-center justify-between gap-8">
 
                 {/* Logo */}
-                <Link to="/" className="relative z-10 shrink-0">
-                    <img
-                        src={logoSrc}
-                        alt="Logo"
-                        className={`object-contain transition-all duration-300 hover:opacity-80 h-12`}
-                        loading="lazy"
-                    />
-                </Link>
+                {(logoSrc || generalSetting?.siteName) && (
+                    <Link to="/" className="relative z-10 shrink-0">
+                        {logoSrc ? (
+                            <img
+                                src={logoSrc}
+                                alt={generalSetting?.siteName || "Logo"}
+                                className={`object-contain transition-all duration-300 hover:opacity-80 h-12`}
+                                loading="lazy"
+                            />
+                        ) : (
+                            <span className="font-serif text-2xl text-[#111827]">{generalSetting.siteName}</span>
+                        )}
+                    </Link>
+                )}
 
                 {/* Desktop Nav */}
                 <nav className="hidden lg:flex items-center gap-1">
@@ -141,11 +143,17 @@ export default function Header({
 
                             {/* Drawer header */}
                             <div className="flex items-center justify-between px-7 py-5 border-b border-stone-100">
-                                <img
-                                    src={logoSrc}
-                                    alt="Logo"
-                                    className="h-8 object-contain"
-                                />
+                                {(logoSrc || generalSetting?.siteName) && (
+                                    logoSrc ? (
+                                        <img
+                                            src={logoSrc}
+                                            alt={generalSetting?.siteName || "Logo"}
+                                            className="h-8 object-contain"
+                                        />
+                                    ) : (
+                                        <span className="font-serif text-xl text-[#111827]">{generalSetting.siteName}</span>
+                                    )
+                                )}
                                 <button
                                     className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 hover:bg-[#1f4f46] hover:text-white transition-all duration-200"
                                     onClick={() => setMobileMenuOpen(false)}

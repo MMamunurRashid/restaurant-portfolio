@@ -17,7 +17,6 @@ import {
 } from "react-icons/fa";
 import { FieldInput } from "@/components/ui/inputField";
 import { FieldTextarea } from "@/components/ui/textAreaField";
-import { fallbackContact } from "./cafeContent";
 
 const iconMap: Record<string, React.ReactNode> = {
     facebook: <FaFacebookF size={14} />,
@@ -35,13 +34,24 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default function ContactCom() {
     const { data } = useGetContactQuery({});
-    const contact = data?.data || fallbackContact;
+    const contact = data?.data;
     const [addMessage, { isLoading: isSubmitting }] = useAddMessageMutation();
 
     const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
     const set = (key: string) => (val: string) => setForm((prev) => ({ ...prev, [key]: val }));
 
-    const subTitle = contact?.subTitle || fallbackContact.subTitle;
+    const hasContactData = Boolean(
+        contact && (
+            contact.title ||
+            contact.subTitle ||
+            contact.email ||
+            contact.phone ||
+            contact.address ||
+            contact.socials?.length ||
+            contact.officeHours?.length
+        )
+    );
+    const subTitle = contact?.subTitle || "";
     const { remainingTitle, highlightTitle } = useMemo(() => {
         const words = subTitle.split(" ");
         return {
@@ -49,6 +59,11 @@ export default function ContactCom() {
             remainingTitle: words.slice(0, -2).join(" "),
         };
     }, [subTitle]);
+
+    if (!hasContactData) return null;
+
+    const displayPhone = contact?.phone?.split("|")?.[0]?.trim();
+    const displayEmail = contact?.email?.split("|")?.[0]?.trim();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -82,21 +97,25 @@ export default function ContactCom() {
                     >
                         {/* Header */}
                         <div>
-                            <div className="mb-5 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
-                                <Sparkles size={12} />
-                                {contact?.title || fallbackContact.title}
-                            </div>
+                            {contact?.title && (
+                                <div className="mb-5 inline-flex items-center gap-2 border border-[#1f4f46]/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#1f4f46]">
+                                    <Sparkles size={12} />
+                                    {contact.title}
+                                </div>
+                            )}
+                            {subTitle && (
                             <h2 className="font-serif text-4xl font-normal leading-[1.08] text-[#111827] md:text-6xl">
                                 {remainingTitle}{" "}
                                 <span className="italic text-[#1f4f46]">{highlightTitle}</span>
                             </h2>
+                            )}
                         </div>
 
                         {/* Contact items */}
                         <div className="flex flex-col gap-5">
-                            <InfoItem icon={<Phone size={16} />} label="Reservations" value={contact.phone?.split("|")[0]} link={`tel:${contact.phone?.split("|")[0]}`} />
-                            <InfoItem icon={<Mail size={16} />} label="Email" value={contact.email?.split("|")[0]} link={`mailto:${contact.email?.split("|")[0]}`} />
-                            <InfoItem icon={<MapPin size={16} />} label="Location" value={contact.address} />
+                            {displayPhone && <InfoItem icon={<Phone size={16} />} label="Reservations" value={displayPhone} link={`tel:${displayPhone}`} />}
+                            {displayEmail && <InfoItem icon={<Mail size={16} />} label="Email" value={displayEmail} link={`mailto:${displayEmail}`} />}
+                            {contact?.address && <InfoItem icon={<MapPin size={16} />} label="Location" value={contact.address} />}
                         </div>
 
                         <Separator className="bg-slate-200" />

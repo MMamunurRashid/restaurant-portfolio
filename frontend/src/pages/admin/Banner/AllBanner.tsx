@@ -94,6 +94,15 @@ export default function AllBanner() {
                                                 <p className="text-xs text-slate-400 line-clamp-1 italic">
                                                     {banner?.description || "No description provided."}
                                                 </p>
+                                                {banner?.highlights?.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1 pt-1">
+                                                        {banner.highlights.slice(0, 3).map((item: string) => (
+                                                            <span key={item} className="rounded bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                                                                {item}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
                                         </td>
                                         <td>
