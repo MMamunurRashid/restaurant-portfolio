@@ -18,6 +18,7 @@ const ContactUs = lazy(() => import("../pages/admin/ContactUs"));
 
 const Gallery = lazy(() => import("../pages/admin/Settings/Gallery/GalleryForm"));
 const AllGallery = lazy(() => import("../pages/admin/Settings/Gallery/AllGallery"));
+const SmtpSettings = lazy(() => import("../pages/admin/Settings/Smtp/SmtpSettings"));
 
 // banner lazy load
 const AllBanner = lazy(() => import("../pages/admin/Banner/AllBanner"));
@@ -158,6 +159,10 @@ export const adminRoutes = {
         {
             path: "setting/gallery/edit/:id",
             element: <Gallery />
+        },
+        {
+            path: "setting/smtp",
+            element: <SmtpSettings />
         },
 
         // about

@@ -9,4 +9,5 @@ export default {
   NODE_ENV: process.env.NODE_ENV || 'development',
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
   JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN,
+  FRONTEND_URL: process.env.FRONTEND_URL,
 };

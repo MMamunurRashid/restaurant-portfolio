@@ -3,10 +3,13 @@ import AppError from '../../errors/AppError';
 import { IAppointment } from './appointmentInterface';
 import { Appointment } from './appointmentModel';
 import QueryBuilder from '../../builders/QueryBuilder';
+import { sendReservationNotifications } from '../../utils/notificationMail';
 
 export const addAppointmentService = async (data: IAppointment) => {
   const result = await Appointment.create({ ...data });
-  return result;
+  const populatedResult = await result.populate('packages');
+  await sendReservationNotifications(populatedResult);
+  return populatedResult;
 };
 
 export const getAllAppointmentService = async (

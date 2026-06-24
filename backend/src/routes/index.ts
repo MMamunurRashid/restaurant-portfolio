@@ -21,6 +21,7 @@ import { campaignRoute } from '../modules/campaign/campaignRoute';
 import { testimonialRoute } from '../modules/testimonial/testimonialRoute';
 import { packagesRoute } from '../modules/packages/packageRoutes';
 import { galleryRoute } from '../modules/gallery/galleryRoute';
+import { smtpConfigRoute } from '../modules/smtpConfig/smtpConfigRoute';
 
 const moduleRoutes = [
   {
@@ -114,7 +115,11 @@ const moduleRoutes = [
   {
     path: '/gallery',
     route: galleryRoute,
-  }
+  },
+  {
+    path: '/smtp-config',
+    route: smtpConfigRoute,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

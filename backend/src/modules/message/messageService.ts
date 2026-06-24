@@ -3,9 +3,11 @@ import AppError from '../../errors/AppError';
 import { IMessage } from './messageInterface';
 import { Message } from './messageModel';
 import QueryBuilder from '../../builders/QueryBuilder';
+import { sendAudienceQueryNotification } from '../../utils/notificationMail';
 
 export const addMessageService = async (data: IMessage) => {
   const result = await Message.create({ ...data });
+  await sendAudienceQueryNotification(result);
   return result;
 };
 

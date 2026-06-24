@@ -37,5 +37,6 @@ export const baseApi = createApi({
     "campaign",
     "testimonial",
     "packages",
+    "smtpConfig",
   ],
 });
