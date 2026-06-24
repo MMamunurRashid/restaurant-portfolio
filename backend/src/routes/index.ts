@@ -22,6 +22,8 @@ import { testimonialRoute } from '../modules/testimonial/testimonialRoute';
 import { packagesRoute } from '../modules/packages/packageRoutes';
 import { galleryRoute } from '../modules/gallery/galleryRoute';
 import { smtpConfigRoute } from '../modules/smtpConfig/smtpConfigRoute';
+import { reservationSettingRoute } from '../modules/reservationSetting/reservationSettingRoute';
+import { diningTableRoute } from '../modules/diningTable/diningTableRoute';
 
 const moduleRoutes = [
   {
@@ -119,6 +121,14 @@ const moduleRoutes = [
   {
     path: '/smtp-config',
     route: smtpConfigRoute,
+  },
+  {
+    path: '/reservation-setting',
+    route: reservationSettingRoute,
+  },
+  {
+    path: '/dining-table',
+    route: diningTableRoute,
   },
 ];
 

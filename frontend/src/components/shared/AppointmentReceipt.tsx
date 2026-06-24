@@ -21,9 +21,9 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
           })
         : '—';
 
-    const refId = appointment._id
-        ? `RES-${appointment._id.slice(-6).toUpperCase()}`
-        : 'RES-XXXXXX';
+    const refId =
+        appointment.reservationCode ||
+        (appointment._id ? `RES-${appointment._id.slice(-6).toUpperCase()}` : 'RES-XXXXXX');
 
     const totalPrice =
         appointment.packages?.reduce((sum, pkg) => sum + (pkg.price ?? 0), 0) ?? 0;
@@ -153,6 +153,9 @@ export default function AppointmentReceipt({ appointment, open, onClose }: Appoi
                                     <ReceiptRow label="Date" value={date} />
                                     {appointment.time && (
                                         <ReceiptRow label="Time" value={formatTime(appointment.time)} />
+                                    )}
+                                    {appointment.guestCount && (
+                                        <ReceiptRow label="Guests" value={String(appointment.guestCount)} />
                                     )}
                                     {appointment.address && (
                                         <ReceiptRow label="Address" value={appointment.address} />

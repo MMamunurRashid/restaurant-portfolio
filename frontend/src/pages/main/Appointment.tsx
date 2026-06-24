@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { User, Phone, MapPin, Calendar, Clock, ArrowRight, ShieldCheck, Mail, Package, Sparkles, Clock10 } from 'lucide-react';
+import { User, Phone, MapPin, Calendar, Clock, ArrowRight, ShieldCheck, Mail, Package, Sparkles, Clock10, Users } from 'lucide-react';
 import { useGetContactQuery } from '@/redux/features/contact/contactApi';
 import { useGetAllPackageQuery } from '@/redux/features/packages/packagesApi';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { useAddAppointmentMutation, useGetAppointmentByIdQuery } from '@/redux/features/appointment/appointmentApi';
+import { useAddAppointmentMutation, useGetAvailableSlotsQuery } from '@/redux/features/appointment/appointmentApi';
 import type { TResponse } from '@/interface/globalInterface';
 import AppointmentReceipt from '@/components/shared/AppointmentReceipt';
 import type { IAppointment } from '@/interface/appointmentInterface';
@@ -62,15 +62,19 @@ export default function Appointment() {
         address: '',
         date: '',
         time: '',
+        guestCount: 2,
         packages: [] as string[],
         notes: '',
     });
 
     const [receiptOpen, setReceiptOpen] = useState(false);
     const [receiptAppointment, setReceiptAppointment] = useState<IAppointment | null>(null);
-    const [createdAppointmentId, setCreatedAppointmentId] = useState<string | null>(null);
-
-    const { data: fetchedAppointment } = useGetAppointmentByIdQuery(createdAppointmentId as string, { skip: !createdAppointmentId });
+    const { data: slotResponse, isFetching: isFetchingSlots } = useGetAvailableSlotsQuery(
+        { date: formData.date, guestCount: formData.guestCount },
+        { skip: !formData.date || !formData.guestCount }
+    );
+    const slotData = slotResponse?.data;
+    const slots = slotData?.slots || [];
 
     const set = (key: string) => (val: string) =>
         setFormData((prev) => ({ ...prev, [key]: val }));
@@ -85,13 +89,20 @@ export default function Appointment() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!formData.time) {
+            toast.error("Please select an available time slot");
+            return;
+        }
+
         try {
             const res = await createAppointment(formData) as TResponse;
             if (res?.data?.success) {
                 toast.success("Reservation request submitted successfully!");
                 const created = res?.data?.data as IAppointment;
-                // fetch populated appointment (with packages) for the receipt
-                if (created && created._id) setCreatedAppointmentId(created._id as any as string);
+                if (created && created._id) {
+                    setReceiptAppointment(created);
+                    setReceiptOpen(true);
+                }
             } else {
                 toast.error(
                     Array.isArray(res?.error?.data?.error) && res?.error?.data?.error.length > 0
@@ -107,17 +118,8 @@ export default function Appointment() {
     const handleReceiptClose = () => {
         setReceiptOpen(false);
         setReceiptAppointment(null);
-        setCreatedAppointmentId(null);
-        setFormData({ name: '', phone: '', email: '', address: '', date: '', time: '', packages: [], notes: '' });
+        setFormData({ name: '', phone: '', email: '', address: '', date: '', time: '', guestCount: 2, packages: [], notes: '' });
     };
-
-    // when fetchedAppointment becomes available, open receipt with populated data
-    useEffect(() => {
-        if (fetchedAppointment && fetchedAppointment.data) {
-            setReceiptAppointment(fetchedAppointment.data as IAppointment);
-            setReceiptOpen(true);
-        }
-    }, [fetchedAppointment]);
 
     return (
         <section className="min-h-screen bg-muted py-24 px-4">
@@ -246,23 +248,85 @@ export default function Appointment() {
                                         </motion.div>
                                         <motion.div custom={2} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldInput
-                                                label="Date"
-                                                type="date"
-                                                icon={<Calendar size={16} />}
-                                                value={formData.date}
-                                                onChange={set('date')}
+                                                label="Guest Count"
+                                                placeholder="2"
+                                                type="number"
+                                                icon={<Users size={16} />}
+                                                value={String(formData.guestCount)}
+                                                onChange={(value) => {
+                                                    const parsed = Number(value);
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        guestCount: Number.isFinite(parsed) && parsed > 0 ? parsed : 1,
+                                                        time: '',
+                                                    }));
+                                                }}
                                                 required
                                             />
                                         </motion.div>
                                         <motion.div custom={3} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldInput
-                                                label="Preferred Time"
-                                                type="time"
-                                                icon={<Clock size={16} />}
-                                                value={formData.time}
-                                                onChange={set('time')}
+                                                label="Date"
+                                                type="date"
+                                                icon={<Calendar size={16} />}
+                                                value={formData.date}
+                                                onChange={(value) =>
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        date: value,
+                                                        time: '',
+                                                    }))
+                                                }
                                                 required
                                             />
+                                        </motion.div>
+                                        <motion.div custom={4} variants={fieldVariants} initial="hidden" animate="show" className="md:col-span-2">
+                                            <div>
+                                                <div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-stone-600">
+                                                    <Clock size={14} />
+                                                    Available Time Slots
+                                                    <span className="text-primary">*</span>
+                                                </div>
+                                                {!formData.date ? (
+                                                    <p className="rounded-2xl border border-stone-100 bg-stone-50 px-4 py-3 text-xs font-medium text-stone-500">
+                                                        Select a date to see available reservation slots.
+                                                    </p>
+                                                ) : isFetchingSlots ? (
+                                                    <p className="rounded-2xl border border-stone-100 bg-stone-50 px-4 py-3 text-xs font-medium text-stone-500">
+                                                        Checking available slots...
+                                                    </p>
+                                                ) : slots.length > 0 ? (
+                                                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+                                                        {slots.map((slot: any) => {
+                                                            const isSelected = formData.time === slot.time;
+                                                            return (
+                                                                <button
+                                                                    key={slot.time}
+                                                                    type="button"
+                                                                    disabled={!slot.available}
+                                                                    title={slot.disabledReason || `${slot.remainingGuests} guests remaining`}
+                                                                    onClick={() => setFormData((prev) => ({ ...prev, time: slot.time }))}
+                                                                    className={`rounded-2xl border px-3 py-3 text-center transition-all disabled:cursor-not-allowed disabled:opacity-50 ${isSelected
+                                                                        ? 'border-primary bg-primary text-white shadow-sm shadow-primary/20'
+                                                                        : slot.available
+                                                                            ? 'border-stone-100 bg-stone-50 text-stone-700 hover:border-primary hover:bg-primary/5 hover:text-primary'
+                                                                            : 'border-stone-100 bg-stone-100 text-stone-400'
+                                                                        }`}
+                                                                >
+                                                                    <span className="block text-sm font-bold">{slot.label}</span>
+                                                                    <span className="mt-1 block text-[10px] font-semibold uppercase tracking-wide">
+                                                                        {slot.available ? `${slot.remainingGuests} seats left` : 'Unavailable'}
+                                                                    </span>
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                ) : (
+                                                    <p className="rounded-2xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive">
+                                                        {slotData?.reason || 'No slots available for this date.'}
+                                                    </p>
+                                                )}
+                                            </div>
                                         </motion.div>
                                     </div>
                                 </div>
@@ -273,7 +337,7 @@ export default function Appointment() {
                                 <div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <motion.div custom={4} variants={fieldVariants} initial="hidden" animate="show">
+                                        <motion.div custom={5} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldInput
                                                 label="Email Address"
                                                 placeholder="you@example.com"
@@ -283,7 +347,7 @@ export default function Appointment() {
                                                 onChange={set('email')}
                                             />
                                         </motion.div>
-                                        <motion.div custom={5} variants={fieldVariants} initial="hidden" animate="show">
+                                        <motion.div custom={6} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldInput
                                                 label="Area / Address"
                                                 placeholder="Dhaka, Bangladesh"
@@ -294,7 +358,7 @@ export default function Appointment() {
                                         </motion.div>
                                     </div>
                                     <div className="mt-3">
-                                        <motion.div custom={6} variants={fieldVariants} initial="hidden" animate="show">
+                                        <motion.div custom={7} variants={fieldVariants} initial="hidden" animate="show">
                                             <FieldTextarea
                                                 label="Additional Notes"
                                                 placeholder="Guest count, seating preference, dietary needs, or event details."
@@ -309,7 +373,7 @@ export default function Appointment() {
                                 <Separator className="bg-stone-50" />
 
                                 {/* Package selection */}
-                                <motion.div custom={6} variants={fieldVariants} initial="hidden" animate="show">
+                                <motion.div custom={8} variants={fieldVariants} initial="hidden" animate="show">
                                     <div className="flex items-center gap-2 mb-1">
                                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600">
                                             Choose a Dining Package
@@ -364,7 +428,7 @@ export default function Appointment() {
                                 {/* Submit */}
                                 <motion.div
                                     className="pt-4"
-                                    custom={7}
+                                    custom={9}
                                     variants={fieldVariants}
                                     initial="hidden"
                                     animate="show"

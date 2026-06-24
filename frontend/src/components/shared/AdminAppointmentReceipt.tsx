@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
-import { Phone, Mail, MapPin, Calendar, Clock, StickyNote, Download } from 'lucide-react';
+import { Phone, Mail, MapPin, Calendar, Clock, StickyNote, Download, Armchair, BellRing } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import toast from 'react-hot-toast';
-import type { IAppointment } from '@/interface/appointmentInterface';
+import type { IAppointment, TAppointmentStatus } from '@/interface/appointmentInterface';
 
 
 interface AdminAppointmentReceiptProps {
     appointment: IAppointment;
-    status?: 'pending' | 'confirmed' | 'cancelled';
+    status?: TAppointmentStatus;
     /** Optional: wrap in a fixed-height scrollable container. Default true. */
     scrollable?: boolean;
 }
@@ -25,6 +25,14 @@ const STATUS_CONFIG = {
     cancelled: {
         label: 'Cancelled',
         className: 'bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/10',
+    },
+    completed: {
+        label: 'Completed',
+        className: 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-50',
+    },
+    no_show: {
+        label: 'No-show',
+        className: 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-100',
     },
 };
 
@@ -52,14 +60,15 @@ export default function AdminAppointmentReceipt({
           })
         : '—';
 
-    const refId = appointment._id
-        ? `RES-${appointment._id.slice(-6).toUpperCase()}`
-        : 'RES-XXXXXX';
+    const refId =
+        appointment.reservationCode ||
+        (appointment._id ? `RES-${appointment._id.slice(-6).toUpperCase()}` : 'RES-XXXXXX');
 
-    const statusConfig = STATUS_CONFIG[status];
+    const statusConfig = STATUS_CONFIG[status || appointment.status || 'pending'];
 
     const totalPrice =
         appointment.packages?.reduce((sum, pkg) => sum + (pkg.price ?? 0), 0) ?? 0;
+    const assignedTable = formatAssignedTable(appointment);
 
     const handleDownload = async () => {
         const el = printRef.current;
@@ -176,6 +185,24 @@ export default function AdminAppointmentReceipt({
                             value={appointment.time ? formatTime(appointment.time) : '—'}
                             bottomBorder
                         />
+                        <InfoCell
+                            icon={<StickyNote size={13} />}
+                            label="Guests"
+                            value={appointment.guestCount ? String(appointment.guestCount) : '—'}
+                            bottomBorder
+                        />
+                        <InfoCell
+                            icon={<Armchair size={13} />}
+                            label="Table"
+                            value={assignedTable}
+                            bottomBorder
+                        />
+                        <InfoCell
+                            icon={<BellRing size={13} />}
+                            label="Reminder"
+                            value={appointment.reminderSentAt ? new Date(appointment.reminderSentAt).toLocaleString('en-BD') : 'Not sent'}
+                            bottomBorder
+                        />
                     </div>
 
                     {/* Address — full width */}
@@ -276,6 +303,27 @@ export default function AdminAppointmentReceipt({
                             </div>
                         </div>
                     )}
+
+                    {(appointment.adminNotes || appointment.cancelReason) && (
+                        <div className="px-6 py-4 border-t border-stone-100">
+                            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-1.5">
+                                <StickyNote size={10} />
+                                Management Notes
+                            </div>
+                            <div className="rounded-xl bg-stone-50 border border-stone-100 px-4 py-3 space-y-2">
+                                {appointment.adminNotes && (
+                                    <p className="text-xs text-stone-500 leading-relaxed">
+                                        {appointment.adminNotes}
+                                    </p>
+                                )}
+                                {appointment.cancelReason && (
+                                    <p className="text-xs text-destructive leading-relaxed">
+                                        Cancel reason: {appointment.cancelReason}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -322,4 +370,21 @@ function formatTime(time: string) {
     const suffix = h >= 12 ? 'PM' : 'AM';
     const hour = h % 12 || 12;
     return `${hour}:${String(m).padStart(2, '0')} ${suffix}`;
+}
+
+function formatAssignedTable(appointment: IAppointment) {
+    const table = appointment.assignedTable;
+    const snapshot = appointment.tableSnapshot;
+    const tableNumber = table?.tableNumber || snapshot?.tableNumber;
+
+    if (!tableNumber) return 'Not assigned';
+
+    const area = table?.area || snapshot?.area;
+    const capacity = table?.capacity || snapshot?.capacity;
+
+    return [
+        `Table ${tableNumber}`,
+        area ? area : '',
+        capacity ? `${capacity} guests` : '',
+    ].filter(Boolean).join(' · ');
 }

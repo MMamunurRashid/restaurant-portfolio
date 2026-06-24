@@ -38,5 +38,7 @@ export const baseApi = createApi({
     "testimonial",
     "packages",
     "smtpConfig",
+    "reservationSetting",
+    "diningTable",
   ],
 });

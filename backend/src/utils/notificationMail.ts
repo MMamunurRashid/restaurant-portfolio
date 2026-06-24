@@ -15,9 +15,16 @@ type PopulatedPackage = {
   services?: string[];
 };
 
-type ReservationMailData = Omit<IAppointment, 'packages'> & {
+type AssignedTableData = {
+  tableNumber?: string;
+  capacity?: number;
+  area?: string;
+};
+
+type ReservationMailData = Omit<IAppointment, 'packages' | 'assignedTable'> & {
   _id?: unknown;
   packages?: unknown[];
+  assignedTable?: unknown;
 };
 
 const brand = {
@@ -75,6 +82,50 @@ const formatTime = (time?: string) => {
 const formatMoney = (value?: number) => {
   if (typeof value !== 'number' || Number.isNaN(value)) return 'Not provided';
   return `BDT ${value.toLocaleString('en-BD')}`;
+};
+
+const reservationRef = (appointment: ReservationMailData) =>
+  appointment.reservationCode ||
+  (appointment._id
+    ? `RES-${String(appointment._id).slice(-8).toUpperCase()}`
+    : 'Not provided');
+
+const statusLabel = (status?: string) => {
+  const labels: Record<string, string> = {
+    pending: 'Pending',
+    confirmed: 'Confirmed',
+    cancelled: 'Cancelled',
+    completed: 'Completed',
+    no_show: 'No-show',
+  };
+
+  return status ? labels[status] || status : 'Pending';
+};
+
+const getAssignedTable = (
+  appointment: ReservationMailData,
+): AssignedTableData | undefined => {
+  if (appointment.tableSnapshot) return appointment.tableSnapshot;
+
+  const table = appointment.assignedTable;
+  if (table && typeof table === 'object' && 'tableNumber' in table) {
+    return table as AssignedTableData;
+  }
+
+  return undefined;
+};
+
+const formatAssignedTable = (appointment: ReservationMailData) => {
+  const table = getAssignedTable(appointment);
+  if (!table?.tableNumber) return 'Not assigned';
+
+  return [
+    `Table ${table.tableNumber}`,
+    table.area ? `Area: ${table.area}` : '',
+    table.capacity ? `Capacity: ${table.capacity}` : '',
+  ]
+    .filter(Boolean)
+    .join(' | ');
 };
 
 const dashboardUrl = (path: string) => {
@@ -242,11 +293,13 @@ const buildAdminReservationMail = (
   const subject = `New reservation request from ${plain(appointment.name, 'Guest')}`;
   const text = [
     'New reservation request',
+    `Reference: ${reservationRef(appointment)}`,
     `Name: ${plain(appointment.name)}`,
     `Phone: ${plain(appointment.phone)}`,
     `Email: ${plain(appointment.email)}`,
     `Date: ${formatDate(appointment.date)}`,
     `Time: ${formatTime(appointment.time)}`,
+    `Guests: ${plain(appointment.guestCount)}`,
     `Address: ${plain(appointment.address)}`,
     `Notes: ${plain(appointment.notes)}`,
     '',
@@ -260,11 +313,14 @@ const buildAdminReservationMail = (
     children: `
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
         ${detailsRows([
+          ['Reference', reservationRef(appointment)],
           ['Name', appointment.name],
           ['Phone', appointment.phone],
           ['Email', appointment.email],
           ['Date', formatDate(appointment.date)],
           ['Time', formatTime(appointment.time)],
+          ['Guests', appointment.guestCount],
+          ['Table', formatAssignedTable(appointment)],
           ['Address', appointment.address],
           ['Notes', appointment.notes],
         ])}
@@ -289,8 +345,10 @@ const buildAudienceReservationMail = (
     '',
     `Thanks for choosing ${brand.name}. We received your reservation request and our team will call you to confirm the slot.`,
     '',
+    `Reference: ${reservationRef(appointment)}`,
     `Date: ${formatDate(appointment.date)}`,
     `Time: ${formatTime(appointment.time)}`,
+    `Guests: ${plain(appointment.guestCount)}`,
     `Phone: ${plain(appointment.phone)}`,
     `Packages: ${packages.length ? packages.map((pkg) => `${plain(pkg.title)} (${formatMoney(pkg.price)})`).join(', ') : 'No package selected'}`,
   ].join('\n');
@@ -302,8 +360,11 @@ const buildAudienceReservationMail = (
     children: `
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
         ${detailsRows([
+          ['Reference', reservationRef(appointment)],
           ['Date', formatDate(appointment.date)],
           ['Time', formatTime(appointment.time)],
+          ['Guests', appointment.guestCount],
+          ['Table', formatAssignedTable(appointment)],
           ['Phone', appointment.phone],
           ['Address', appointment.address],
           ['Notes', appointment.notes],
@@ -317,6 +378,112 @@ const buildAudienceReservationMail = (
         Please keep your phone reachable. If any detail needs to change, reply to this email or call the restaurant directly.
       </p>
       ${ctaButton('Visit Website', config.FRONTEND_URL || '')}
+    `,
+  });
+
+  return { subject, html, text };
+};
+
+const buildAudienceReservationStatusMail = (
+  appointment: ReservationMailData,
+): MailContent => {
+  const status = appointment.status || 'pending';
+  const label = statusLabel(status);
+  const isConfirmed = status === 'confirmed';
+  const isCancelled = status === 'cancelled';
+  const subject = isConfirmed
+    ? `Your reservation is confirmed`
+    : isCancelled
+      ? `Your reservation was cancelled`
+      : `Your reservation status is ${label}`;
+
+  const intro = isConfirmed
+    ? 'Your table reservation has been confirmed by our team.'
+    : isCancelled
+      ? 'Your reservation request has been cancelled. Please contact us if you need help booking another slot.'
+      : `Your reservation status has been updated to ${label}.`;
+
+  const text = [
+    `Hi ${plain(appointment.name, 'there')},`,
+    '',
+    intro,
+    '',
+    `Reference: ${reservationRef(appointment)}`,
+    `Status: ${label}`,
+    `Date: ${formatDate(appointment.date)}`,
+    `Time: ${formatTime(appointment.time)}`,
+    `Guests: ${plain(appointment.guestCount)}`,
+    appointment.cancelReason ? `Reason: ${plain(appointment.cancelReason)}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const html = emailLayout({
+    badge: 'Reservation Update',
+    title: isConfirmed
+      ? 'Your table is confirmed'
+      : isCancelled
+        ? 'Reservation cancelled'
+        : `Reservation ${label}`,
+    intro,
+    children: `
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+        ${detailsRows([
+          ['Reference', reservationRef(appointment)],
+          ['Status', label],
+          ['Date', formatDate(appointment.date)],
+          ['Time', formatTime(appointment.time)],
+          ['Guests', appointment.guestCount],
+          ['Table', formatAssignedTable(appointment)],
+          ['Phone', appointment.phone],
+          ['Cancel reason', appointment.cancelReason],
+        ])}
+      </table>
+      <p style="margin:24px 0 0;color:#777;font-size:14px;line-height:1.8;">
+        If any detail needs to change, reply to this email or call the restaurant directly.
+      </p>
+    `,
+  });
+
+  return { subject, html, text };
+};
+
+const buildAudienceReservationReminderMail = (
+  appointment: ReservationMailData,
+): MailContent => {
+  const subject = `Reminder: your reservation at ${brand.name}`;
+  const text = [
+    `Hi ${plain(appointment.name, 'there')},`,
+    '',
+    `This is a reminder for your confirmed reservation at ${brand.name}.`,
+    '',
+    `Reference: ${reservationRef(appointment)}`,
+    `Date: ${formatDate(appointment.date)}`,
+    `Time: ${formatTime(appointment.time)}`,
+    `Guests: ${plain(appointment.guestCount)}`,
+    `Table: ${formatAssignedTable(appointment)}`,
+    '',
+    'Please arrive on time. If you need to change anything, reply to this email or call the restaurant directly.',
+  ].join('\n');
+
+  const html = emailLayout({
+    badge: 'Reservation Reminder',
+    title: 'Your table is waiting',
+    intro: `This is a reminder for your confirmed reservation at ${brand.name}.`,
+    children: `
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+        ${detailsRows([
+          ['Reference', reservationRef(appointment)],
+          ['Date', formatDate(appointment.date)],
+          ['Time', formatTime(appointment.time)],
+          ['Guests', appointment.guestCount],
+          ['Table', formatAssignedTable(appointment)],
+          ['Phone', appointment.phone],
+        ])}
+      </table>
+      <p style="margin:24px 0 0;color:#777;font-size:14px;line-height:1.8;">
+        Please arrive on time. If any detail needs to change, reply to this email or call the restaurant directly.
+      </p>
     `,
   });
 
@@ -342,6 +509,35 @@ export const sendAudienceQueryNotification = async (message: IMessage) =>
       replyTo: isValidEmail(message.email) ? message.email : undefined,
     });
   });
+
+export const sendReservationStatusNotification = async (
+  appointment: ReservationMailData,
+) =>
+  safeNotify(async () => {
+    if (!isValidEmail(appointment.email)) return;
+
+    const mail = buildAudienceReservationStatusMail(appointment);
+    await sendMail({
+      to: appointment.email as string,
+      subject: mail.subject,
+      html: mail.html,
+      text: mail.text,
+    });
+  });
+
+export const sendReservationReminderNotification = async (
+  appointment: ReservationMailData,
+) => {
+  if (!isValidEmail(appointment.email)) return false;
+
+  const mail = buildAudienceReservationReminderMail(appointment);
+  return sendMail({
+    to: appointment.email as string,
+    subject: mail.subject,
+    html: mail.html,
+    text: mail.text,
+  });
+};
 
 export const sendReservationNotifications = async (
   appointment: ReservationMailData,

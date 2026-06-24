@@ -19,6 +19,8 @@ const ContactUs = lazy(() => import("../pages/admin/ContactUs"));
 const Gallery = lazy(() => import("../pages/admin/Settings/Gallery/GalleryForm"));
 const AllGallery = lazy(() => import("../pages/admin/Settings/Gallery/AllGallery"));
 const SmtpSettings = lazy(() => import("../pages/admin/Settings/Smtp/SmtpSettings"));
+const ReservationSettings = lazy(() => import("../pages/admin/Settings/Reservation/ReservationSettings"));
+const DiningTables = lazy(() => import("../pages/admin/Settings/DiningTable/DiningTables"));
 
 // banner lazy load
 const AllBanner = lazy(() => import("../pages/admin/Banner/AllBanner"));
@@ -163,6 +165,14 @@ export const adminRoutes = {
         {
             path: "setting/smtp",
             element: <SmtpSettings />
+        },
+        {
+            path: "setting/reservation",
+            element: <ReservationSettings />
+        },
+        {
+            path: "setting/tables",
+            element: <DiningTables />
         },
 
         // about

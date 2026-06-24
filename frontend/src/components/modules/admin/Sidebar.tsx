@@ -70,6 +70,8 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 { label: 'Special Offer', href: '/admin/setting/campaign-banner' },
                 { label: 'Testimonials', href: '/admin/setting/testimonials/all' },
                 { label: 'Gallery', href: '/admin/setting/gallery/all' },
+                { label: 'Reservation Rules', href: '/admin/setting/reservation' },
+                { label: 'Dining Tables', href: '/admin/setting/tables' },
                 { label: 'SMTP Mail', href: '/admin/setting/smtp' },
             ]
         },
