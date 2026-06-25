@@ -19,7 +19,7 @@ export default function FloatingActionButton({ whatsappLink }: { whatsappLink?: 
 
             <button
                 onClick={handleClick}
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-white shadow-lg transition-transform hover:scale-110 active:scale-95 focus:outline-none"
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110 active:scale-95 focus:outline-none"
                 aria-label="Contact on WhatsApp"
             >
                 <FaWhatsapp size={32} />

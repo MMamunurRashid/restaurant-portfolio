@@ -37,16 +37,16 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white py-14 md:px-4 md:py-24">
+    <section className="relative overflow-hidden bg-white py-14 md:px-4 md:py-20">
       <div className="container relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="mx-auto mb-12 max-w-2xl text-center"
+          className="mx-auto mb-10 max-w-2xl text-center"
         >
-          <div className="mb-4 inline-flex items-center gap-2 border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
+          <div className="mb-4 inline-flex items-center gap-2 border border-primary/80 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
             <Star size={13} fill="currentColor" />
             Guest Notes
           </div>
@@ -81,7 +81,7 @@ export default function Testimonials() {
               <SwiperSlide key={item?._id || index}>
                 <motion.article
                   variants={cardVariant}
-                  className="flex h-full min-h-[320px] flex-col justify-between rounded-lg border border-slate-200 bg-muted p-7 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:bg-white hover:shadow-xl hover:shadow-slate-200/60"
+                  className="flex h-full min-h-80 flex-col justify-between rounded-lg border border-slate-200 bg-muted p-7 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:bg-white hover:shadow-xl hover:shadow-slate-200/60"
                 >
                   <div>
                     <div className="mb-5 flex h-11 w-11 items-center justify-center bg-white text-primary shadow-sm">

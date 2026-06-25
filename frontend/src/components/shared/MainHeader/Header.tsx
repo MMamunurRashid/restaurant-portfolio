@@ -41,9 +41,9 @@ export default function Header({
 
     return (
         <motion.header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/95 backdrop-blur-md shadow-sm shadow-slate-200/60 py-3`}
+            className={`fixed top-3 left-3 right-3 z-50 rounded-3xl transition-all duration-500 bg-white/90 backdrop-blur-md shadow-xl  py-3`}
         >
-            <div className="container flex items-center justify-between gap-8">
+            <div className="container mx-auto px-3 flex items-center justify-between gap-8">
 
                 {/* Logo */}
                 {(logoSrc || generalSetting?.siteName) && (

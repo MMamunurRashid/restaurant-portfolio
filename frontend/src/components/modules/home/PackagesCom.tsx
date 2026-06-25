@@ -27,16 +27,16 @@ export default function FeaturedPackages() {
   if (!showSkeleton && !packages.length) return null;
 
   return (
-    <section className="relative overflow-hidden bg-white py-14 md:px-4 md:py-24">
+    <section className="relative overflow-hidden bg-white py-14 md:px-4 md:py-20">
       <div className="container relative z-10 mx-auto max-w-6xl">
         <motion.div
-          className="mx-auto mb-14 max-w-2xl text-center"
+          className="mx-auto mb-10 max-w-3xl text-center"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: ([0.22, 1, 0.36, 1] as any) }}
         >
-          <div className="mb-4 inline-flex items-center gap-2 border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
+          <div className="mb-4 inline-flex items-center gap-2 border border-primary/80 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
             <CalendarDays size={13} />
             Dining Packages
           </div>
@@ -51,7 +51,7 @@ export default function FeaturedPackages() {
         {showSkeleton && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-[440px] rounded-lg bg-slate-100" />
+              <Skeleton key={i} className="h-110 rounded-lg bg-slate-100" />
             ))}
           </div>
         )}
@@ -72,7 +72,7 @@ export default function FeaturedPackages() {
                   }`}
                 >
                   {pkg.thumbnail && (
-                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                  <div className="relative aspect-16/10 overflow-hidden bg-slate-100">
                     <img
                       src={getMediaUrl(pkg.thumbnail)}
                       alt={pkg.title}
@@ -117,7 +117,7 @@ export default function FeaturedPackages() {
                     <ul className="space-y-3">
                       {(pkg.services || []).slice(0, 4).map((service, i) => (
                         <li key={i} className="flex items-start gap-3">
-                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-secondary/10 text-secondary">
+                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-primary/10 text-primary">
                             <Check size={12} strokeWidth={3} />
                           </span>
                           <span className="text-sm leading-6 text-slate-600">
@@ -130,7 +130,7 @@ export default function FeaturedPackages() {
                     <div className="mt-auto pt-6">
                       <Link
                         to={`/appointment?package=${pkg.slug || pkg._id}`}
-                        className="group/button flex w-full items-center justify-center gap-2 bg-neutral px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-secondary"
+                        className={`group/button flex w-full items-center justify-center gap-2 bg-neutral px-5 py-4 text-sm font-bold text-white transition-colors ${pkg.isPopular ? "bg-primary hover:bg-secondary" : "bg-neutral hover:bg-secondary"}`}
                       >
                         <UtensilsCrossed size={16} />
                         Reserve Package
@@ -153,10 +153,10 @@ export default function FeaturedPackages() {
         >
           <Link
             to="/packages"
-            className="inline-flex items-center gap-2 border border-slate-200 px-5 py-3 text-sm font-bold text-secondary transition-all hover:border-secondary/40 hover:bg-muted"
+            className="group/viewbutton inline-flex items-center gap-2 border border-primary/80 px-5 py-3 text-sm font-bold text-primary transition-all hover:border-primary/40 bg-primary/10 hover:bg-secondary/20"
           >
             View all packages
-            <ArrowRight size={15} />
+            <ArrowRight size={15} className="transition-transform group-hover/viewbutton:translate-x-1" />
           </Link>
         </motion.div>
       </div>

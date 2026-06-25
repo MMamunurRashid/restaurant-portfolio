@@ -98,7 +98,7 @@ export default function ContactCom() {
                         {/* Header */}
                         <div>
                             {contact?.title && (
-                                <div className="mb-5 inline-flex items-center gap-2 border border-secondary/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary">
+                                <div className="mb-5 inline-flex items-center gap-2 border border-primary/80 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
                                     <Sparkles size={12} />
                                     {contact.title}
                                 </div>
@@ -106,7 +106,7 @@ export default function ContactCom() {
                             {subTitle && (
                             <h2 className="font-serif text-4xl font-normal leading-[1.08] text-neutral md:text-6xl">
                                 {remainingTitle}{" "}
-                                <span className="italic text-secondary">{highlightTitle}</span>
+                                <span className="italic text-primary">{highlightTitle}</span>
                             </h2>
                             )}
                         </div>
@@ -162,7 +162,7 @@ export default function ContactCom() {
                                         rel="noreferrer"
                                         whileHover={{ y: -3 }}
                                         transition={{ duration: 0.2 }}
-                                        className="w-9 h-9 border border-slate-200 bg-white flex items-center justify-center text-slate-400 hover:bg-secondary hover:border-secondary hover:text-white shadow-sm transition-colors duration-200"
+                                        className="w-9 h-9 border border-primary/80 bg-white flex items-center justify-center text-slate-400 hover:bg-primary hover:border-primary hover:text-white shadow-sm transition-colors duration-200"
                                     >
                                         {iconMap[social.icon?.toLowerCase()] ?? iconMap.default}
                                     </motion.a>
@@ -265,12 +265,12 @@ function InfoItem({ icon, label, value, link }: {
         rel="noreferrer"
         className="group flex items-center gap-4 cursor-pointer"
     >
-        <div className="w-10 h-10 shrink-0 border border-slate-200 bg-white flex items-center justify-center text-slate-400 shadow-sm group-hover:bg-secondary group-hover:border-secondary group-hover:text-white transition-all duration-300">
+        <div className="w-10 h-10 shrink-0 border border-primary/20 bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-300">
             {icon}
         </div>
         <div>
             <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">{label}</p>
-            <p className="text-sm font-semibold text-slate-700 group-hover:text-secondary transition-colors duration-250">
+            <p className="text-sm font-semibold text-slate-700 group-hover:text-primary transition-colors duration-250">
                 {value || "N/A"}
             </p>
         </div>

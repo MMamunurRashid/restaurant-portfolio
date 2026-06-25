@@ -66,16 +66,16 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
     }
 
     return (
-        <section className="relative overflow-hidden bg-muted py-14 md:px-4 md:py-24">
+        <section className="relative overflow-hidden bg-muted py-14 md:px-4 md:py-20">
             <div className="container relative z-10 mx-auto max-w-6xl">
                 <motion.div
-                    className="mx-auto mb-12 max-w-2xl text-center"
+                    className="mx-auto mb-10 max-w-2xl text-center"
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="mb-4 inline-flex items-center gap-2 border border-secondary/20 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary">
+                    <div className="mb-4 inline-flex items-center gap-2 border border-primary/80 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
                         <Camera size={13} />
                         Gallery
                     </div>
@@ -98,11 +98,10 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         <button
                             key={cat}
                             onClick={() => setFilter(cat)}
-                            className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${
-                                filter === cat
-                                    ? "bg-secondary text-white"
-                                    : "border border-slate-200 bg-white text-slate-500 hover:border-secondary/40 hover:text-secondary"
-                            }`}
+                            className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${filter === cat
+                                ? "bg-primary text-white"
+                                : "border border-primary/20 bg-primary/5 text-slate-500 hover:border-primary/40 hover:text-primary"
+                                }`}
                         >
                             {cat}
                         </button>
@@ -120,15 +119,14 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                 exit={{ opacity: 0, scale: 0.96 }}
                                 transition={{ duration: 0.45, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
                                 onClick={() => setSelectedImg(item.image)}
-                                className={`group relative cursor-pointer overflow-hidden rounded-lg bg-slate-100 shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-slate-200/70 ${
-                                    i === 0 && !showAll ? "md:col-span-2 md:row-span-2" : ""
-                                }`}
+                                className={`group relative z-0 cursor-pointer overflow-hidden rounded-lg bg-slate-100 shadow-sm transition-all duration-300 hover:z-20 hover:shadow-2xl hover:shadow-slate-300/50 ${i === 0 && !showAll ? "md:col-span-2 md:row-span-2" : ""
+                                    }`}
                             >
-                                <div className="aspect-[4/5] h-full w-full">
+                                <div className="aspect-4/5 h-full w-full">
                                     <img
                                         src={item.image}
                                         alt={item.title}
-                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         loading="lazy"
                                     />
                                 </div>
@@ -144,8 +142,11 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                                     </h3>
                                 </div>
 
-                                <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center bg-white text-secondary opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100">
-                                    <ZoomIn size={15} />
+                                {/* Hover Overlay */}
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/90 text-primary shadow-2xl transition-all duration-300 group-hover:scale-100 scale-75">
+                                        <ZoomIn size={36} strokeWidth={1.5} />
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}
@@ -171,10 +172,10 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                     <div className="mt-10 text-center">
                         <Link
                             to="/gallery"
-                            className="inline-flex items-center gap-2 border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-secondary transition-all hover:border-secondary/40"
+                            className="group/viewbutton inline-flex items-center gap-2 border border-primary/80 bg-primary/10 px-5 py-3 text-sm font-bold text-primary transition-all hover:border-primary/40 hover:bg-secondary/20"
                         >
                             View full gallery
-                            <ArrowRight size={15} />
+                            <ArrowRight size={15} className="transition-transform group-hover/viewbutton:translate-x-1" />
                         </Link>
                     </div>
                 )}

@@ -1,7 +1,9 @@
-import type { IMessage } from '@/interface/messageInterface';
-import { useGetAppointmentCountQuery } from '@/redux/features/appointment/appointmentApi';
+import { Badge } from '@/components/ui/badge';
+import { CONFIG } from '@/config';
+import type { IAppointment, TAppointmentStatus } from '@/interface/appointmentInterface';
+import { useGetAllAppointmentQuery, useGetAppointmentCountQuery } from '@/redux/features/appointment/appointmentApi';
 import { useGetBlogCountQuery } from '@/redux/features/blog/blogApi';
-import { useGetAllMessageQuery, useGetMessageCountQuery } from '@/redux/features/contactMessage/contactMessageApi';
+import { useGetMessageCountQuery } from '@/redux/features/contactMessage/contactMessageApi';
 import { useGetPackageCountQuery } from '@/redux/features/packages/packagesApi';
 import { useGetServiceCountQuery } from '@/redux/features/service/serviceApi';
 import { useGetTeamCountQuery } from '@/redux/features/team/teamApi';
@@ -10,9 +12,29 @@ import {
     MessageSquare, Users, BookOpen,
     TrendingUp, ArrowRight, Calendar, Bell,
     UtensilsCrossed,
-    NotebookPen
+    NotebookPen,
+    Armchair,
+    Clock,
+    CalendarDays,  
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const STATUS_BADGE: Record<TAppointmentStatus, string> = {
+    pending: 'bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/10',
+    confirmed: 'bg-primary/10 text-primary border-primary/20 hover:bg-primary/10',
+    cancelled: 'bg-destructive/10 text-destructive border-destructive/20 hover:bg-destructive/10',
+    completed: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-50',
+    no_show: 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-100',
+};
+
+
+const STATUS_LABEL: Record<TAppointmentStatus, string> = {
+    pending: 'Pending',
+    confirmed: 'Confirmed',
+    cancelled: 'Cancelled',
+    completed: 'Completed',
+    no_show: 'No-show',
+};
 
 export default function Dashboard() {
     const { loggedUser } = useAppSelector((state) => state.auth);
@@ -23,8 +45,8 @@ export default function Dashboard() {
     const { data: appointmentCount } = useGetAppointmentCountQuery({});
     const { data: packagesCount } = useGetPackageCountQuery({});
 
-    const { data: message } = useGetAllMessageQuery({ limit: 6 });
-    const messages = message?.data || [];
+    const { data: appointments } = useGetAllAppointmentQuery({ limit: 6 });
+    const appointmentList = appointments?.data || [];
 
     const stats = [
         { label: 'Reservations', count: appointmentCount?.data?.totalAppointments || 0, icon: Calendar, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/appointments/all' },
@@ -85,46 +107,83 @@ export default function Dashboard() {
                                 <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-primary shadow-sm">
                                     <Bell size={20} />
                                 </div>
-                                <h3 className="font-black text-slate-800 text-lg">Latest Guest Messages</h3>
+                                <h3 className="font-black text-slate-800 text-lg">Latest Reservations</h3>
                             </div>
-                            <Link to="/admin/contact-message" className="text-xs font-bold text-primary hover:underline">View All</Link>
+                            <Link to="/admin/appointments/all" className="text-xs font-bold text-primary hover:underline">View All</Link>
                         </div>
 
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="text-[11px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
-                                        <th className="px-8 py-4">Sender Info</th>
-                                        <th className="px-6 py-4">Message Snippet</th>
-                                        <th className="px-8 py-4 text-right">Action</th>
+                                        <th className="p-4 text-xs font-bold text-slate-500 uppercase">Guest</th>                                        
+                                        <th className="p-4 text-xs font-bold text-slate-500 uppercase">Package</th>
+                                        <th className="p-4 text-xs font-bold text-slate-500 uppercase">Schedule</th>
+                                        <th className="p-4 text-xs font-bold text-slate-500 uppercase">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
-                                    {messages.map((item: IMessage, i: number) => (
-                                        <tr key={i} className="group hover:bg-slate-50/80 transition-all cursor-default">
-                                            <td className="px-8 py-5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-500 text-xs uppercase">
-                                                        {item?.name?.substring(0, 2)}
+                                    {appointmentList.map((appointment: IAppointment, i: number) => {
+                                        const status = appointment.status || 'pending';
+
+                                        return (
+                                            <tr key={appointment._id || i} className="group hover:bg-slate-50/50 transition-all">
+                                                <td className="p-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="relative w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                                                            {appointment.name.charAt(0)}
+                                                            {!appointment.isRead && (
+                                                                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-secondary ring-2 ring-white" />
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-sm text-slate-700">{appointment.name}</p>
+                                                            <p className="text-[10px] font-mono text-slate-400">
+                                                                {appointment.reservationCode || `RES-${appointment._id.slice(-6).toUpperCase()}`}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p className="text-sm font-bold text-slate-800">{item?.name}</p>
-                                                        <p className="text-[11px] text-slate-400 font-medium">{item?.email}</p>
+                                                </td>                                            
+                                                <td className="p-4">
+                                                    <div className="space-y-1">
+                                                        <div className="flex items-center gap-2">
+                                                            {appointment.packages && appointment.packages.length > 0 && appointment.packages[0]?.thumbnail && (
+                                                                <img src={CONFIG.BASE_URL + appointment.packages[0].thumbnail} alt="" className="w-6 h-6 rounded object-cover" />
+                                                            )}
+                                                            <p className="text-sm font-semibold text-primary line-clamp-1">
+                                                                {(appointment.packages && appointment.packages[0]?.title) || 'General Reservation'}
+                                                                {appointment.packages && appointment.packages.length > 1 ? ` +${appointment.packages.length - 1} more` : ''}
+                                                            </p>
+                                                        </div>
+                                                        <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase">
+                                                            <Users size={11} /> {appointment.guestCount || 1} guests
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-5">
-                                                <p className="text-xs text-slate-500 line-clamp-1 italic max-w-50">
-                                                    "{item?.message}"
-                                                </p>
-                                            </td>
-                                            <td className="px-8 py-5 text-right">
-                                                <button className="opacity-0 group-hover:opacity-100 bg-white border border-slate-200 px-4 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-primary hover:text-white hover:border-primary transition-all">
-                                                    Open
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                </td>
+                                                <td className="p-4">
+                                                    <div className="space-y-1 text-[11px] font-bold text-slate-500 uppercase">
+                                                        <div className="flex items-center gap-1.5">
+                                                            <CalendarDays size={12} className="text-slate-400" />
+                                                            {new Date(appointment.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                                        </div>
+                                                        <div className="flex items-center gap-1.5">
+                                                            <Clock size={12} className="text-slate-400" />
+                                                            {appointment.time ? formatTime(appointment.time) : 'N/A'}
+                                                        </div>
+                                                        <div className="flex items-center gap-1.5">
+                                                            <Armchair size={12} className="text-slate-400" />
+                                                            {formatAssignedTable(appointment)}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="p-4">
+                                                    <Badge className={`border shadow-none ${STATUS_BADGE[status]}`}>
+                                                        {STATUS_LABEL[status]}
+                                                    </Badge>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -178,4 +237,16 @@ export default function Dashboard() {
             </div>
         </div>
     );
+}
+
+function formatTime(time: string) {
+    const [h, m] = time.split(':').map(Number);
+    const suffix = h >= 12 ? 'PM' : 'AM';
+    const hour = h % 12 || 12;
+    return `${hour}:${String(m).padStart(2, '0')} ${suffix}`;
+}
+
+function formatAssignedTable(appointment: IAppointment) {
+    const tableNumber = appointment.assignedTable?.tableNumber || appointment.tableSnapshot?.tableNumber;
+    return tableNumber ? `Table ${tableNumber}` : 'Unassigned';
 }

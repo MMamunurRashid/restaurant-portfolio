@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
-    LayoutDashboard, Settings, X, ChevronDown, UserCog, ShieldCheck, Search,
-    FileText, Heart, ChefHat, UtensilsCrossed,
+    LayoutDashboard, Settings, X, ChevronDown, UserCog, Search, Heart, ChefHat, UtensilsCrossed,
     Newspaper,
     NotebookPen,
 } from 'lucide-react';
@@ -48,6 +47,8 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 { label: 'About Restaurant', href: '/admin/about' },
                 { label: 'Team Categories', href: '/admin/about/team/category/all' },
                 { label: 'Team Members', href: '/admin/about/team/all' },
+                { label: 'Reservation Rules', href: '/admin/setting/reservation' },
+                { label: 'Dining Tables', href: '/admin/setting/tables' },
             ]
         },
         {
@@ -59,8 +60,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 { label: 'Table Reservations', href: "/admin/appointments/all" },
             ]
         },
-        { icon: ShieldCheck, label: 'Privacy Policy', href: "/admin/privacy-policy" },
-        { icon: FileText, label: 'Terms & Conditions', href: "/admin/terms-conditions" },
+
         {
             icon: Settings,
             label: 'Settings',
@@ -69,10 +69,10 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 { label: 'Hero Banners', href: '/admin/setting/banner/all' },
                 { label: 'Special Offer', href: '/admin/setting/campaign-banner' },
                 { label: 'Testimonials', href: '/admin/setting/testimonials/all' },
-                { label: 'Gallery', href: '/admin/setting/gallery/all' },
-                { label: 'Reservation Rules', href: '/admin/setting/reservation' },
-                { label: 'Dining Tables', href: '/admin/setting/tables' },
+                { label: 'Gallery', href: '/admin/setting/gallery/all' },                
                 { label: 'SMTP Mail', href: '/admin/setting/smtp' },
+                { label: 'Privacy Policy', href: "/admin/privacy-policy" },
+                { label: 'Terms & Conditions', href: "/admin/terms-conditions" },
             ]
         },
         { icon: Newspaper, label: 'Journal', href: '/admin/blogs/all' },
