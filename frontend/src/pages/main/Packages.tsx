@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Star, Zap, ArrowRight, Search, PackageOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ const cardVariants = {
 export default function AllPackagesPage() {
   const [search, setSearch] = useState("");
 
+
   const { data, isLoading } = useGetAllPackageQuery({ sort: 'order,createdAt' });
   const packages: IPackage[] = data?.data || [];
 
@@ -34,8 +35,12 @@ export default function AllPackagesPage() {
     pkg.title.toLowerCase().includes(search.toLowerCase())
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-muted px-4 pb-24 relative overflow-x-hidden">
+    <div className="min-h-screen bg-muted px-4  py-10 md:py-20 relative overflow-x-hidden">
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Page Hero */}
         <motion.div
@@ -49,7 +54,7 @@ export default function AllPackagesPage() {
           </p>
           <h1 className="font-serif text-5xl font-normal leading-[1.1] tracking-tight text-stone-800 md:text-6xl">
             Find Your{" "}
-            <span className="italic text-secondary">Signature</span>
+            <span className="italic text-primary">Signature</span>
             <br />
             Dining Experience
           </h1>
@@ -159,11 +164,10 @@ export default function AllPackagesPage() {
                   className="h-full"
                 >
                   <Card
-                    className={`group relative flex flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full ${
-                      pkg.isPopular
+                    className={`group relative flex flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full ${pkg.isPopular
                         ? "border-primary/30 bg-white shadow-primary/10 shadow-md"
                         : "border-stone-200 bg-white hover:border-primary/20 hover:shadow-stone-100"
-                    }`}
+                      }`}
                   >
                     {/* Popular top accent */}
                     {pkg.isPopular && (
@@ -237,11 +241,10 @@ export default function AllPackagesPage() {
                         className="w-full"
                       >
                         <Button
-                          className={`w-full gap-2 text-xs font-semibold tracking-wide transition-all duration-200 rounded-xl ${
-                            pkg.isPopular
+                          className={`w-full gap-2 text-xs font-semibold tracking-wide transition-all duration-200 rounded-xl ${pkg.isPopular
                               ? "bg-primary text-white hover:bg-primary/90 shadow-sm shadow-primary/20"
                               : "bg-transparent border border-stone-200 text-stone-500 hover:bg-white hover:border-primary/30 hover:text-secondary"
-                          }`}
+                            }`}
                         >
                           Reserve Table
                           <ArrowRight

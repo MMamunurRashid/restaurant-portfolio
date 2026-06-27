@@ -5,9 +5,9 @@ export default function AboutPage() {
     window.scrollTo(0, 0);
 
     return (
-        <>
+        <div className="py-20">
             <AboutCom />
             <OurTeam />
-        </>
+        </div>
     );
 };

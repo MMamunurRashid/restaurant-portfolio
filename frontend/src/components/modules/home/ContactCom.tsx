@@ -83,7 +83,7 @@ export default function ContactCom() {
     };
 
     return (
-        <section className="relative overflow-hidden bg-muted py-14 md:px-4 md:py-24">
+        <section className="relative overflow-hidden bg-muted py-14 md:px-4 md:py-32">
             <div className="container mx-auto max-w-6xl relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
 

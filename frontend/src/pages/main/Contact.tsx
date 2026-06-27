@@ -11,7 +11,7 @@ export default function Contact() {
     const responsiveIframe = contact?.googleMapLink?.replace(/width="\d+"/, 'width="100%"');
 
     return (
-        <div className="bg-white min-h-screen pt-32">
+        <div className="">
             <ContactCom />
 
 

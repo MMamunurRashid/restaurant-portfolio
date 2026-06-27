@@ -28,7 +28,6 @@ const fieldVariants: Variants = {
 };
 
 export default function Appointment() {
-    // window.scrollTo(0, 0);
 
     const { data: packageData } = useGetAllPackageQuery({});
     const { data: contactData } = useGetContactQuery({});
@@ -37,6 +36,10 @@ export default function Appointment() {
     const packages = packageData?.data || [];
 
     const location = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // If URL contains ?package=slug-or-id, preselect that package (by slug or _id)
     useEffect(() => {
@@ -122,7 +125,7 @@ export default function Appointment() {
     };
 
     return (
-        <section className="min-h-screen bg-muted py-24 px-4">
+        <section className="min-h-screen bg-muted py-24 px-4 md:py-32">
             <div className="relative z-10 mx-auto max-w-6xl">
 
                 {/* Header */}

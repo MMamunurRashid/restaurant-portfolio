@@ -15,7 +15,7 @@ export default function ServicesPage() {
         <div className="min-h-screen bg-muted">
 
             {/* Hero */}
-            <section className="relative py-14 md:py-28 md:px-4 overflow-hidden">
+            <section className="relative py-14 md:py-32 md:px-4 overflow-hidden">
                 {/* Thin accent line */}
                 <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent" />
 
