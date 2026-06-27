@@ -6,6 +6,7 @@ import config from './config';
 import router from './routes';
 import globalErrorHandler from './errors/globalErrorhandler';
 import { notFound } from './errors/notFound';
+import { ensureDatabaseConnection } from './middlewares/ensureDatabaseConnection';
 const app: Application = express();
 
 // Middleware
@@ -19,7 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // use Routes
-app.use('/api', router);
+app.use('/api', ensureDatabaseConnection, router);
 
 // global error handler
 app.use(globalErrorHandler);
