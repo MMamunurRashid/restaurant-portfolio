@@ -38,6 +38,7 @@ export const baseApi = createApi({
     "testimonial",
     "packages",
     "smtpConfig",
+    "cloudinaryConfig",
     "reservationSetting",
     "diningTable",
   ],

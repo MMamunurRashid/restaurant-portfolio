@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addGeneralSettingService,
   deleteGeneralSettingService,
@@ -23,9 +24,13 @@ export const addGeneralSettingController = catchAsync(
     try {
       const data = {
         ...req.body,
-        logo: `/generalSetting/${logo}`,
-        favicon: favicon ? `/generalSetting/${favicon}` : undefined,
-        footerImage: footerImage ? `/generalSetting/${footerImage}` : undefined,
+        logo: getStoredFilePath(logo, 'generalSetting'),
+        favicon: favicon
+          ? getStoredFilePath(favicon, 'generalSetting')
+          : undefined,
+        footerImage: footerImage
+          ? getStoredFilePath(footerImage, 'generalSetting')
+          : undefined,
       };
 
       const result = await addGeneralSettingService(data);
@@ -36,9 +41,9 @@ export const addGeneralSettingController = catchAsync(
         data: result,
       });
     } catch (error) {
-      if (logo) deleteFile(`./uploads/generalSetting/${logo}`);
-      if (favicon) deleteFile(`./uploads/generalSetting/${favicon}`);
-      if (footerImage) deleteFile(`./uploads/generalSetting/${footerImage}`);
+      if (logo) deleteFile(logo);
+      if (favicon) deleteFile(favicon);
+      if (footerImage) deleteFile(footerImage);
       next(error);
     }
   },
@@ -80,9 +85,13 @@ export const updateGeneralSettingController = catchAsync(
     try {
       const data = {
         ...req.body,
-        logo: logo ? `/generalSetting/${logo}` : undefined,
-        favicon: favicon ? `/generalSetting/${favicon}` : undefined,
-        footerImage: footerImage ? `/generalSetting/${footerImage}` : undefined,
+        logo: logo ? getStoredFilePath(logo, 'generalSetting') : undefined,
+        favicon: favicon
+          ? getStoredFilePath(favicon, 'generalSetting')
+          : undefined,
+        footerImage: footerImage
+          ? getStoredFilePath(footerImage, 'generalSetting')
+          : undefined,
       };
 
       const result = await updateGeneralSettingService(id, data);
@@ -93,9 +102,9 @@ export const updateGeneralSettingController = catchAsync(
         data: result,
       });
     } catch (error) {
-      if (logo) deleteFile(`./uploads/generalSetting/${logo}`);
-      if (favicon) deleteFile(`./uploads/generalSetting/${favicon}`);
-      if (footerImage) deleteFile(`./uploads/generalSetting/${footerImage}`);
+      if (logo) deleteFile(logo);
+      if (favicon) deleteFile(favicon);
+      if (footerImage) deleteFile(footerImage);
       next(error);
     }
   },

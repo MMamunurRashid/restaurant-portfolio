@@ -113,7 +113,7 @@ export default function Login() {
 
                 <div className="mt-10 pt-6 border-t border-slate-50 text-center">
                     <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-semibold">
-                        &copy; {new Date().getFullYear()} Prestige Cafe and Restaurant. All rights reserved.
+                        &copy; {new Date().getFullYear()} Foodie Cafe and Restaurant. All rights reserved.
                     </p>
                 </div>
             </div>

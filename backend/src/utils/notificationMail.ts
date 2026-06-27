@@ -28,7 +28,7 @@ type ReservationMailData = Omit<IAppointment, 'packages' | 'assignedTable'> & {
 };
 
 const brand = {
-  name: 'Prestige Cafe & Restaurant',
+  name: 'Foodie Cafe & Restaurant',
   primary: '#7da61a',
   secondary: '#d0a455',
   neutral: '#211e1f',

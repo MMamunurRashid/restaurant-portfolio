@@ -11,7 +11,7 @@ const smtpConfigSchema = new Schema<ISmtpConfig>(
     smtpFromEmail: { type: String },
     smtpFromName: {
       type: String,
-      default: 'Prestige Cafe & Restaurant',
+      default: 'Foodie Cafe & Restaurant',
     },
     mailAdminTo: { type: String },
     isActive: { type: Boolean, default: true },

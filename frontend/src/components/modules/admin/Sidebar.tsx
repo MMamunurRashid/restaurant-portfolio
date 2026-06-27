@@ -71,6 +71,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 { label: 'Testimonials', href: '/admin/setting/testimonials/all' },
                 { label: 'Gallery', href: '/admin/setting/gallery/all' },                
                 { label: 'SMTP Mail', href: '/admin/setting/smtp' },
+                { label: 'Cloudinary Storage', href: '/admin/setting/cloudinary' },
                 { label: 'Privacy Policy', href: "/admin/privacy-policy" },
                 { label: 'Terms & Conditions', href: "/admin/terms-conditions" },
             ]

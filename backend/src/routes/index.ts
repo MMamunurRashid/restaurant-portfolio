@@ -24,6 +24,7 @@ import { galleryRoute } from '../modules/gallery/galleryRoute';
 import { smtpConfigRoute } from '../modules/smtpConfig/smtpConfigRoute';
 import { reservationSettingRoute } from '../modules/reservationSetting/reservationSettingRoute';
 import { diningTableRoute } from '../modules/diningTable/diningTableRoute';
+import { cloudinaryConfigRoute } from '../modules/cloudinaryConfig/cloudinaryConfigRoute';
 
 const moduleRoutes = [
   {
@@ -121,6 +122,10 @@ const moduleRoutes = [
   {
     path: '/smtp-config',
     route: smtpConfigRoute,
+  },
+  {
+    path: '/cloudinary-config',
+    route: cloudinaryConfigRoute,
   },
   {
     path: '/reservation-setting',

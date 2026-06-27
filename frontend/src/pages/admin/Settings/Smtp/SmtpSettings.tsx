@@ -56,7 +56,7 @@ export default function SmtpSettings() {
       smtpUser: smtpConfig.smtpUser || "",
       smtpPass: "",
       smtpFromEmail: smtpConfig.smtpFromEmail || "",
-      smtpFromName: smtpConfig.smtpFromName || "Prestige Cafe & Restaurant",
+      smtpFromName: smtpConfig.smtpFromName || "Foodie Cafe & Restaurant",
       mailAdminTo: smtpConfig.mailAdminTo || "",
       isActive: smtpConfig.isActive !== false,
     });
@@ -274,7 +274,7 @@ export default function SmtpSettings() {
                 <label>From Name</label>
                 <input
                   type="text"
-                  placeholder="Prestige Cafe & Restaurant"
+                  placeholder="Foodie Cafe & Restaurant"
                   {...register("smtpFromName")}
                 />
               </div>

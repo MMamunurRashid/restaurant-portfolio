@@ -13,6 +13,7 @@ import { catchAsync } from '../../utils/catchAsync';
 import { makeSlug } from '../../utils/makeSlug';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import { Service } from './serviceModel';
 
 export const createServiceController = catchAsync(async (req, res, next) => {
@@ -27,11 +28,13 @@ export const createServiceController = catchAsync(async (req, res, next) => {
 
     const Service = {
       ...req.body,
-      thumbnail: `/service/${thumbnail}`,
-      icon: icon ? `/service/${icon}` : undefined,
+      thumbnail: getStoredFilePath(thumbnail, 'service'),
+      icon: icon ? getStoredFilePath(icon, 'service') : undefined,
       galleries:
         galleries?.length > 0
-          ? galleries.map((gallery: string) => `/service/${gallery}`)
+          ? galleries.map((gallery: string) =>
+              getStoredFilePath(gallery, 'service'),
+            )
           : [],
       slug: makeSlug(title),
     };
@@ -45,11 +48,11 @@ export const createServiceController = catchAsync(async (req, res, next) => {
     });
   } catch (error) {
     next(error);
-    if (thumbnail) deleteFile(`./uploads/service/${thumbnail}`);
-    if (icon) deleteFile(`./uploads/service/${icon}`);
+    if (thumbnail) deleteFile(thumbnail);
+    if (icon) deleteFile(icon);
     if (galleries?.length > 0) {
       galleries.forEach((gallery: string) => {
-        deleteFile(`./uploads/service/${gallery}`);
+        deleteFile(gallery);
       });
     }
   }
@@ -102,13 +105,13 @@ export const updateServiceController = catchAsync(async (req, res, next) => {
     const isExits = await Service.findById(req.params.id);
     if (!isExits) {
       if (newGalleryFiles.length > 0) {
-        newGalleryFiles.forEach((f) => deleteFile(`./uploads/service/${f}`));
+        newGalleryFiles.forEach((f) => deleteFile(f));
       }
       if (thumbnailFile) {
-        deleteFile(`./uploads/service/${thumbnailFile}`);
+        deleteFile(thumbnailFile);
       }
       if (iconFile) {
-        deleteFile(`./uploads/service/${iconFile}`);
+        deleteFile(iconFile);
       }
       throw new AppError(httpStatus.NOT_FOUND, 'Menu item not found');
     }
@@ -118,10 +121,12 @@ export const updateServiceController = catchAsync(async (req, res, next) => {
 
     // 2. Thumbnail Logic
     const updatedThumbnail = thumbnailFile
-      ? `/service/${thumbnailFile}`
+      ? getStoredFilePath(thumbnailFile, 'service')
       : isExits?.thumbnail;
 
-    const updatedIcon = iconFile ? `/service/${iconFile}` : isExits?.icon;
+    const updatedIcon = iconFile
+      ? getStoredFilePath(iconFile, 'service')
+      : isExits?.icon;
 
     // 3. Galleries Logic
     // Prothome frontend theke asha 'existingGalleries' gulo rakhbo (ja user delete kore nai)
@@ -130,7 +135,7 @@ export const updateServiceController = catchAsync(async (req, res, next) => {
     // Tarpor notun upload kora chobi gulo add korbo
     if (newGalleryFiles.length > 0) {
       const newImages = newGalleryFiles.map(
-        (filename) => `/service/${filename}`,
+        (filename) => getStoredFilePath(filename, 'service'),
       );
       finalGalleries = [...finalGalleries, ...newImages];
     }
@@ -176,13 +181,13 @@ export const updateServiceController = catchAsync(async (req, res, next) => {
   } catch (error) {
     // Error hole notun upload kora file gulo delete kore dewa
     if (newGalleryFiles.length > 0) {
-      newGalleryFiles.forEach((f) => deleteFile(`./uploads/service/${f}`));
+      newGalleryFiles.forEach((f) => deleteFile(f));
     }
     if (thumbnailFile) {
-      deleteFile(`./uploads/service/${thumbnailFile}`);
+      deleteFile(thumbnailFile);
     }
     if (iconFile) {
-      deleteFile(`./uploads/service/${iconFile}`);
+      deleteFile(iconFile);
     }
     next(error);
   }

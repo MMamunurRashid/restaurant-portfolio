@@ -1,5 +1,6 @@
 import { catchAsync } from '../../utils/catchAsync';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addUserService,
   deleteUserService,
@@ -72,7 +73,7 @@ export const updateProfileController = catchAsync(async (req, res, next) => {
   try {
     const newData = {
       ...data,
-      profileUrl: image ? `/user/${image}` : undefined,
+      profileUrl: image ? getStoredFilePath(image, 'user') : undefined,
     };
 
     const result = await updateProfileService(id, newData);
@@ -83,7 +84,7 @@ export const updateProfileController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/user/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });

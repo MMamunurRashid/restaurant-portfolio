@@ -1,9 +1,21 @@
 /* eslint-disable no-console */
 import fs from 'fs';
 import path from 'path';
+import { deleteCloudinaryFile, getCloudinaryTarget } from './cloudinary';
 
 export const deleteFile = (filePath: string): void => {
-  const fullPath = path.join(process.cwd(), filePath);
+  if (!filePath) return;
+
+  if (getCloudinaryTarget(filePath)) {
+    void deleteCloudinaryFile(filePath).catch((err) => {
+      console.error(`Error deleting Cloudinary file: ${filePath}`, err);
+    });
+    return;
+  }
+
+  const fullPath = path.isAbsolute(filePath)
+    ? filePath
+    : path.join(process.cwd(), filePath);
 
   fs.unlink(fullPath, (err) => {
     if (err) {

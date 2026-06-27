@@ -80,7 +80,7 @@ export default function Gallery({ showAll = false, max = 6 }: { showAll?: boolea
                         Gallery
                     </div>
                     <h2 className="font-serif text-4xl font-normal leading-tight text-neutral md:text-6xl">
-                        A look inside Prestige
+                        A look inside Foodie
                     </h2>
                     <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-slate-600">
                         Interior details, plated favorites, coffee moments, and the dining atmosphere guests come back for.

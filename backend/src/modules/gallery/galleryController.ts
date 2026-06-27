@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { catchAsync } from '../../utils/catchAsync';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addGalleryService,
   deleteGalleryService,
@@ -19,7 +20,9 @@ export const addGalleryController = catchAsync(async (req, res, next) => {
 
   try {
     // Map uploaded files (if any)
-    const galleryFiles = files.gallery ? files.gallery.map((f: any) => `/gallery/${f.filename}`) : [];
+    const galleryFiles = files.gallery
+      ? files.gallery.map((f: any) => getStoredFilePath(f.filename, 'gallery'))
+      : [];
 
     // Build images array: combine any provided payload.images (or existingImages) with newly uploaded files
     const imagesFromPayload = Array.isArray(payload?.images)
@@ -51,7 +54,7 @@ export const addGalleryController = catchAsync(async (req, res, next) => {
   } catch (err) {
     // cleanup uploaded files if any error
     const galleryFiles = files.gallery ? files.gallery.map((f: any) => f.filename) : [];
-    if (galleryFiles.length > 0) galleryFiles.forEach((f: string) => deleteFile(`uploads/gallery/${f}`));
+    if (galleryFiles.length > 0) galleryFiles.forEach((f: string) => deleteFile(f));
     next(err);
   }
 });
@@ -93,7 +96,9 @@ export const updateGalleryController = catchAsync(async (req, res, next) => {
       : [];
 
     // new uploaded files
-    const newGalleryFiles = files.gallery ? files.gallery.map((f: any) => `/gallery/${f.filename}`) : [];
+    const newGalleryFiles = files.gallery
+      ? files.gallery.map((f: any) => getStoredFilePath(f.filename, 'gallery'))
+      : [];
 
     const newImageTitles = Array.isArray(payload?.newImageTitles) ? payload.newImageTitles : [];
 
@@ -126,7 +131,7 @@ export const updateGalleryController = catchAsync(async (req, res, next) => {
   } catch (err) {
     // cleanup newly uploaded files on error
     const newFiles = files.gallery ? files.gallery.map((f: any) => f.filename) : [];
-    if (newFiles.length > 0) newFiles.forEach((f: string) => deleteFile(`uploads/gallery/${f}`));
+    if (newFiles.length > 0) newFiles.forEach((f: string) => deleteFile(f));
     next(err as any);
   }
 });

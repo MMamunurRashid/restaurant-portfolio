@@ -19,6 +19,7 @@ const ContactUs = lazy(() => import("../pages/admin/ContactUs"));
 const Gallery = lazy(() => import("../pages/admin/Settings/Gallery/GalleryForm"));
 const AllGallery = lazy(() => import("../pages/admin/Settings/Gallery/AllGallery"));
 const SmtpSettings = lazy(() => import("../pages/admin/Settings/Smtp/SmtpSettings"));
+const CloudinarySettings = lazy(() => import("../pages/admin/Settings/Cloudinary/CloudinarySettings"));
 const ReservationSettings = lazy(() => import("../pages/admin/Settings/Reservation/ReservationSettings"));
 const DiningTables = lazy(() => import("../pages/admin/Settings/DiningTable/DiningTables"));
 
@@ -165,6 +166,10 @@ export const adminRoutes = {
         {
             path: "setting/smtp",
             element: <SmtpSettings />
+        },
+        {
+            path: "setting/cloudinary",
+            element: <CloudinarySettings />
         },
         {
             path: "setting/reservation",

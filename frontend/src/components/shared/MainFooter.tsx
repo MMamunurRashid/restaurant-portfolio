@@ -85,7 +85,7 @@ export default function MainFooter() {
                                 </div>
                                 <h2 className="font-serif text-4xl md:text-5xl font-normal leading-[1.1] tracking-tight text-white">
                                     Taste the house favorites? <br />
-                                    <span className="italic text-primary">Plan your next table at Prestige.</span>
+                                    <span className="italic text-primary">Plan your next table at Foodie.</span>
                                 </h2>
                             </motion.div>
 

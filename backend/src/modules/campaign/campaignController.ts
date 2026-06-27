@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addCampaignService,
   getCampaignService,
@@ -22,7 +23,7 @@ export const addCampaignController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: `/campaign/${image}`,
+      image: getStoredFilePath(image, 'campaign'),
     };
 
     const result = await addCampaignService(data);
@@ -33,7 +34,7 @@ export const addCampaignController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/campaign/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -69,7 +70,7 @@ export const updateCampaignController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: image ? `/campaign/${image}` : undefined,
+      image: image ? getStoredFilePath(image, 'campaign') : undefined,
     };
 
     const result = await updateCampaignService(id, data);
@@ -80,7 +81,7 @@ export const updateCampaignController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/campaign/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });

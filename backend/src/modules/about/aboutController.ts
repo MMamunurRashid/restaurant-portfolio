@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addAboutService,
   getAboutService,
@@ -22,7 +23,7 @@ export const addAboutController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: `/about/${image}`,
+      image: getStoredFilePath(image, 'about'),
     };
 
     const result = await addAboutService(data);
@@ -33,7 +34,7 @@ export const addAboutController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/about/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -69,7 +70,7 @@ export const updateAboutController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: image ? `/about/${image}` : undefined,
+      image: image ? getStoredFilePath(image, 'about') : undefined,
     };
 
     const result = await updateAboutService(id, data);
@@ -80,7 +81,7 @@ export const updateAboutController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/about/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });

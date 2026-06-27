@@ -1,5 +1,6 @@
 import { catchAsync } from '../../utils/catchAsync';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import { makeSlug } from '../../utils/makeSlug';
 import {
   addPackageService,
@@ -20,7 +21,7 @@ export const addPackageController = catchAsync(async (req, res, next) => {
     const pack =  {
       ...payload,
       slug: makeSlug(payload.title),
-      thumbnail: image ? `/packages/${image}` : undefined,
+      thumbnail: image ? getStoredFilePath(image, 'packages') : undefined,
     };
     const result = await addPackageService(pack);
 
@@ -30,7 +31,7 @@ export const addPackageController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/packages/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -66,7 +67,7 @@ export const updatePackageController = catchAsync(async (req, res, next) => {
     const pack = {
       ...payload,
       slug: makeSlug(payload.title),
-      ...(image ? { thumbnail: `/packages/${image}` } : {}),
+      ...(image ? { thumbnail: getStoredFilePath(image, 'packages') } : {}),
     };
     const result = await updatePackageService(id, pack);
 
@@ -76,7 +77,7 @@ export const updatePackageController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/packages/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });

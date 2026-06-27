@@ -1,7 +1,24 @@
 import multer from 'multer';
-import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
+import {
+  configureCloudinary,
+  getCloudinaryFolder,
+  uploadBufferToCloudinary,
+} from './cloudinary';
+
+const sanitizePublicId = (fileName: string) =>
+  fileName
+    .replace(/[^a-zA-Z0-9-_]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+
+const buildPublicId = (originalName: string) => {
+  const parsedName = path.parse(originalName).name;
+  const cleanName = sanitizePublicId(parsedName) || 'file';
+
+  return `${Date.now()}-${cleanName}`;
+};
 
 export const fileUploader = (uploadPath: string) => {
   const storage = multer.memoryStorage();
@@ -9,55 +26,66 @@ export const fileUploader = (uploadPath: string) => {
 
   const uploadAndConvert = async (req: any, res: any, next: any) => {
     try {
-      const fullPath = path.join(process.cwd(), 'uploads', uploadPath);
+      const hasSingleFile = Boolean(req.file);
+      const hasArrayFiles = Array.isArray(req.files) && req.files.length > 0;
+      const hasFieldFiles =
+        req.files &&
+        !Array.isArray(req.files) &&
+        Object.values(req.files).some(
+          (fieldFiles) =>
+            Array.isArray(fieldFiles) && fieldFiles.length > 0,
+        );
 
-      if (!fs.existsSync(fullPath)) {
-        fs.mkdirSync(fullPath, { recursive: true });
+      if (!hasSingleFile && !hasArrayFiles && !hasFieldFiles) {
+        return next();
       }
 
-      // Logic for Processing a single file or multiple files
-      const processFile = async (file: any) => {
-        const isPdf = file.mimetype === 'application/pdf';
-        const fileExt = isPdf ? '.pdf' : '.webp';
-        const fileName =
-          Date.now() + '-' + path.parse(file.originalname).name + fileExt;
-        const outputPath = path.join(fullPath, fileName);
+      const config = await configureCloudinary();
+      const folder = getCloudinaryFolder(config.folder, uploadPath);
 
-        if (isPdf) {
-          // 🔹 PDF hole Sharp bypass kore sorasori write korbe
-          fs.writeFileSync(outputPath, file.buffer);
-        } else {
-          // 🔹 Image hole Sharp diye convert korbe
-          await sharp(file.buffer).webp({ quality: 80 }).toFile(outputPath);
-        }
+      const processFile = async (file: Express.Multer.File) => {
+        const isImage = file.mimetype.startsWith('image/');
+        const isPdf = file.mimetype === 'application/pdf';
+        const buffer = isImage
+          ? await sharp(file.buffer).webp({ quality: 80 }).toBuffer()
+          : file.buffer;
+
+        const result = await uploadBufferToCloudinary(buffer, {
+          folder,
+          public_id: buildPublicId(file.originalname),
+          resource_type: isImage ? 'image' : 'raw',
+          ...(isImage ? { format: 'webp' } : {}),
+        });
 
         return {
           ...file,
-          filename: fileName,
-          path: outputPath,
-          mimetype: isPdf ? 'application/pdf' : 'image/webp',
+          buffer,
+          filename: result.secure_url,
+          path: result.secure_url,
+          mimetype: isImage ? 'image/webp' : file.mimetype,
+          public_id: result.public_id,
+          resource_type: isPdf ? 'raw' : result.resource_type,
         };
       };
 
-      // 🔹 Case 1: single()
       if (req.file) {
         req.file = await processFile(req.file);
         return next();
       }
 
-      // 🔹 Case 2: fields() / array()
+      if (Array.isArray(req.files)) {
+        req.files = await Promise.all(req.files.map(processFile));
+        return next();
+      }
+
       if (req.files && Object.keys(req.files).length) {
-        const files: any = {};
+        const files: Record<string, Express.Multer.File[]> = {};
 
         for (const fieldName in req.files) {
           const fieldFiles = req.files[fieldName];
-          files[fieldName] = [];
-
-          for (const file of fieldFiles) {
-            const processedFile = await processFile(file);
-            files[fieldName].push(processedFile);
-          }
+          files[fieldName] = await Promise.all(fieldFiles.map(processFile));
         }
+
         req.files = files;
       }
 

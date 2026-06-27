@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addTestimonialService,
   deleteTestimonialService,
@@ -15,7 +16,10 @@ export const addTestimonialController = catchAsync(async (req, res, next) => {
   if (!image) throw new AppError(httpStatus.NOT_FOUND, 'Image is required !');
 
   try {
-    const data = { ...req.body, image: `/testimonial/${image}` };
+    const data = {
+      ...req.body,
+      image: getStoredFilePath(image, 'testimonial'),
+    };
     const result = await addTestimonialService(data);
 
     res.status(200).json({
@@ -24,7 +28,7 @@ export const addTestimonialController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/testimonial/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -58,7 +62,7 @@ export const updateTestimonialController = catchAsync(
     try {
       const data = {
         ...req.body,
-        image: image ? `/testimonial/${image}` : undefined,
+        image: image ? getStoredFilePath(image, 'testimonial') : undefined,
       };
       const result = await updateTestimonialService(id, data);
 
@@ -68,7 +72,7 @@ export const updateTestimonialController = catchAsync(
         data: result,
       });
     } catch (error) {
-      if (image) deleteFile(`./uploads/testimonial/${image}`);
+      if (image) deleteFile(image);
       next(error);
     }
   },

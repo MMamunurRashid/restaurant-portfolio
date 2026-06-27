@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addPopupNoticeService,
   deletePopupNoticeService,
@@ -14,7 +15,7 @@ export const addPopupNoticeController = catchAsync(async (req, res, next) => {
   const image: string | undefined = req?.file?.filename;
   if (!image) throw new AppError(httpStatus.NOT_FOUND, 'Image is required !');
 
-  const data = { ...req.body, image: `/notice/${image}` };
+  const data = { ...req.body, image: getStoredFilePath(image, 'notice') };
 
   try {
     const result = await addPopupNoticeService(data);
@@ -25,7 +26,7 @@ export const addPopupNoticeController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/notice/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -56,7 +57,10 @@ export const updatePopupNoticeController = catchAsync(
     const image: string | undefined = req?.file?.filename;
     const id = req.params.id;
 
-    const data = { ...req.body, image: image ? `/notice/${image}` : undefined };
+    const data = {
+      ...req.body,
+      image: image ? getStoredFilePath(image, 'notice') : undefined,
+    };
 
     try {
       const result = await updatePopupNoticeService(id, data);
@@ -67,7 +71,7 @@ export const updatePopupNoticeController = catchAsync(
         data: result,
       });
     } catch (error) {
-      if (image) deleteFile(`./uploads/notice/${image}`);
+      if (image) deleteFile(image);
       next(error);
     }
   },

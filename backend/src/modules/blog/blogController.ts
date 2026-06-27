@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addBlogService,
   deleteBlogService,
@@ -21,7 +22,7 @@ export const addBlogController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: `/blog/${image}`,
+      image: getStoredFilePath(image, 'blog'),
       slug: makeSlug(req.body?.title),
     };
 
@@ -33,7 +34,7 @@ export const addBlogController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/blog/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -78,7 +79,7 @@ export const updateBlogController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: image ? `/blog/${image}` : undefined,
+      image: image ? getStoredFilePath(image, 'blog') : undefined,
       slug: makeSlug(req?.body?.title),
     };
 
@@ -90,7 +91,7 @@ export const updateBlogController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/blog/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });

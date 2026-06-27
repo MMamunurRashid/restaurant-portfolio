@@ -5,6 +5,12 @@ import QueryBuilder from '../../builders/QueryBuilder';
 import { IGallery } from './galleryInterface';
 import { Gallery } from './galleryModel';
 
+const normalizeGalleryImagePath = (image?: string) => {
+  if (!image) return image;
+  if (/^(https?:|data:)/i.test(image)) return image;
+  return image.startsWith('/') ? image : '/' + image.replace(/^\/+/, '');
+};
+
 export const addGalleryService = async (data: IGallery) => {
   const result = await Gallery.create(data);
   return result;
@@ -41,7 +47,7 @@ export const updateGalleryService = async (id: string, data: IGallery) => {
     // Ensure stored image paths use a leading slash (e.g. /gallery/filename)
     const normalizedImages = data.images.map((i: any) => ({
       ...i,
-      image: i?.image ? (i.image.startsWith('/') ? i.image : '/' + i.image.replace(/^\/+/, '')) : i.image,
+      image: normalizeGalleryImagePath(i?.image),
     }));
 
     // Compute removed images by comparing normalized incoming paths with existing ones
@@ -60,7 +66,7 @@ export const updateGalleryService = async (id: string, data: IGallery) => {
   // After successful DB update, delete any removed files from uploads folder
   if (removed.length > 0) {
     removed.forEach((img: any) => {
-      if (img?.image) deleteFile(`uploads/${img.image.replace(/^\/+/, '')}`);
+      if (img?.image) deleteFile(img.image);
     });
   }
 
@@ -75,7 +81,7 @@ export const deleteGalleryService = async (id: string) => {
 
   // delete images from uploads folder (normalize path)
   isExist.images.forEach((img: any) => {
-    if (img?.image) deleteFile(`uploads/${img.image.replace(/^\/+/, '')}`);
+    if (img?.image) deleteFile(img.image);
   });
 
   return true;

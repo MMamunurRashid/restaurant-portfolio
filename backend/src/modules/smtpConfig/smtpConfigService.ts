@@ -51,7 +51,7 @@ const toResponse = (
   smtpSecure: isSslPort(payload?.smtpPort || 587),
   smtpUser: payload?.smtpUser,
   smtpFromEmail: payload?.smtpFromEmail,
-  smtpFromName: payload?.smtpFromName || 'Prestige Cafe & Restaurant',
+  smtpFromName: payload?.smtpFromName || 'Foodie Cafe & Restaurant',
   mailAdminTo: payload?.mailAdminTo,
   isActive: source === 'database' ? payload?.isActive ?? true : false,
   hasSmtpPass: Boolean(payload?.smtpPass),

@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../../errors/AppError';
 import { deleteFile } from '../../utils/deleteFile';
+import { getStoredFilePath } from '../../utils/filePath';
 import {
   addTeamService,
   deleteTeamService,
@@ -18,7 +19,7 @@ export const addTeamController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: `/team/${image}`,
+      image: getStoredFilePath(image, 'team'),
     };
 
     const result = await addTeamService(data);
@@ -29,7 +30,7 @@ export const addTeamController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/team/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
@@ -63,7 +64,7 @@ export const updateTeamController = catchAsync(async (req, res, next) => {
   try {
     const data = {
       ...req.body,
-      image: image ? `/team/${image}` : undefined,
+      image: image ? getStoredFilePath(image, 'team') : undefined,
     };
 
     const result = await updateTeamService(id, data);
@@ -74,7 +75,7 @@ export const updateTeamController = catchAsync(async (req, res, next) => {
       data: result,
     });
   } catch (error) {
-    if (image) deleteFile(`./uploads/team/${image}`);
+    if (image) deleteFile(image);
     next(error);
   }
 });
